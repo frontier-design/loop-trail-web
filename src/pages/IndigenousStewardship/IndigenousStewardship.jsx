@@ -2,12 +2,12 @@ import { useState, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { Grid, GridCell } from '../../grid/index.js'
-import { fetchStrapiWithStatus, getStrapiUrl } from '../../api/strapi.js'
+import { getStrapiUrl } from '../../api/strapi.js'
+import { fetchCached } from '../../api/prefetchCache.js'
 import { renderStrapiRichText } from '../../api/strapiRichText.jsx'
 import PageIntro from '../../components/PageIntro.jsx'
 import FadeInWrapper from '../../components/FadeInWrapper.jsx'
 import RevealOnScroll from '../../components/RevealOnScroll.jsx'
-import PageSkeleton from '../../components/skeletons/PageSkeleton.jsx'
 import { ExplainerSection, StewardshipItems } from './components/index.js'
 
 const IntroParagraph = styled.div`
@@ -40,7 +40,7 @@ function IndigenousStewardship() {
   useEffect(() => {
     async function load() {
       try {
-        const res = await fetchStrapiWithStatus(
+        const res = await fetchCached(
           '/api/indigenous-stewardship?populate[0]=Hero&populate[1]=ExplainerImage&populate[2]=ComponentExplainer&populate[3]=ComponentExplainer.Image',
           { draft: isDraft }
         )
@@ -54,7 +54,7 @@ function IndigenousStewardship() {
     load()
   }, [isDraft])
 
-  if (loading) return <PageSkeleton cardRows={0} />
+  if (loading) return null
 
   if (error) {
     return (

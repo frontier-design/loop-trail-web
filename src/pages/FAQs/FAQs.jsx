@@ -2,12 +2,12 @@ import { useState, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { Grid, GridCell } from '../../grid/index.js'
-import { fetchStrapiWithStatus, getStrapiUrl } from '../../api/strapi.js'
+import { getStrapiUrl } from '../../api/strapi.js'
+import { fetchCached } from '../../api/prefetchCache.js'
 import PageIntro from '../../components/PageIntro.jsx'
 import CTA from '../../components/CTA.jsx'
 import FadeInWrapper from '../../components/FadeInWrapper.jsx'
 import RevealOnScroll from '../../components/RevealOnScroll.jsx'
-import PageSkeleton from '../../components/skeletons/PageSkeleton.jsx'
 import { FAQItem } from './components/index.js'
 
 const ErrorMsg = styled.p`
@@ -32,7 +32,7 @@ function FAQs() {
   useEffect(() => {
     async function load() {
       try {
-        const res = await fetchStrapiWithStatus(
+        const res = await fetchCached(
           '/api/faqs?populate[0]=Hero&populate[1]=FAQItem&populate[2]=FAQItem.QuestionItem&populate[3]=CTA&populate[4]=CTA.Background&populate[5]=CTA.Button',
           { draft: isDraft }
         )
@@ -46,7 +46,7 @@ function FAQs() {
     load()
   }, [isDraft])
 
-  if (loading) return <PageSkeleton cardRows={0} />
+  if (loading) return null
   if (error) return <Grid as="main"><GridCell $start={1} $span={6}><ErrorMsg>Error: {error}</ErrorMsg></GridCell></Grid>
 
   const page = data?.data ?? data

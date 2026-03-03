@@ -3,10 +3,10 @@ import { useSearchParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { Grid, GridCell } from '../../grid/index.js'
 import { GRID } from '../../grid/config.js'
-import { fetchStrapiWithStatus, getStrapiUrl } from '../../api/strapi.js'
+import { getStrapiUrl } from '../../api/strapi.js'
+import { fetchCached } from '../../api/prefetchCache.js'
 import PageIntro from '../../components/PageIntro.jsx'
 import FadeInWrapper from '../../components/FadeInWrapper.jsx'
-import PageSkeleton from '../../components/skeletons/PageSkeleton.jsx'
 import MapContainer from './components/MapContainer.jsx'
 
 const IntroSection = styled.div`
@@ -39,7 +39,7 @@ function Maps() {
   useEffect(() => {
     async function load() {
       try {
-        const res = await fetchStrapiWithStatus(
+        const res = await fetchCached(
           '/api/maps?populate[0]=Hero&populate[1]=MapContainer&populate[2]=MapContainer.MapThumbnail&populate[3]=MapContainer.MapDownloadLink',
           { draft: isDraft }
         )
@@ -53,7 +53,7 @@ function Maps() {
     load()
   }, [isDraft])
 
-  if (loading) return <PageSkeleton cardRows={0} />
+  if (loading) return null
   if (error) return <Grid as="main"><GridCell $start={1} $span={6}><ErrorMsg>Error: {error}</ErrorMsg></GridCell></Grid>
 
   const page = data?.data ?? data ?? {}

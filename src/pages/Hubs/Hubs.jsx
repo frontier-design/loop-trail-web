@@ -2,12 +2,12 @@ import { useState, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { Grid, GridCell } from '../../grid/index.js'
-import { fetchStrapiWithStatus, getStrapiUrl } from '../../api/strapi.js'
+import { getStrapiUrl } from '../../api/strapi.js'
+import { fetchCached } from '../../api/prefetchCache.js'
 import { renderStrapiRichText } from '../../api/strapiRichText.jsx'
 import PageIntro from '../../components/PageIntro.jsx'
 import FadeInWrapper from '../../components/FadeInWrapper.jsx'
 import RevealOnScroll from '../../components/RevealOnScroll.jsx'
-import PageSkeleton from '../../components/skeletons/PageSkeleton.jsx'
 import HubItem from './components/HubItem.jsx'
 
 const IntroParagraph = styled.div`
@@ -46,7 +46,7 @@ function Hubs() {
   useEffect(() => {
     async function load() {
       try {
-        const res = await fetchStrapiWithStatus(
+        const res = await fetchCached(
           '/api/hubs?populate[0]=Hero&populate[1]=HubItem&populate[2]=HubItem.Image&populate[3]=HubItem.Link',
           { draft: isDraft }
         )
@@ -60,7 +60,7 @@ function Hubs() {
     load()
   }, [isDraft])
 
-  if (loading) return <PageSkeleton cardRows={2} />
+  if (loading) return null
   if (error) return <Grid as="main"><GridCell $start={1} $span={6}><ErrorMsg>Error: {error}</ErrorMsg></GridCell></Grid>
 
 

@@ -3,7 +3,8 @@ import { useSearchParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { Grid, GridCell } from '../../grid/index.js'
 import { GRID } from '../../grid/config.js'
-import { fetchStrapiWithStatus, getStrapiUrl } from '../../api/strapi.js'
+import { getStrapiUrl } from '../../api/strapi.js'
+import { fetchCached } from '../../api/prefetchCache.js'
 import { renderStrapiRichText } from '../../api/strapiRichText.jsx'
 import FullBleedIntro from '../../components/FullBleedIntro.jsx'
 import FadeInWrapper from '../../components/FadeInWrapper.jsx'
@@ -34,7 +35,7 @@ function GetInvolved() {
 
   useEffect(() => {
     async function load() {
-      const res = await fetchStrapiWithStatus(
+      const res = await fetchCached(
         '/api/get-involved?populate[0]=Hero',
         { draft: isDraft }
       )

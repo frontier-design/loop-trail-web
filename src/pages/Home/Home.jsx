@@ -3,7 +3,7 @@ import Landing from './components/Landing.jsx'
 import HomeIntro from './components/HomeIntro.jsx'
 import FadeInWrapper from '../../components/FadeInWrapper.jsx'
 import RevealOnScroll from '../../components/RevealOnScroll.jsx'
-import { fetchStrapiWithStatus } from '../../api/strapi.js'
+import { fetchCached } from '../../api/prefetchCache.js'
 
 function Home() {
   const [data, setData] = useState(null)
@@ -12,9 +12,8 @@ function Home() {
   useEffect(() => {
     async function load() {
       try {
-        const res = await fetchStrapiWithStatus(
-          '/api/home?populate[0]=HomeIntro&populate[1]=HomeIntro.StackingImage',
-          { draft: false }
+        const res = await fetchCached(
+          '/api/home?populate[0]=HomeIntro&populate[1]=HomeIntro.StackingImage'
         )
         setData(res)
       } catch {
