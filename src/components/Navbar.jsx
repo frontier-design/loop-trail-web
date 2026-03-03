@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import { useState, useEffect, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { GRID } from '../grid'
+import { prefetchRoute } from '../api/prefetchCache.js'
 
 const NAV_LINKS = [
   { label: 'Hubs', to: '/hubs' },
@@ -348,12 +349,12 @@ function Navbar() {
           <NavRight>
             <Links>
               {NAV_LINKS.map(({ label, to }) => (
-                <NavLink key={to} to={to} $dark={dark}>
+                <NavLink key={to} to={to} $dark={dark} onMouseEnter={() => prefetchRoute(to)}>
                   {label}
                 </NavLink>
               ))}
             </Links>
-            <CtaButton to="/get-involved" $dark={dark}>Get Involved</CtaButton>
+            <CtaButton to="/get-involved" $dark={dark} onMouseEnter={() => prefetchRoute('/get-involved')}>Get Involved</CtaButton>
           </NavRight>
           <MenuToggle
             onClick={() => setMenuOpen(o => !o)}
@@ -367,11 +368,11 @@ function Navbar() {
       </NavBar>
       <MobileMenu $open={menuOpen}>
         {NAV_LINKS.map(({ label, to }) => (
-          <MobileNavLink key={to} to={to} onClick={closeMenu}>
+          <MobileNavLink key={to} to={to} onClick={closeMenu} onMouseEnter={() => prefetchRoute(to)}>
             {label}
           </MobileNavLink>
         ))}
-        <MobileCtaButton to="/get-involved" onClick={closeMenu}>Get Involved</MobileCtaButton>
+        <MobileCtaButton to="/get-involved" onClick={closeMenu} onMouseEnter={() => prefetchRoute('/get-involved')}>Get Involved</MobileCtaButton>
       </MobileMenu>
     </>
   )

@@ -65,9 +65,9 @@ const GlobalStyle = createGlobalStyle`
 
   #root h1 {
     font-size: 7rem;
-    letter-spacing: -0.05em;
     text-transform: uppercase;
-    line-height: 1.1;
+    letter-spacing: -0.025em;
+    line-height: 1;
     margin-bottom: 1.5rem;
     font-weight: 800;
   }

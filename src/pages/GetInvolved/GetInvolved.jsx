@@ -6,6 +6,7 @@ import { GRID } from '../../grid/config.js'
 import { fetchStrapiWithStatus, getStrapiUrl } from '../../api/strapi.js'
 import { renderStrapiRichText } from '../../api/strapiRichText.jsx'
 import FullBleedIntro from '../../components/FullBleedIntro.jsx'
+import FadeInWrapper from '../../components/FadeInWrapper.jsx'
 import { CardTitle, CardParagraph } from '../../styles/cardContent.js'
 import { GetInvolvedForm } from './components/index.js'
 
@@ -21,6 +22,7 @@ const IntroSection = styled.div`
 
 function GetInvolved() {
   const [data, setData] = useState(null)
+  const [loading, setLoading] = useState(true)
   const [searchParams] = useSearchParams()
 
   const isPreview =
@@ -37,6 +39,7 @@ function GetInvolved() {
         { draft: isDraft }
       )
       setData(res)
+      setLoading(false)
     }
     load()
   }, [isDraft])
@@ -56,6 +59,7 @@ function GetInvolved() {
   const isVideo = heroMime.startsWith('video/')
 
   return (
+    <FadeInWrapper ready={!loading}>
     <Grid as="main">
       <GridCell $start={1} $span={6}>
         <FullBleedIntro
@@ -81,6 +85,7 @@ function GetInvolved() {
         <GetInvolvedForm />
       </GridCell>
     </Grid>
+    </FadeInWrapper>
   )
 }
 

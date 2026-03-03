@@ -5,13 +5,10 @@ import { Grid, GridCell } from '../../grid/index.js'
 import { fetchStrapiWithStatus, getStrapiUrl } from '../../api/strapi.js'
 import PageIntro from '../../components/PageIntro.jsx'
 import CTA from '../../components/CTA.jsx'
+import FadeInWrapper from '../../components/FadeInWrapper.jsx'
+import RevealOnScroll from '../../components/RevealOnScroll.jsx'
+import PageSkeleton from '../../components/skeletons/PageSkeleton.jsx'
 import { FAQItem } from './components/index.js'
-
-const Loading = styled.p`
-  padding: 2rem 0;
-  font-size: 1rem;
-  color: #666;
-`
 
 const ErrorMsg = styled.p`
   padding: 2rem 0;
@@ -49,7 +46,7 @@ function FAQs() {
     load()
   }, [isDraft])
 
-  if (loading) return <Grid as="main"><GridCell $start={1} $span={6}><Loading>Loading…</Loading></GridCell></Grid>
+  if (loading) return <PageSkeleton cardRows={0} />
   if (error) return <Grid as="main"><GridCell $start={1} $span={6}><ErrorMsg>Error: {error}</ErrorMsg></GridCell></Grid>
 
   const page = data?.data ?? data
@@ -66,6 +63,7 @@ function FAQs() {
   const isVideo = heroMime.startsWith('video/')
 
   return (
+    <FadeInWrapper ready={!loading}>
     <Grid as="main">
       <GridCell $start={1} $span={6}>
         <PageIntro
@@ -79,7 +77,9 @@ function FAQs() {
       {faqItems.length > 0 && (
         <GridCell $start={1} $span={6}>
           {faqItems.map((item, i) => (
-            <FAQItem key={item?.id ?? i} item={item} />
+            <RevealOnScroll key={item?.id ?? i} delay={i * 0.05}>
+              <FAQItem item={item} />
+            </RevealOnScroll>
           ))}
         </GridCell>
       )}
@@ -95,6 +95,7 @@ function FAQs() {
         </GridCell>
       )}
     </Grid>
+    </FadeInWrapper>
   )
 }
 

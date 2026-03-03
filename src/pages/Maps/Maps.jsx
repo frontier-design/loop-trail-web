@@ -5,6 +5,8 @@ import { Grid, GridCell } from '../../grid/index.js'
 import { GRID } from '../../grid/config.js'
 import { fetchStrapiWithStatus, getStrapiUrl } from '../../api/strapi.js'
 import PageIntro from '../../components/PageIntro.jsx'
+import FadeInWrapper from '../../components/FadeInWrapper.jsx'
+import PageSkeleton from '../../components/skeletons/PageSkeleton.jsx'
 import MapContainer from './components/MapContainer.jsx'
 
 const IntroSection = styled.div`
@@ -23,6 +25,7 @@ const ErrorMsg = styled.p`
 
 function Maps() {
   const [data, setData] = useState(null)
+  const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [searchParams] = useSearchParams()
 
@@ -43,15 +46,18 @@ function Maps() {
         setData(res)
       } catch (e) {
         setError(e.message)
+      } finally {
+        setLoading(false)
       }
     }
     load()
   }, [isDraft])
 
+  if (loading) return <PageSkeleton cardRows={0} />
   if (error) return <Grid as="main"><GridCell $start={1} $span={6}><ErrorMsg>Error: {error}</ErrorMsg></GridCell></Grid>
 
   const page = data?.data ?? data ?? {}
-  const rawHeadline = page?.Headline ?? 'Maps'
+  const rawHeadline = page?.Headline 
   const headline =
     typeof rawHeadline === 'string' && /Loop Trail\s+Maps/i.test(rawHeadline)
       ? <>Loop Trail<br />Maps</>
@@ -69,6 +75,7 @@ function Maps() {
   const isVideo = heroMime.startsWith('video/')
 
   return (
+    <FadeInWrapper ready={!loading}>
     <Grid as="main">
       <GridCell $start={1} $span={6}>
         <PageIntro
@@ -97,6 +104,7 @@ function Maps() {
         </GridCell>
       )}
     </Grid>
+    </FadeInWrapper>
   )
 }
 

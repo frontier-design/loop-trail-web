@@ -5,6 +5,9 @@ import { Grid, GridCell } from '../../grid/index.js'
 import { fetchStrapiWithStatus, getStrapiUrl } from '../../api/strapi.js'
 import { renderStrapiRichText } from '../../api/strapiRichText.jsx'
 import PageIntro from '../../components/PageIntro.jsx'
+import FadeInWrapper from '../../components/FadeInWrapper.jsx'
+import RevealOnScroll from '../../components/RevealOnScroll.jsx'
+import PageSkeleton from '../../components/skeletons/PageSkeleton.jsx'
 import HubItem from './components/HubItem.jsx'
 
 const IntroParagraph = styled.div`
@@ -19,12 +22,6 @@ const HubItemList = styled.div`
   display: flex;
   flex-direction: column;
   gap: 3rem;
-`
-
-const Loading = styled.p`
-  padding: 2rem 0;
-  font-size: 1rem;
-  color: #666;
 `
 
 const ErrorMsg = styled.p`
@@ -63,8 +60,9 @@ function Hubs() {
     load()
   }, [isDraft])
 
-  if (loading) return <Grid as="main"><GridCell $start={1} $span={6}><Loading>Loading…</Loading></GridCell></Grid>
+  if (loading) return <PageSkeleton cardRows={2} />
   if (error) return <Grid as="main"><GridCell $start={1} $span={6}><ErrorMsg>Error: {error}</ErrorMsg></GridCell></Grid>
+
 
   const page = data?.data ?? data
   if (!page || typeof page !== 'object') {
@@ -86,6 +84,7 @@ function Hubs() {
   const isVideo = heroMime.startsWith('video/')
 
   return (
+    <FadeInWrapper ready={!loading}>
     <Grid as="main">
       <GridCell $start={1} $span={6}>
         <PageIntro
@@ -117,12 +116,15 @@ function Hubs() {
         <GridCell $start={1} $span={6}>
           <HubItemList>
             {hubItems.map((item, i) => (
-              <HubItem key={item?.id ?? i} item={item} index={i} />
+              <RevealOnScroll key={item?.id ?? i} delay={i * 0.05}>
+                <HubItem item={item} index={i} />
+              </RevealOnScroll>
             ))}
           </HubItemList>
         </GridCell>
       )}
     </Grid>
+    </FadeInWrapper>
   )
 }
 

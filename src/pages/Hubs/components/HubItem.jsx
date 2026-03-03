@@ -15,8 +15,7 @@ const Card = styled.article`
 const ContentCol = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: 1.5rem;
+  gap: 1rem;
 `
 
 const ImageCol = styled.div`
@@ -105,7 +104,7 @@ function HubItem({ item, index = 0 }) {
     <GridCell $start={imageLeft ? 1 : 4} $span={3} $spanMobile={4} $startMobile={1}>
       <ImageCol>
         <ImageWrapper>
-          <img src={firstSrc} alt={firstAlt || ''} />
+          <img src={firstSrc} alt={firstAlt || ''} loading="lazy" />
         </ImageWrapper>
         {imageCaption && <ImageCredit>{imageCaption}</ImageCredit>}
       </ImageCol>

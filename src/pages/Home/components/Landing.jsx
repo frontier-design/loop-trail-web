@@ -1,0 +1,428 @@
+import styled from 'styled-components'
+import { useRef, useState, useEffect } from 'react'
+import gsap from 'gsap'
+import { Grid, GridCell, GRID } from '../../../grid/index.js'
+import CustomCursor from './CustomCursor.jsx'
+
+const LandingSection = styled.section`
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: #1a1a1a;
+
+  @media (min-width: calc(${GRID.BREAKPOINT_TABLET} + 1px)) {
+    cursor: ${props => props.$isCursorVisible ? 'none' : 'auto'};
+  }
+`
+
+const VideoBackground = styled.video`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+  z-index: 0;
+`
+
+const Overlay = styled.div`
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1;
+`
+
+const ContentWrapper = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  padding-bottom: clamp(2rem, 5vw, 4rem);
+`
+
+const Title = styled.h1`
+  font-family: 'ABCDiatype', system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 7rem;
+  letter-spacing: -0.02em;
+  color: white;
+  text-transform: uppercase;
+  hyphens: none;
+  overflow-wrap: normal;
+  word-break: keep-all;
+
+  span {
+    white-space: nowrap;
+    display: block;
+  }
+
+  @media (min-width: 769px) {
+    font-size: 4rem;
+  }
+
+  @media (min-width: ${GRID.BREAKPOINT_TABLET}) {
+    font-size: 7rem;
+  }
+`
+
+const Subtitle = styled.p`
+  font-size: 1.25rem;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+  color: white;
+  hyphens: none;
+  overflow-wrap: normal;
+  word-break: keep-all;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  @media (min-width: 769px) {
+    font-size: 1.3rem;
+  }
+`
+
+const VideoModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20000;
+  padding: 20px;
+  opacity: ${props => props.$isOpen ? 1 : 0};
+  pointer-events: ${props => props.$isOpen ? 'all' : 'none'};
+  transition: opacity 0.3s ease;
+`
+
+const VideoModalWrapper = styled.div`
+  position: relative;
+  width: 90%;
+  max-width: 1200px;
+  transform: ${props => props.$isOpen ? 'scale(1)' : 'scale(0.9)'};
+  transition: transform 0.3s ease;
+`
+
+const VideoModalContent = styled.div`
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+  background-color: #000;
+
+  video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+`
+
+const CloseButton = styled.button`
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 10;
+  width: 40px;
+  height: 40px;
+  background: white;
+  border: none;
+  color: black;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s ease;
+  font-size: 20px;
+  line-height: 1;
+
+  &:hover {
+    opacity: 0.9;
+  }
+`
+
+const VideoToggleButton = styled.button`
+  position: absolute;
+  bottom: clamp(2rem, 5vw, 4rem);
+  right: clamp(1.25rem, 4vw, 3.125rem);
+  z-index: 4;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 1);
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.35;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.5;
+  }
+`
+
+function Landing() {
+  const [isCursorVisible, setIsCursorVisible] = useState(false)
+  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false)
+  const [isBackgroundVideoPlaying, setIsBackgroundVideoPlaying] = useState(true)
+
+  const cursorRef = useRef(null)
+  const videoModalRef = useRef(null)
+  const backgroundVideoRef = useRef(null)
+  const isPressed = useRef(false)
+
+  const handleOpenVideoModal = () => {
+    setIsVideoModalOpen(true)
+    setIsCursorVisible(false)
+    document.body.style.overflow = 'hidden'
+  }
+
+  const handleCloseVideoModal = () => {
+    setIsVideoModalOpen(false)
+    document.body.style.overflow = ''
+    if (videoModalRef.current) {
+      videoModalRef.current.pause()
+    }
+  }
+
+  const handleVideoOverlayClick = (e) => {
+    if (e.target === e.currentTarget) {
+      handleCloseVideoModal()
+    }
+  }
+
+  const handleLandingClick = (e) => {
+    const isInteractive = e.target.closest('[data-hide-cursor], a, button')
+    if (!isInteractive) {
+      handleOpenVideoModal()
+    }
+  }
+
+  const handleBackgroundVideoToggle = (e) => {
+    e.stopPropagation()
+    if (!backgroundVideoRef.current) return
+    if (isBackgroundVideoPlaying) {
+      backgroundVideoRef.current.pause()
+      setIsBackgroundVideoPlaying(false)
+    } else {
+      backgroundVideoRef.current.play().catch(() => {})
+      setIsBackgroundVideoPlaying(true)
+    }
+  }
+
+  useEffect(() => {
+    if (isVideoModalOpen && videoModalRef.current) {
+      const timer = setTimeout(() => {
+        if (videoModalRef.current) {
+          videoModalRef.current.play().catch(() => {})
+        }
+      }, 100)
+      return () => clearTimeout(timer)
+    }
+  }, [isVideoModalOpen])
+
+  const handleMouseMove = (e) => {
+    const shouldHideCursor = e.target.closest('[data-hide-cursor], a, button')
+
+    if (!cursorRef.current) return
+
+    if (shouldHideCursor) {
+      setIsCursorVisible(false)
+      return
+    }
+
+    if (!isCursorVisible) {
+      setIsCursorVisible(true)
+    }
+
+    const x = e.clientX
+    const y = e.clientY
+
+    gsap.to(cursorRef.current, {
+      x: x,
+      y: y,
+      xPercent: -50,
+      yPercent: -50,
+      duration: 0.6,
+      ease: "power3.out",
+      overwrite: "auto"
+    })
+  }
+
+  const handleMouseEnter = (e) => {
+    if (cursorRef.current) {
+      gsap.set(cursorRef.current, {
+        x: e.clientX,
+        y: e.clientY,
+        xPercent: -50,
+        yPercent: -50,
+        scale: 0.8
+      })
+    }
+    setIsCursorVisible(true)
+    gsap.to(cursorRef.current, {
+      scale: 1,
+      duration: 0.3,
+      ease: "back.out(1.7)"
+    })
+  }
+
+  const handleMouseLeave = () => {
+    setIsCursorVisible(false)
+    isPressed.current = false
+    gsap.to(cursorRef.current, {
+      scale: 0.8,
+      duration: 0.3,
+      ease: "power2.in"
+    })
+  }
+
+  const handleMouseDown = (e) => {
+    const shouldHideCursor = e.target.closest('[data-hide-cursor], a, button')
+    if (shouldHideCursor || !isCursorVisible || !cursorRef.current) return
+
+    isPressed.current = true
+    gsap.to(cursorRef.current, {
+      scale: 0.95,
+      duration: 0.1,
+      ease: "power2.out"
+    })
+  }
+
+  useEffect(() => {
+    const handleMouseUp = () => {
+      if (!isPressed.current || !cursorRef.current) return
+      isPressed.current = false
+
+      gsap.to(cursorRef.current, {
+        scale: 1.1,
+        duration: 0.15,
+        ease: "power2.out",
+        overwrite: "auto"
+      }).then(() => {
+        gsap.to(cursorRef.current, {
+          scale: 1,
+          duration: 0.5,
+          ease: "back.out(2.5)",
+          overwrite: "auto"
+        })
+      })
+    }
+
+    document.addEventListener('mouseup', handleMouseUp)
+    return () => document.removeEventListener('mouseup', handleMouseUp)
+  }, [])
+
+  return (
+    <>
+      <LandingSection
+        id="landing"
+        $isCursorVisible={isCursorVisible}
+        onMouseMove={handleMouseMove}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        onMouseDown={handleMouseDown}
+        onClick={handleLandingClick}
+      >
+        <VideoBackground
+          ref={backgroundVideoRef}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          poster={`${import.meta.env.BASE_URL}video/landing-poster.jpg`}
+          src={`${import.meta.env.BASE_URL}video/landing-video.mp4`}
+          onPlay={() => setIsBackgroundVideoPlaying(true)}
+          onPause={() => setIsBackgroundVideoPlaying(false)}
+        />
+        <Overlay />
+
+        <CustomCursor
+          ref={cursorRef}
+          isVisible={isCursorVisible}
+        />
+
+        <ContentWrapper data-hide-cursor>
+          <Grid as="div">
+            <GridCell $start={1} $span={4} $startMobile={1} $spanMobile={4}>
+              <Title>
+                <span>A trail</span>
+                <span>that moves</span>
+                <span>Toronto</span>
+              </Title>
+            </GridCell>
+            <GridCell $start={5} $span={2} $startMobile={1} $spanMobile={4}>
+              <Subtitle>
+                Toronto's ravine system is the city's most defining and cherished natural treasure.
+                <br />
+                <br />
+                A groundbreaking 80km multi-use trail that will connect Toronto's ravines, neighbourhoods and people.
+                <br />
+                <br />
+                Made in Toronto, for Toronto.
+              </Subtitle>
+            </GridCell>
+          </Grid>
+        </ContentWrapper>
+
+        <VideoToggleButton
+          type="button"
+          data-hide-cursor
+          onClick={handleBackgroundVideoToggle}
+          aria-label={isBackgroundVideoPlaying ? 'Pause background video' : 'Play background video'}
+        >
+          {isBackgroundVideoPlaying ? (
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" aria-hidden>
+              <rect x="5" y="4" width="3" height="12" rx="0.5" />
+              <rect x="12" y="4" width="3" height="12" rx="0.5" />
+            </svg>
+          ) : (
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+              <polygon points="8,5 8,19 18,12" />
+            </svg>
+          )}
+        </VideoToggleButton>
+      </LandingSection>
+
+      <VideoModalOverlay $isOpen={isVideoModalOpen} onClick={handleVideoOverlayClick}>
+        <VideoModalWrapper $isOpen={isVideoModalOpen}>
+          <VideoModalContent>
+            <CloseButton onClick={handleCloseVideoModal} aria-label="Close video">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                <path d="M1 1l16 16M17 1L1 17" />
+              </svg>
+            </CloseButton>
+            <video
+              ref={videoModalRef}
+              controls
+              autoPlay
+              playsInline
+              preload="none"
+              poster={`${import.meta.env.BASE_URL}video/landing-poster.jpg`}
+              muted={false}
+              loop={false}
+            >
+              <source src={`${import.meta.env.BASE_URL}video/landing-video.mp4`} type="video/mp4" />
+            </video>
+          </VideoModalContent>
+        </VideoModalWrapper>
+      </VideoModalOverlay>
+    </>
+  )
+}
+
+export default Landing

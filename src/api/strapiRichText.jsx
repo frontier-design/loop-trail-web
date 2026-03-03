@@ -74,7 +74,7 @@ function renderBlock(block, key) {
       return <a key={key} href={url || '#'}>{childNodes}</a>
     case 'image':
       return block.image
-        ? <img key={key} src={block.image.url} alt={block.image.alternativeText || ''} />
+        ? <img key={key} src={block.image.url} alt={block.image.alternativeText || ''} loading="lazy" />
         : null
     default:
       if (childNodes) return <span key={key}>{childNodes}</span>

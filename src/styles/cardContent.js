@@ -5,7 +5,6 @@ export const CardTitle = styled.h3`
   line-height: 1.1;
   max-width: 500px;
   letter-spacing: -0.025em;
-  margin-bottom: 1.5rem;
 
   @media (max-width: 768px) {
     font-size: 2rem;
@@ -22,7 +21,6 @@ export const CardParagraph = styled.div`
   & li {
     font-size: inherit;
     line-height: inherit;
-    margin-bottom: 0.75em;
   }
   & p:last-child,
   & li:last-child {

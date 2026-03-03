@@ -23,11 +23,13 @@ const HeroMedia = styled.div`
   width: 100%;
   margin-bottom: 2rem;
   overflow: hidden;
-
+  aspect-ratio: 16 / 9;
+  min-height: 200px;
+  max-height: 500px;
   img,
   video {
     width: 100%;
-    height: auto;
+    height: 100%;
     display: block;
     object-fit: cover;
   }
