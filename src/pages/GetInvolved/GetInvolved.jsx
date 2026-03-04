@@ -7,6 +7,7 @@ import { getStrapiUrl } from '../../api/strapi.js'
 import { fetchCached } from '../../api/prefetchCache.js'
 import { renderStrapiRichText } from '../../api/strapiRichText.jsx'
 import FullBleedIntro from '../../components/FullBleedIntro.jsx'
+import PageSkeleton from '../../components/skeletons/PageSkeleton.jsx'
 import FadeInWrapper from '../../components/FadeInWrapper.jsx'
 import { CardTitle, CardParagraph } from '../../styles/cardContent.js'
 import { GetInvolvedForm } from './components/index.js'
@@ -45,6 +46,8 @@ function GetInvolved() {
     load()
   }, [isDraft])
 
+  if (loading) return <PageSkeleton cardRows={0} />
+
   const page = data?.data ?? data ?? {}
   const headline = page?.Headline ?? 'Get Involved'
   const hero = page?.Hero ?? null
@@ -58,6 +61,10 @@ function GetInvolved() {
     ? (String(heroUrl).startsWith('http') ? heroUrl : getStrapiUrl(heroUrl))
     : null
   const isVideo = heroMime.startsWith('video/')
+  const posterUrl = hero?.formats?.thumbnail?.url
+  const heroPoster = posterUrl
+    ? (String(posterUrl).startsWith('http') ? posterUrl : getStrapiUrl(posterUrl))
+    : null
 
   return (
     <FadeInWrapper ready={!loading}>
@@ -68,6 +75,7 @@ function GetInvolved() {
           heroSrc={heroSrc}
           heroAlt={heroAlt}
           isVideo={isVideo}
+          heroPoster={heroPoster}
         />
       </GridCell>
 

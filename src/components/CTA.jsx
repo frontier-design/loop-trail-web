@@ -116,7 +116,7 @@ function CTA({ title, subtitle, background, button }) {
           {bgIsVideo ? (
             <video src={bgSrc} autoPlay loop muted playsInline />
           ) : (
-            <img src={bgSrc} alt={bgAlt || ''} />
+            <img src={bgSrc} alt={bgAlt || ''} loading="lazy" decoding="async" />
           )}
         </BackgroundMedia>
       )}

@@ -42,7 +42,9 @@ const ContentWrapper = styled.div`
   left: 0;
   right: 0;
   z-index: 3;
-  padding-bottom: clamp(2rem, 5vw, 4rem);
+  padding-bottom: clamp(0rem, 5vw, 2rem);
+  /* border: 1px solid red; */
+
 `
 
 const Title = styled.h1`

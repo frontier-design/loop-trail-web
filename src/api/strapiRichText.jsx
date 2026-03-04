@@ -70,11 +70,22 @@ function renderBlock(block, key) {
       return <blockquote key={key}>{childNodes}</blockquote>
     case 'code':
       return <pre key={key}><code>{childNodes}</code></pre>
-    case 'link':
-      return <a key={key} href={url || '#'}>{childNodes}</a>
+    case 'link': {
+      const href = url ?? block.link?.url ?? '#'
+      const isExternal = href.startsWith('http')
+      return (
+        <a
+          key={key}
+          href={href}
+          {...(isExternal && { target: '_blank', rel: 'noopener noreferrer' })}
+        >
+          {childNodes}
+        </a>
+      )
+    }
     case 'image':
       return block.image
-        ? <img key={key} src={block.image.url} alt={block.image.alternativeText || ''} loading="lazy" />
+        ? <img key={key} src={block.image.url} alt={block.image.alternativeText || ''} loading="lazy" decoding="async" />
         : null
     default:
       if (childNodes) return <span key={key}>{childNodes}</span>

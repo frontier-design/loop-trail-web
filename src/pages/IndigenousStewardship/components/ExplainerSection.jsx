@@ -106,7 +106,7 @@ function ExplainerSection({ explainerText, explainerImage }) {
             $startMobile={1}
           >
             <ImageWrapper>
-              <img src={imageSrc} alt="" aria-hidden loading="lazy" />
+              <img src={imageSrc} alt="" aria-hidden loading="lazy" decoding="async" />
               <ImageCredit>Design de Plume Agency</ImageCredit>
             </ImageWrapper>
           </GridCell>

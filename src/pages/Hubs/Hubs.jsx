@@ -6,6 +6,7 @@ import { getStrapiUrl } from '../../api/strapi.js'
 import { fetchCached } from '../../api/prefetchCache.js'
 import { renderStrapiRichText } from '../../api/strapiRichText.jsx'
 import PageIntro from '../../components/PageIntro.jsx'
+import PageSkeleton from '../../components/skeletons/PageSkeleton.jsx'
 import FadeInWrapper from '../../components/FadeInWrapper.jsx'
 import RevealOnScroll from '../../components/RevealOnScroll.jsx'
 import HubItem from './components/HubItem.jsx'
@@ -60,7 +61,7 @@ function Hubs() {
     load()
   }, [isDraft])
 
-  if (loading) return null
+  if (loading) return <PageSkeleton cardRows={2} />
   if (error) return <Grid as="main"><GridCell $start={1} $span={6}><ErrorMsg>Error: {error}</ErrorMsg></GridCell></Grid>
 
 
@@ -82,6 +83,10 @@ function Hubs() {
     ? (String(heroUrl).startsWith('http') ? heroUrl : getStrapiUrl(heroUrl))
     : null
   const isVideo = heroMime.startsWith('video/')
+  const posterUrl = hero?.formats?.thumbnail?.url
+  const heroPoster = posterUrl
+    ? (String(posterUrl).startsWith('http') ? posterUrl : getStrapiUrl(posterUrl))
+    : null
 
   return (
     <FadeInWrapper ready={!loading}>
@@ -92,6 +97,7 @@ function Hubs() {
           heroSrc={heroSrc}
           heroAlt={heroAlt}
           isVideo={isVideo}
+          heroPoster={heroPoster}
         />
 
         {(introTitle || introParagraph) && (

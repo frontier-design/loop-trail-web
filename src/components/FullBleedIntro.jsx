@@ -69,8 +69,9 @@ const Headline = styled.h1`
  * @param {string} [heroSrc] - URL for image or video
  * @param {string} [heroAlt] - Alt text for image
  * @param {boolean} [isVideo] - Whether heroSrc is a video
+ * @param {string} [heroPoster] - Poster/thumbnail URL shown while video loads
  */
-function FullBleedIntro({ headline, heroSrc, heroAlt = '', isVideo = false }) {
+function FullBleedIntro({ headline, heroSrc, heroAlt = '', isVideo = false, heroPoster }) {
   if (!headline && !heroSrc) return null
 
   return (
@@ -78,9 +79,9 @@ function FullBleedIntro({ headline, heroSrc, heroAlt = '', isVideo = false }) {
       {heroSrc && (
         <BackgroundMedia>
           {isVideo ? (
-            <video src={heroSrc} autoPlay loop muted playsInline />
+            <video src={heroSrc} poster={heroPoster || undefined} autoPlay loop muted playsInline />
           ) : (
-            <img src={heroSrc} alt={heroAlt} />
+            <img src={heroSrc} alt={heroAlt} loading="lazy" decoding="async" />
           )}
         </BackgroundMedia>
       )}

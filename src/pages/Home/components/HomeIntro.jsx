@@ -100,7 +100,7 @@ function HomeIntro({ introText, stackingImage }) {
         {imageSrc && (
           <GridCell $start={4} $span={3} $spanMobile={4} $startMobile={1}>
             <ImageWrapper>
-              <img src={imageSrc} alt={imageAlt} loading="lazy" />
+              <img src={imageSrc} alt={imageAlt} loading="lazy" decoding="async" />
             </ImageWrapper>
           </GridCell>
         )}

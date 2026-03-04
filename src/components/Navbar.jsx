@@ -249,13 +249,15 @@ const CtaButton = styled(Link)`
 `
 
 function Navbar() {
-  const [isDarkBackground, setIsDarkBackground] = useState(false)
+  const { pathname } = useLocation()
+  const [isDarkBackground, setIsDarkBackground] = useState(
+    pathname === '/' || pathname === '/get-involved'
+  )
   const [isHidden, setIsHidden] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const lastScrollY = useRef(0)
   const ticking = useRef(false)
   const programmaticScrollRef = useRef(false)
-  const { pathname } = useLocation()
 
   const closeMenu = () => setMenuOpen(false)
 
@@ -281,20 +283,42 @@ function Navbar() {
       return () => cancelAnimationFrame(id)
     }
 
-    const target = document.getElementById(targetId)
-    if (!target) {
-      const id = requestAnimationFrame(() => setIsDarkBackground(false))
-      return () => cancelAnimationFrame(id)
+    // Start transparent immediately for routes with dark heroes
+    const darkId = requestAnimationFrame(() => setIsDarkBackground(true))
+
+    let observer
+    let mutationObserver
+
+    function tryObserve() {
+      const target = document.getElementById(targetId)
+      if (!target) return false
+
+      observer = new IntersectionObserver(
+        ([entry]) => {
+          setIsDarkBackground(entry.isIntersecting)
+        },
+        { threshold: 0.5, rootMargin: '-10% 0px 0px 0px' }
+      )
+      observer.observe(target)
+      return true
     }
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsDarkBackground(entry.isIntersecting)
-      },
-      { threshold: 0.5, rootMargin: '-10% 0px 0px 0px' }
-    )
-    observer.observe(target)
-    return () => observer.disconnect()
+    // If the element exists already, observe immediately
+    if (!tryObserve()) {
+      // Element doesn't exist yet (lazy-loaded page); watch the DOM for it
+      mutationObserver = new MutationObserver(() => {
+        if (tryObserve()) {
+          mutationObserver.disconnect()
+        }
+      })
+      mutationObserver.observe(document.body, { childList: true, subtree: true })
+    }
+
+    return () => {
+      cancelAnimationFrame(darkId)
+      observer?.disconnect()
+      mutationObserver?.disconnect()
+    }
   }, [pathname])
 
   useEffect(() => {

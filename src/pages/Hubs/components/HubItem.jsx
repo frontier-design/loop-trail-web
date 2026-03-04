@@ -104,7 +104,7 @@ function HubItem({ item, index = 0 }) {
     <GridCell $start={imageLeft ? 1 : 4} $span={3} $spanMobile={4} $startMobile={1}>
       <ImageCol>
         <ImageWrapper>
-          <img src={firstSrc} alt={firstAlt || ''} loading="lazy" />
+          <img src={firstSrc} alt={firstAlt || ''} loading="lazy" decoding="async" />
         </ImageWrapper>
         {imageCaption && <ImageCredit>{imageCaption}</ImageCredit>}
       </ImageCol>

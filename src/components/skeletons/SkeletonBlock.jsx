@@ -6,7 +6,7 @@ const shimmer = keyframes`
 `
 
 const SkeletonBlock = styled.div`
-  background: linear-gradient(90deg, #e8e8e8 25%, #f0f0f0 50%, #e8e8e8 75%);
+  background: linear-gradient(90deg, #d0d0d0 25%, #ececec 50%, #d0d0d0 75%);
   background-size: 200% 100%;
   animation: ${shimmer} 1.5s infinite;
   border-radius: 2px;

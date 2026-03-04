@@ -84,7 +84,7 @@ function Hub({ image, imageAlt = '', title, paragraph, link, bgColor, textColor 
     <HubBlock $bgColor={bgColor} $textColor={textColor}>
       {image && (
         <HubImage $bgColor={bgColor}>
-          <img src={image} alt={imageAlt} />
+          <img src={image} alt={imageAlt} loading="lazy" decoding="async" />
         </HubImage>
       )}
       <HubContent>

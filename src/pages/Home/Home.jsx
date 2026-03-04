@@ -1,13 +1,11 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Landing from './components/Landing.jsx'
 import HomeIntro from './components/HomeIntro.jsx'
-import FadeInWrapper from '../../components/FadeInWrapper.jsx'
 import RevealOnScroll from '../../components/RevealOnScroll.jsx'
 import { fetchCached } from '../../api/prefetchCache.js'
 
 function Home() {
   const [data, setData] = useState(null)
-  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     async function load() {
@@ -18,8 +16,6 @@ function Home() {
         setData(res)
       } catch {
         setData(null)
-      } finally {
-        setLoading(false)
       }
     }
     load()
@@ -33,14 +29,12 @@ function Home() {
     <>
       <Landing />
       {firstIntro && (
-        <FadeInWrapper ready={!loading}>
-          <RevealOnScroll>
-            <HomeIntro
-              introText={firstIntro.IntroText}
-              stackingImage={firstIntro.StackingImage}
-            />
-          </RevealOnScroll>
-        </FadeInWrapper>
+        <RevealOnScroll>
+          <HomeIntro
+            introText={firstIntro.IntroText}
+            stackingImage={firstIntro.StackingImage}
+          />
+        </RevealOnScroll>
       )}
     </>
   )

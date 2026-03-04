@@ -5,6 +5,7 @@ import { Grid, GridCell } from '../../grid/index.js'
 import { getStrapiUrl } from '../../api/strapi.js'
 import { fetchCached } from '../../api/prefetchCache.js'
 import PageIntro from '../../components/PageIntro.jsx'
+import PageSkeleton from '../../components/skeletons/PageSkeleton.jsx'
 import CTA from '../../components/CTA.jsx'
 import FadeInWrapper from '../../components/FadeInWrapper.jsx'
 import RevealOnScroll from '../../components/RevealOnScroll.jsx'
@@ -46,7 +47,7 @@ function FAQs() {
     load()
   }, [isDraft])
 
-  if (loading) return null
+  if (loading) return <PageSkeleton cardRows={0} />
   if (error) return <Grid as="main"><GridCell $start={1} $span={6}><ErrorMsg>Error: {error}</ErrorMsg></GridCell></Grid>
 
   const page = data?.data ?? data
@@ -61,6 +62,10 @@ function FAQs() {
     ? (String(heroUrl).startsWith('http') ? heroUrl : getStrapiUrl(heroUrl))
     : null
   const isVideo = heroMime.startsWith('video/')
+  const posterUrl = hero?.formats?.thumbnail?.url
+  const heroPoster = posterUrl
+    ? (String(posterUrl).startsWith('http') ? posterUrl : getStrapiUrl(posterUrl))
+    : null
 
   return (
     <FadeInWrapper ready={!loading}>
@@ -71,6 +76,7 @@ function FAQs() {
           heroSrc={heroSrc}
           heroAlt={heroAlt}
           isVideo={isVideo}
+          heroPoster={heroPoster}
         />
       </GridCell>
 

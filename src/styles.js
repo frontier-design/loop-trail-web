@@ -2,8 +2,6 @@ import { createGlobalStyle } from "styled-components";
 
 import abcdiatypeLight from "./assets/fonts/ABCDiatype-Light-Trial.woff";
 import abcdiatypeRegular from "./assets/fonts/ABCDiatype-Regular-Trial.woff";
-import abcdiatypeHeavy from "./assets/fonts/ABCDiatype-Heavy-Trial.woff";
-import abcdiatypeUltra from "./assets/fonts/ABCDiatype-Ultra-Trial.woff";
 
 const GlobalStyle = createGlobalStyle`
   :root {
@@ -19,6 +17,7 @@ const GlobalStyle = createGlobalStyle`
     src: url(${abcdiatypeLight}) format('woff');
     font-weight: 300;
     font-style: normal;
+    font-display: swap;
   }
 
   @font-face {
@@ -26,20 +25,23 @@ const GlobalStyle = createGlobalStyle`
     src: url(${abcdiatypeRegular}) format('woff');
     font-weight: 400;
     font-style: normal;
+    font-display: swap;
   }
 
   @font-face {
     font-family: 'ABCDiatype';
-    src: url(${abcdiatypeHeavy}) format('woff');
+    src: url('/fonts/ABCDiatype-Heavy-Trial.woff') format('woff');
     font-weight: 700;
     font-style: normal;
+    font-display: swap;
   }
 
   @font-face {
     font-family: 'ABCDiatype';
-    src: url(${abcdiatypeUltra}) format('woff');
+    src: url('/fonts/ABCDiatype-Ultra-Trial.woff') format('woff');
     font-weight: 800;
     font-style: normal;
+    font-display: swap;
   }
 
   * {

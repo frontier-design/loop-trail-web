@@ -14,26 +14,36 @@ export const ROUTE_APIS = {
   '/': '/api/home?populate[0]=HomeIntro&populate[1]=HomeIntro.StackingImage',
 }
 
+// Max age before a background revalidation is triggered (5 minutes)
+const STALE_MS = 5 * 60 * 1000
+const timestamps = new Map()
+
 /**
- * Fetch CMS data for an API path, using the session cache.
- * If a cached result exists it is returned immediately with no network request.
- * Draft mode always bypasses cache.
+ * Fetch CMS data with stale-while-revalidate semantics.
+ * - If cached data exists, it is returned immediately.
+ * - If the cached data is older than STALE_MS, a background refetch updates
+ *   the cache for the next caller (the current caller still gets the stale data
+ *   instantly — no waiting).
+ * - Draft mode always bypasses cache.
  *
  * @param {string} apiPath - Full API path with populate params
  * @param {{ draft?: boolean }} [opts]
  * @returns {Promise<any>}
  */
 export async function fetchCached(apiPath, { draft = false } = {}) {
-  // Never cache draft/preview content
   if (draft) {
     return fetchStrapiWithStatus(apiPath, { draft: true })
   }
 
-  if (cache.has(apiPath)) {
-    return cache.get(apiPath)
+  const cached = cache.get(apiPath)
+  if (cached) {
+    const age = Date.now() - (timestamps.get(apiPath) ?? 0)
+    if (age > STALE_MS && !inflight.has(apiPath)) {
+      revalidate(apiPath)
+    }
+    return cached
   }
 
-  // If already in-flight, wait for the same promise
   if (inflight.has(apiPath)) {
     return inflight.get(apiPath)
   }
@@ -41,6 +51,7 @@ export async function fetchCached(apiPath, { draft = false } = {}) {
   const promise = fetchStrapiWithStatus(apiPath, { draft: false })
     .then(data => {
       cache.set(apiPath, data)
+      timestamps.set(apiPath, Date.now())
       inflight.delete(apiPath)
       return data
     })
@@ -51,6 +62,19 @@ export async function fetchCached(apiPath, { draft = false } = {}) {
 
   inflight.set(apiPath, promise)
   return promise
+}
+
+function revalidate(apiPath) {
+  const promise = fetchStrapiWithStatus(apiPath, { draft: false })
+    .then(data => {
+      cache.set(apiPath, data)
+      timestamps.set(apiPath, Date.now())
+      inflight.delete(apiPath)
+    })
+    .catch(() => {
+      inflight.delete(apiPath)
+    })
+  inflight.set(apiPath, promise)
 }
 
 /**

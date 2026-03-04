@@ -104,7 +104,7 @@ function StewardshipItem({ item }) {
     <Card>
       {imageSrc && (
         <ImageWrapper>
-          <img src={imageSrc} alt={imageAlt || ''} loading="lazy" />
+          <img src={imageSrc} alt={imageAlt || ''} loading="lazy" decoding="async" />
         </ImageWrapper>
       )}
       {title && <ItemTitle>{title}</ItemTitle>}
