@@ -50,7 +50,7 @@ const ContentWrapper = styled.div`
 const Title = styled.h1`
   font-family: 'ABCDiatype', system-ui, sans-serif;
   font-weight: 800;
-  font-size: 7rem;
+  font-size: clamp(3rem, 8vw, 7rem) !important;
   letter-spacing: -0.02em;
   color: white;
   text-transform: uppercase;
@@ -61,14 +61,6 @@ const Title = styled.h1`
   span {
     white-space: nowrap;
     display: block;
-  }
-
-  @media (min-width: 769px) {
-    font-size: 4rem;
-  }
-
-  @media (min-width: ${GRID.BREAKPOINT_TABLET}) {
-    font-size: 7rem;
   }
 `
 

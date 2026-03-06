@@ -22,7 +22,7 @@ export const GRID = {
   /** Horizontal page padding (px) */
   PADDING: 50,
   /** Column gap / gutter (px) */
-  GAP: 25,
+  GAP: 40,
   /** Row gap between grid children (CSS value) */
   ROW_GAP: "2rem",
 
@@ -38,7 +38,7 @@ export const GRID = {
   /** Horizontal page padding on tablet (px) */
   PADDING_TABLET: 35,
   /** Column gap on tablet (CSS value) */
-  GAP_TABLET: "1rem",
+  GAP_TABLET: "1.5rem",
   /** Row gap on tablet (CSS value) */
   ROW_GAP_TABLET: "1.5rem",
 
@@ -48,7 +48,7 @@ export const GRID = {
   /** Horizontal page padding on mobile (px) */
   PADDING_MOBILE: 20,
   /** Column gap on mobile (CSS value) */
-  GAP_MOBILE: "1rem",
+  GAP_MOBILE: "1.25rem",
   /** Row gap on mobile (CSS value) */
   ROW_GAP_MOBILE: "1.5rem",
 

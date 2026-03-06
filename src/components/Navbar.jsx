@@ -39,6 +39,7 @@ const NavInner = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: clamp(1.5rem, 4vw, 3rem);
   box-sizing: border-box;
 
   @media ${GRID.MEDIA_TABLET} {
@@ -67,9 +68,9 @@ const Logo = styled(Link)`
   font-weight: 700;
   font-size: 1.25rem;
   color: ${props => props.$dark ? '#fff' : '#1a1a1a'};
-
   text-decoration: none;
   transition: color 0.2s ease;
+  white-space: nowrap;
 
   @media (min-width: 769px) {
     font-size: 1.5rem;
@@ -213,6 +214,7 @@ const NavLink = styled(Link)`
   color: ${props => props.$dark ? '#fff' : '#1a1a1a'};
   text-decoration: none;
   transition: color 0.2s ease;
+  white-space: nowrap;
 
   @media (min-width: 769px) {
     font-size: 1rem;
@@ -238,6 +240,7 @@ const CtaButton = styled(Link)`
   border: none;
   cursor: pointer;
   transition: background 0.2s ease, color 0.2s ease;
+  white-space: nowrap;
 
   &:hover {
     background: ${props => props.$dark ? '#d4ed8f' : '#1a5c38'};
@@ -368,7 +371,7 @@ function Navbar() {
       <NavBar $hidden={isHidden} $onLanding={onLanding} $menuOpen={menuOpen}>
         <NavInner>
           <NavLeft>
-            <Logo to="/" $dark={dark} $menuOpen={menuOpen}>The Loop Trail</Logo>
+            <Logo to="/" $dark={dark} $menuOpen={menuOpen}>The Loop</Logo>
           </NavLeft>
           <NavRight>
             <Links>

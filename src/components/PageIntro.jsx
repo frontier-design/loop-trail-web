@@ -1,6 +1,8 @@
 import { useEffect, useRef } from 'react'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { GRID } from '../grid/config.js'
+import { CardLink } from '../styles/cardContent.js'
 
 const Headline = styled.h1`
   color: black;
@@ -11,22 +13,28 @@ const Headline = styled.h1`
   }
 `
 
+const IntroLink = styled(CardLink).attrs({ as: Link })`
+  display: inline-block;
+  margin-top: 0.5rem;
+`
+
 const HeroWrapper = styled.div`
-  padding-top: 25vh;
-  
+  padding-top: ${p => (p.$compact ? '0' : '25vh')};
 
   @media ${GRID.MEDIA_MOBILE} {
-    padding-top: 10vh;
+    padding-top: ${p => (p.$compact ? '0' : '10vh')};
   }
 `
 
 const HeroMedia = styled.div`
   width: 100%;
-  margin-bottom: 2rem;
+  margin: 2.5rem 0;
   overflow: hidden;
   aspect-ratio: 16 / 9;
   min-height: 200px;
   max-height: 500px;
+
+
   img,
   video {
     width: 100%;
@@ -44,8 +52,9 @@ const HeroMedia = styled.div`
  * @param {string} [heroAlt] - Alt text for image
  * @param {boolean} [isVideo] - Whether heroSrc is a video
  * @param {string} [heroPoster] - Poster/thumbnail URL shown while video loads
+ * @param {boolean} [compact] - When true, reduces top padding for section use
  */
-function PageIntro({ headline, heroSrc, heroAlt = '', isVideo = false, heroPoster }) {
+function PageIntro({ headline, linkText, linkHref, heroSrc, heroAlt = '', isVideo = false, heroPoster, compact = false }) {
   const videoRef = useRef(null)
 
   useEffect(() => {
@@ -59,8 +68,11 @@ function PageIntro({ headline, heroSrc, heroAlt = '', isVideo = false, heroPoste
   if (!headline && !heroSrc) return null
 
   return (
-    <HeroWrapper>
+    <HeroWrapper $compact={compact}>
       {headline && <Headline>{headline}</Headline>}
+      {linkText && linkHref && (
+        <IntroLink to={linkHref}>{linkText}</IntroLink>
+      )}
       {heroSrc && (
         <HeroMedia>
           {isVideo ? (

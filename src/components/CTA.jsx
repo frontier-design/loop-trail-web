@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 import { Grid, GridCell } from '../grid/index.js'
 import { getStrapiUrl } from '../api/strapi.js'
 
@@ -66,7 +67,7 @@ const Subtitle = styled.p`
   margin-bottom: 1.5rem;
 `
 
-const CtaLink = styled.a`
+const CtaLink = styled(Link)`
   font-family: 'ABCDiatype', system-ui, sans-serif;
   font-weight: 700;
   font-size: 0.875rem;
@@ -91,21 +92,31 @@ const CtaLink = styled.a`
 `
 
 function getMediaUrl(media) {
-  const url = media?.url ?? media?.attributes?.url
+  const attrs = media?.attributes ?? media?.data?.attributes ?? media
+  const url = attrs?.url ?? media?.url
   if (!url) return null
   return String(url).startsWith('http') ? url : getStrapiUrl(url)
 }
 
-function CTA({ title, subtitle, background, button }) {
-  const bg = Array.isArray(background) ? background[0] : background
-  const bgSrc = bg ? getMediaUrl(bg) : null
-  const bgMime = bg?.mime ?? ''
-  const bgIsVideo = bgMime.startsWith('video/')
-  const bgAlt = bg?.alternativeText ?? ''
+function getFirstMedia(media) {
+  if (!media) return null
+  const d = media?.data
+  if (Array.isArray(d)) return d[0] ?? null
+  if (d && typeof d === 'object') return d
+  return Array.isArray(media) ? media[0] : media
+}
 
-  const btn = Array.isArray(button) ? button[0] : button
-  const btnUrl = btn?.URL ?? ''
-  const btnLabel = btn?.LinkDisplay ?? ''
+function CTA({ title, subtitle, background, button }) {
+  const bg = getFirstMedia(background) ?? (Array.isArray(background) ? background[0] : background)
+  const bgSrc = bg ? getMediaUrl(bg) : null
+  const attrs = bg?.attributes ?? bg?.data?.attributes ?? bg
+  const bgMime = attrs?.mime ?? bg?.mime ?? ''
+  const bgIsVideo = bgMime.startsWith('video/')
+  const bgAlt = attrs?.alternativeText ?? bg?.alternativeText ?? ''
+
+  const btnRaw = Array.isArray(button) ? button[0] : button
+  const btn = btnRaw?.data ?? btnRaw
+  const btnLabel = btn?.LinkDisplay ?? btn?.linkDisplay ?? 'Get Involved'
 
   if (!title && !bgSrc) return null
 
@@ -124,11 +135,7 @@ function CTA({ title, subtitle, background, button }) {
         <GridCell $start={1} $span={3} $spanMobile={4}>
           {title && <Title>{title}</Title>}
           {subtitle && <Subtitle>{subtitle}</Subtitle>}
-          {btnUrl && (
-            <CtaLink href={btnUrl} target="_blank" rel="noopener noreferrer">
-              {btnLabel}
-            </CtaLink>
-          )}
+          <CtaLink to="/get-involved">{btnLabel}</CtaLink>
         </GridCell>
       </ContentGrid>
     </Section>

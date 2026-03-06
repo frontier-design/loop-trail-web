@@ -23,12 +23,9 @@ const TextCell = styled(GridCell)`
 `
 
 const TextWrapper = styled.div`
-  font-size: 5rem !important;
 
   strong {
     font-weight: 700;
-    font-size: 2.25rem;
-    line-height: 1.25;
   }
 
   p + p {
@@ -37,22 +34,31 @@ const TextWrapper = styled.div`
 
   p {
     margin: 0;
+    font-size: 2rem;
+    line-height: 1.3;
+  }
+
+  @media ${GRID.MEDIA_MOBILE} {
+    p {
+      font-size: 1.5rem;
+    }
   }
 `
 
 const ImageWrapper = styled.div`
   width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
 
   img {
     width: 100%;
-    height: auto;
+    height: 100%;
     display: block;
     object-fit: cover;
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    min-height: 500px;
+    object-position: center;
   }
 `
 

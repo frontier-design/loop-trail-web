@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import { Grid, GridCell } from '../../grid/index.js'
 import { getStrapiUrl } from '../../api/strapi.js'
@@ -36,6 +36,7 @@ function Hubs() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [searchParams] = useSearchParams()
+  const { hash } = useLocation()
 
   const isPreview =
     searchParams.get('preview') === 'true' &&
@@ -60,6 +61,19 @@ function Hubs() {
     }
     load()
   }, [isDraft])
+
+  useEffect(() => {
+    if (loading) return
+    const id = hash?.slice(1)
+    if (!id) return
+    const scrollToHub = () => {
+      const el = document.getElementById(id)
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+    scrollToHub()
+    const t = setTimeout(scrollToHub, 150)
+    return () => clearTimeout(t)
+  }, [loading, hash])
 
   if (loading) return <PageSkeleton cardRows={2} />
   if (error) return <Grid as="main"><GridCell $start={1} $span={6}><ErrorMsg>Error: {error}</ErrorMsg></GridCell></Grid>

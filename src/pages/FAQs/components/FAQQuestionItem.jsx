@@ -3,7 +3,6 @@ import styled from 'styled-components'
 
 const Row = styled.div`
 margin-bottom: 1rem;
-padding: 1rem;
 background-color: #f0f0f0;
 `
 
@@ -12,7 +11,7 @@ const Trigger = styled.button`
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 1.25rem 0;
+  padding: 2rem;
   background: none;
   border: none;
   cursor: pointer;
@@ -69,7 +68,7 @@ const AnswerRegion = styled.div`
 `
 
 const AnswerText = styled.p`
-  padding-bottom: 1.25rem;
+padding: 2rem;
   font-size: 1rem;
   line-height: 1.6;
   font-weight: 400;

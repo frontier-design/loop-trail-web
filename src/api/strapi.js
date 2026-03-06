@@ -1,4 +1,9 @@
 const STRAPI_URL = (import.meta.env.VITE_STRAPI_URL || 'http://localhost:1337').replace(/\/+$/, '')
+const STRAPI_API_TOKEN = (
+  import.meta.env.VITE_STRAPI_API_TOKEN ||
+  import.meta.env.VITE_STRAPI_TOKEN ||
+  ''
+).trim()
 
 /**
  * Build a full Strapi URL for a given path.
@@ -17,9 +22,13 @@ export function getStrapiUrl(path = '') {
  */
 export async function fetchStrapi(path, options = {}) {
   const url = getStrapiUrl(path)
+  const hasAuthHeader = Boolean(options.headers?.Authorization || options.headers?.authorization)
 
   const headers = {
     'Content-Type': 'application/json',
+    ...(STRAPI_API_TOKEN && !hasAuthHeader
+      ? { Authorization: `Bearer ${STRAPI_API_TOKEN}` }
+      : {}),
     ...options.headers,
   }
 

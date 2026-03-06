@@ -96,6 +96,10 @@ const NewsletterHeading = styled.h2`
   line-height: 1.3;
   margin-bottom: 1rem;
   color: white;
+
+  @media (max-width: 768px) {
+    font-size: 1.5rem !important;
+  }
 `
 
 const NewsletterText = styled.p`

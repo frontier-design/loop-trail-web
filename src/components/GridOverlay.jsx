@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { GRID } from '../grid'
 import { useMediaQuery } from '../grid/useMediaQuery'
@@ -22,7 +21,7 @@ const GridInner = styled.div`
   max-width: min(${GRID.MAX_WIDTH}px, 100%);
   height: 100%;
   margin: 0 auto;
-  display: ${props => (props.$isVisible ? 'grid' : 'none')};
+  display: none;
   grid-template-columns: repeat(${GRID.COLUMNS}, 1fr);
   column-gap: ${GRID.GAP}px;
   row-gap: 0;
@@ -55,7 +54,6 @@ const GridColumn = styled.div`
 `
 
 function GridOverlay() {
-  const [isVisible, setIsVisible] = useState(false)
   const isMobile = useMediaQuery(GRID.MEDIA_MOBILE)
   const isTablet = useMediaQuery(GRID.MEDIA_TABLET)
 
@@ -66,23 +64,9 @@ function GridOverlay() {
       ? GRID.COLUMNS_TABLET
       : GRID.COLUMNS
 
-  useEffect(() => {
-    const handleKeyPress = (e) => {
-      // Ignore key repeats so holding G doesn't flicker the overlay
-      if ((e.key === 'g' || e.key === 'G') && !e.repeat) {
-        setIsVisible(prev => !prev)
-      }
-    }
-
-    window.addEventListener('keydown', handleKeyPress)
-    return () => {
-      window.removeEventListener('keydown', handleKeyPress)
-    }
-  }, [])
-
   return (
     <GridContainer>
-      <GridInner $isVisible={isVisible}>
+      <GridInner>
         {Array.from({ length: columnCount }).map((_, index) => (
           <GridColumn key={index} />
         ))}
