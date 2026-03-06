@@ -10,6 +10,7 @@ import PageSkeleton from '../../components/skeletons/PageSkeleton.jsx'
 import FadeInWrapper from '../../components/FadeInWrapper.jsx'
 import RevealOnScroll from '../../components/RevealOnScroll.jsx'
 import HubItem from './components/HubItem.jsx'
+import Neighbourhoods from './components/Neighbourhoods.jsx'
 
 const IntroParagraph = styled.div`
   white-space: pre-line;
@@ -49,7 +50,7 @@ function Hubs() {
     async function load() {
       try {
         const res = await fetchCached(
-          '/api/hubs?populate[0]=Hero&populate[1]=HubItem&populate[2]=HubItem.Image&populate[3]=HubItem.Link',
+          '/api/hubs?populate[0]=Hero&populate[1]=HubItem&populate[2]=HubItem.Image&populate[3]=HubItem.Link&populate[4]=Neighbourhoods',
           { draft: isDraft }
         )
         setData(res)
@@ -89,6 +90,7 @@ function Hubs() {
   const introTitle = page.IntroTitle ?? ''
   const introParagraph = page.IntroParagraph ?? ''
   const hubItems = Array.isArray(page.HubItem) ? page.HubItem : []
+  const neighbourhoodsData = Array.isArray(page.Neighbourhoods) ? page.Neighbourhoods : []
 
   const heroUrl = hero?.url
   const heroMime = hero?.mime ?? ''
@@ -144,6 +146,7 @@ function Hubs() {
         </GridCell>
       )}
     </Grid>
+    <Neighbourhoods data={neighbourhoodsData} />
     </FadeInWrapper>
   )
 }

@@ -55,7 +55,11 @@ function LoadingScreen({ onComplete }) {
   const timerRef = useRef(null)
 
   const handleTraceEnd = useCallback(() => {
-    timerRef.current = setTimeout(() => setFading(true), 300)
+    const fontsReady = document.fonts.ready
+    const timeout = new Promise((resolve) => setTimeout(resolve, 3500))
+    Promise.race([fontsReady, timeout]).then(() => {
+      timerRef.current = setTimeout(() => setFading(true), 150)
+    })
   }, [])
 
   useEffect(() => {

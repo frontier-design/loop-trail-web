@@ -5,11 +5,25 @@ import * as maplibregl from 'maplibre-gl'
 import { hubPointsClosestToLoop } from './hubPointsFromRegions.js'
 import HubPopupContent from './HubPopupContent.jsx'
 
+const FADE_DURATION_MS = 180
+
 const HubPopupStyles = createGlobalStyle`
+  @keyframes hubPopupFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes hubPopupFadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
   .hub-map-popup .maplibregl-popup-content {
     background: transparent;
     padding: 0;
     box-shadow: none;
+    animation: hubPopupFadeIn ${FADE_DURATION_MS}ms ease-out forwards;
+  }
+  .hub-map-popup.hub-map-popup--closing .maplibregl-popup-content {
+    animation: hubPopupFadeOut ${FADE_DURATION_MS}ms ease-in forwards;
   }
   .hub-map-popup .maplibregl-popup-tip {
     display: none;
@@ -58,15 +72,26 @@ export default function HubRegionsLayer({
 
     const sourceId = `${id}-source`
     const layerId = `${id}-layer`
-    const popup = new maplibregl.Popup({
-      className: 'hub-map-popup',
-      anchor: 'center',
-      offset: [0, 50],
-      closeButton: false,
-      closeOnClick: false,
-      maxWidth: 'none',
-    })
-    popupRef.current = popup
+
+    function createPopup(hubId) {
+      const id = String(hubId || '').toLowerCase()
+      const isLowerDon = id === 'lower-don'
+      const offset = isLowerDon
+        ? { 'bottom-right': [30, 40] }
+        : id === 'don-valley'
+          ? [0, 60]
+          : id === 'black-creek'
+            ? [0, 45]
+            : [0, 25]
+      return new maplibregl.Popup({
+        className: 'hub-map-popup',
+        anchor: isLowerDon ? 'bottom-right' : 'center',
+        offset,
+        closeButton: false,
+        closeOnClick: false,
+        maxWidth: 'none',
+      })
+    }
 
     map.addSource(sourceId, {
       type: 'geojson',
@@ -107,6 +132,21 @@ export default function HubRegionsLayer({
       }
     }
 
+    function removePopupWithFade(popup, onDone) {
+      const el = popup?.getElement?.()
+      if (!el || !el.classList) {
+        if (onDone) onDone()
+        return
+      }
+      el.classList.add('hub-map-popup--closing')
+      setTimeout(() => {
+        popup.remove()
+        if (onDone) onDone()
+      }, FADE_DURATION_MS)
+    }
+
+    const hideDelayMs = 200
+
     map.on('mouseenter', layerId, (e) => {
       if (hideTimeoutRef.current) {
         clearTimeout(hideTimeoutRef.current)
@@ -120,22 +160,48 @@ export default function HubRegionsLayer({
       if (!meta) return
       const coords = feature.geometry?.coordinates?.slice()
       if (!coords) return
-      const container = document.createElement('div')
-      container.addEventListener('mouseenter', () => {
-        if (hideTimeoutRef.current) {
-          clearTimeout(hideTimeoutRef.current)
-          hideTimeoutRef.current = null
-        }
-      })
-      container.addEventListener('mouseleave', () => {
-        hideTimeoutRef.current = setTimeout(() => {
-          hideTimeoutRef.current = null
-          unmountPopup()
-          popup.remove()
-        }, 100)
-      })
-      popupRootRef.current = renderPopupContent(container, meta, hubId)
-      popup.setLngLat(coords).setDOMContent(container).addTo(map)
+
+      const prevPopup = popupRef.current
+      const prevHubId = prevPopup ? (prevPopup._hubId ?? '') : ''
+      const isSameHub = prevHubId && String(hubId).toLowerCase() === String(prevHubId).toLowerCase()
+
+      if (prevPopup && !isSameHub) {
+        prevPopup.remove()
+        popupRef.current = null
+      }
+      if (!isSameHub) unmountPopup()
+
+      const doShow = () => {
+        const thisPopup = createPopup(hubId)
+        thisPopup._hubId = hubId
+        popupRef.current = thisPopup
+
+        const container = document.createElement('div')
+        container.style.paddingTop = '8px'
+        container.addEventListener('mouseenter', () => {
+          if (hideTimeoutRef.current) {
+            clearTimeout(hideTimeoutRef.current)
+            hideTimeoutRef.current = null
+          }
+        })
+        container.addEventListener('mouseleave', () => {
+          hideTimeoutRef.current = setTimeout(() => {
+            hideTimeoutRef.current = null
+            unmountPopup()
+            removePopupWithFade(thisPopup, () => {
+              if (popupRef.current === thisPopup) popupRef.current = null
+            })
+          }, hideDelayMs)
+        })
+
+        popupRootRef.current = renderPopupContent(container, meta, hubId)
+        thisPopup.setLngLat(coords).setDOMContent(container).addTo(map)
+      }
+
+      if (isSameHub && prevPopup) {
+        return
+      }
+      doShow()
     })
 
     map.on('mouseleave', layerId, () => {
@@ -143,8 +209,11 @@ export default function HubRegionsLayer({
       hideTimeoutRef.current = setTimeout(() => {
         hideTimeoutRef.current = null
         unmountPopup()
-        popup.remove()
-      }, 100)
+        const p = popupRef.current
+        if (p) {
+          removePopupWithFade(p, () => { popupRef.current = null })
+        }
+      }, hideDelayMs)
     })
 
     addedRef.current = true
@@ -152,7 +221,8 @@ export default function HubRegionsLayer({
     return () => {
       if (hideTimeoutRef.current) clearTimeout(hideTimeoutRef.current)
       unmountPopup()
-      popup.remove()
+      const p = popupRef.current
+      if (p) p.remove()
       popupRef.current = null
       try {
         if (map.getLayer(layerId)) map.removeLayer(layerId)

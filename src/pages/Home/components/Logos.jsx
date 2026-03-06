@@ -54,7 +54,7 @@ const LogoCard = styled.div`
   justify-content: center;
   align-items: center;
   text-align: center;
-  gap: 0.75rem;
+  gap: 1.5rem;
   min-height: 11rem;
   padding: 1.1rem 1.25rem;
   border: 1px solid rgba(21, 76, 44, 0.14);
@@ -173,6 +173,7 @@ const LogoTitle = styled.span`
   color: #000;
   width: 100%;
   text-align: center;
+  ${p => p.$hidden && 'display: none;'}
 
   ${p =>
     p.$sectionType === 'titleOnly' &&
@@ -193,6 +194,8 @@ const LogoText = styled.p`
   margin: 0;
   width: 100%;
   text-align: center;
+  max-width: 85%;
+  hyphens: none;
 
   @media ${GRID.MEDIA_MOBILE} {
     font-size: 0.9rem;
@@ -324,7 +327,7 @@ function Logos({ data }) {
                                   <img src={imgSrc} alt={itemTitle || ''} loading="lazy" decoding="async" />
                                 </LogoImageWrapper>
                               )}
-                              {itemTitle && <LogoTitle $sectionType={sectionType}>{itemTitle}</LogoTitle>}
+                              {itemTitle && <LogoTitle $sectionType={sectionType} $hidden={sIdx === 0}>{itemTitle}</LogoTitle>}
                               {itemText && <LogoText>{itemText}</LogoText>}
                             </LogoCard>
                           )
@@ -346,7 +349,7 @@ function Logos({ data }) {
                                   <img src={imgSrc} alt={itemTitle || ''} loading="lazy" decoding="async" />
                                 </LogoImageWrapper>
                               )}
-                              {itemTitle && <LogoTitle $sectionType={sectionType}>{itemTitle}</LogoTitle>}
+                              {itemTitle && <LogoTitle $sectionType={sectionType} $hidden={sIdx === 0}>{itemTitle}</LogoTitle>}
                               {itemText && <LogoText>{itemText}</LogoText>}
                             </LogoCard>
                           )

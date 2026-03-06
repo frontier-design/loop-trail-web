@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import GlobalStyle from './styles.js'
 import GridOverlay from './components/GridOverlay.jsx'
 import LoadingScreen from './components/LoadingScreen.jsx'
+import ScrollToTop from './components/ScrollToTop.jsx'
 import Navbar from './components/Navbar.jsx'
 import Footer from './components/Footer.jsx'
 
@@ -30,6 +31,7 @@ function App() {
         <LoadingScreen onComplete={() => setIsLoadingComplete(true)} />
       )}
       <BrowserRouter>
+        <ScrollToTop />
         <Navbar />
         <MainWrapper>
           <Suspense fallback={null}>

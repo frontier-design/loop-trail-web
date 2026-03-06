@@ -7,7 +7,7 @@ const inflight = new Map();
 
 export const ROUTE_APIS = {
   "/hubs":
-    "/api/hubs?populate[0]=Hero&populate[1]=HubItem&populate[2]=HubItem.Image&populate[3]=HubItem.Link",
+    "/api/hubs?populate[0]=Hero&populate[1]=HubItem&populate[2]=HubItem.Image&populate[3]=HubItem.Link&populate[4]=Neighbourhoods",
   "/indigenous-stewardship":
     "/api/indigenous-stewardship?populate[0]=Hero&populate[1]=ExplainerImage&populate[2]=ComponentExplainer&populate[3]=ComponentExplainer.Image",
   "/maps":
