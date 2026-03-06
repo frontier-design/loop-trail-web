@@ -43,7 +43,6 @@ const ContentWrapper = styled.div`
   right: 0;
   z-index: 3;
   padding-bottom: clamp(0rem, 5vw, 2rem);
-  /* border: 1px solid red; */
 
 `
 
@@ -144,6 +143,28 @@ const CloseButton = styled.button`
   }
 `
 
+const LaunchVideoButton = styled.button`
+  display: inline-block;
+  margin-top: 1.25rem;
+  padding: 0.75rem 1.25rem;
+  background: transparent;
+  border: 0.5px solid rgba(255, 255, 255, 1);
+  color: white;
+  font-size: 1rem;
+  font-family: 'ABCDiatype', system-ui, sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.9;
+  }
+
+  @media (min-width: 769px) {
+    display: none;
+  }
+`
+
 const VideoToggleButton = styled.button`
   position: absolute;
   bottom: clamp(2rem, 5vw, 4rem);
@@ -200,7 +221,7 @@ function Landing() {
 
   const handleLandingClick = (e) => {
     const isInteractive = e.target.closest('[data-hide-cursor], a, button')
-    if (!isInteractive) {
+    if (!isInteractive && window.innerWidth >= 769) {
       handleOpenVideoModal()
     }
   }
@@ -369,6 +390,9 @@ function Landing() {
                 <br />
                 Made in Toronto, for Toronto.
               </Subtitle>
+              <LaunchVideoButton type="button" data-hide-cursor onClick={handleOpenVideoModal}>
+                Watch the launch video
+              </LaunchVideoButton>
             </GridCell>
           </Grid>
         </ContentWrapper>
