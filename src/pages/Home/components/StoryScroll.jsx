@@ -5,23 +5,21 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { GRID } from '../../../grid/config.js'
 import video1 from '../../../assets/videos/video-1.mp4'
-import video2 from '../../../assets/videos/video-2.mp4'
 import video3 from '../../../assets/videos/video-3.mp4'
-import video4 from '../../../assets/videos/video-4.mp4'
+import storyVid3 from '../../../assets/videos/story-vid-3.mp4'
 
 gsap.registerPlugin(ScrollTrigger)
 
 const STEPS = [
-  { text: 'Imagine Toronto with a groundbreaking trail network.', video: video1 },
-  { text: 'Over 80km of trails for hiking, biking, community, and adventuring.', video: video2 },
+  { text: 'Imagine Toronto with a groundbreaking, 80km trail network.', video: video1 },
   { text: 'Making the city more explorable, accessible, and supporting the local economy.', video: video3 },
-  { text: 'Opening up brand new ways to explore the rich and unique natural landscapes of the city.', video: video4 },
+  { text: 'The trail is mostly there. The opportunity is to complete, enhance, and better connect it.', video: storyVid3 },
   { cta: true }
 ]
 
 const Wrapper = styled.div`
   position: relative;
-  height: 500vh;
+  height: 400vh;
 `
 
 const Section = styled.section`
@@ -77,7 +75,7 @@ const TextSlide = styled.div`
 
 const StepText = styled.p`
   width: 100%;
-  max-width: 800px;
+  max-width: 825px;
   margin: 0 auto;
   text-align: center;
   font-family: 'ABCDiatype', system-ui, sans-serif;
@@ -179,6 +177,7 @@ function StoryScroll() {
   const videoRefs = useRef([])
   const textRefs = useRef([])
   const ctaRef = useRef(null)
+  const videoSteps = STEPS.filter(s => !s.cta)
 
   useEffect(() => {
     const section = sectionRef.current
@@ -209,7 +208,7 @@ function StoryScroll() {
       }
     })
 
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < videoSteps.length; i++) {
       const segStart = i * segmentDuration
 
       tl.to(texts[i], {
@@ -218,7 +217,7 @@ function StoryScroll() {
         ease: 'power2.inOut'
       }, segStart + holdDuration)
 
-      if (i < 3) {
+      if (i < videoSteps.length - 1) {
         tl.to(videos[i], {
           opacity: 0,
           duration: fadeDuration,
@@ -256,9 +255,7 @@ function StoryScroll() {
       ro.disconnect()
       tl.scrollTrigger?.kill()
     }
-  }, [])
-
-  const videoSteps = STEPS.filter(s => !s.cta)
+  }, [videoSteps.length])
 
   return (
     <Wrapper ref={wrapperRef}>
@@ -286,9 +283,7 @@ function StoryScroll() {
         ))}
 
         <CTASlide ref={ctaRef}>
-          <CTATitle>
-            Love Toronto<br />Love the Loop
-          </CTATitle>
+          <CTATitle>Love Toronto<br />Love the Loop</CTATitle>
           <CTAButton to="/get-involved">Get Involved</CTAButton>
         </CTASlide>
       </TextOverlay>
