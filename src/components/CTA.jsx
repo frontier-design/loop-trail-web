@@ -52,13 +52,24 @@ const ContentGrid = styled(Grid)`
 const Title = styled.h1`
   color: white;
   margin-bottom: 1rem;
-  font-size: 6rem !important;
-  letter-spacing: -0.025em !important;
+  font-size: 3.25rem !important;
+  letter-spacing: 0em;
 
+  @media (min-width: 480px) {
+    font-size: 4rem !important;
+  }
 
-  @media (max-width: 768px) {
-    font-size: 3.25rem !important;
-    letter-spacing: 0em;
+  @media (min-width: 640px) {
+    font-size: 4.75rem !important;
+  }
+
+  @media (min-width: 769px) {
+    font-size: 5.25rem !important;
+    letter-spacing: -0.025em !important;
+  }
+
+  @media (min-width: 1024px) {
+    font-size: 6rem !important;
   }
 `
 
