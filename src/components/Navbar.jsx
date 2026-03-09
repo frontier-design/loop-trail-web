@@ -21,7 +21,6 @@ const NavBar = styled.nav`
   align-items: center;
   justify-content: center;
   padding: 1.25rem 0;
-  padding-top: max(1.25rem, env(safe-area-inset-top));
   background: ${props => props.$onLanding ? 'transparent' : '#fff'};
   box-sizing: border-box;
   transform: translateY(${props => props.$hidden ? '-100%' : '0'});
@@ -156,20 +155,16 @@ const MenuToggleIcon = styled.span`
   }
 `
 
-const NAVBAR_APPROX_HEIGHT = '5rem';
-
 const MobileMenu = styled.div`
   display: none;
   position: fixed;
-  top: ${NAVBAR_APPROX_HEIGHT};
+  top: 40px;
   left: 0;
   right: 0;
   bottom: 0;
   z-index: 99;
   background: #fff;
-  padding: 2rem ${GRID.PADDING_MOBILE}px;
-  padding-top: calc(2rem + env(safe-area-inset-top, 0px));
-  padding-bottom: max(2rem, env(safe-area-inset-bottom, 0px));
+  padding: 5rem ${GRID.PADDING_MOBILE}px 2rem;
   flex-direction: column;
   gap: 1.5rem;
   opacity: ${props => props.$open ? 1 : 0};
@@ -178,6 +173,7 @@ const MobileMenu = styled.div`
 
   @media (max-width: ${GRID.BREAKPOINT}) {
     display: flex;
+    padding-top: calc(4rem + env(safe-area-inset-top));
   }
 `
 

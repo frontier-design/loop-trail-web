@@ -31,9 +31,6 @@ const Section = styled.section`
   top: 0;
   width: 100vw;
   height: 100vh;
-  height: 100dvh;
-  min-height: 100vh;
-  min-height: -webkit-fill-available;
   overflow: hidden;
   touch-action: pan-y;
 `
