@@ -4,22 +4,21 @@ import gsap from 'gsap'
 import { Grid, GridCell, GRID } from '../../../grid/index.js'
 import CustomCursor from './CustomCursor.jsx'
 
+/* Navbar height for layout calculations (matches Navbar padding + content) */
+const NAVBAR_HEIGHT = '5rem'
+
 const LandingSection = styled.section`
   position: relative;
   width: 100vw;
   height: 100vh;
-  height: 100dvh;
   min-height: 100vh;
-  min-height: 100dvh;
   overflow: hidden;
   background: #1a1a1a;
 
-  /* On mobile: use svh so the search/address bar is included — landing fits the visible viewport */
-  @media ${GRID.MEDIA_MOBILE} {
-    height: 100svh;
-    min-height: 100svh;
-    min-height: -webkit-fill-available;
-  }
+  /* Use svh (small viewport) minus navbar so content and buttons don't intersect with fixed navbar */
+  height: calc(100svh - ${NAVBAR_HEIGHT});
+  min-height: calc(100vh - ${NAVBAR_HEIGHT});
+  min-height: calc(100svh - ${NAVBAR_HEIGHT});
 
   @media (min-width: calc(${GRID.BREAKPOINT_TABLET} + 1px)) {
     cursor: ${props => props.$isCursorVisible ? 'none' : 'auto'};
@@ -78,9 +77,9 @@ const Title = styled.h1`
 `
 
 const Subtitle = styled.p`
-  font-size: 1.25rem;
-  line-height: 1.5;
-  margin-bottom: 1.5rem;
+  font-size: 1rem;
+  line-height: 1.45;
+  margin-bottom: 1rem;
   color: white;
   hyphens: none;
   overflow-wrap: normal;
@@ -91,7 +90,7 @@ const Subtitle = styled.p`
   }
 
   @media (min-width: 769px) {
-    font-size: 1.3rem;
+    font-size: 1.1rem;
   }
 `
 
