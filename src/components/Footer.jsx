@@ -128,7 +128,7 @@ const EmailInput = styled.input`
   font-size: 1rem;
   padding: 0.875rem 1rem;
   min-height: 44px;
-  background: rgba(21, 76, 44, 0.6);
+  background: rgba(21, 76, 68, 0.6);
   border: 1px solid rgba(255, 255, 255, 0.3);
   color: white;
   flex: 1;
@@ -150,14 +150,14 @@ const SubmitButton = styled.button`
   font-size: 0.875rem;
   padding: 0.6rem 1.25rem;
   min-height: 44px;
-  background: var(--color-lime, #E7F5A6);
-  color: var(--color-forest, #154C2C);
+  background: var(--color-lime);
+  color: var(--color-forest);
   border: none;
   cursor: pointer;
   transition: background 0.2s ease, color 0.2s ease;
 
   &:hover {
-    background: #d4ed8f;
+    background: color-mix(in srgb, var(--color-lime) 85%, var(--color-forest));
   }
 
   &:disabled {
@@ -181,7 +181,7 @@ const StatusMessage = styled.p`
   flex-basis: 100%;
 
   &[data-status='success'] {
-    color: var(--color-lime, #E7F5A6);
+    color: var(--color-lime);
   }
 
   &[data-status='error'] {

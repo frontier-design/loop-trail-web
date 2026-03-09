@@ -78,6 +78,8 @@ const RedParent = styled.div`
 `
 
 const StatBlock = styled.div`
+  --stat-number-color: ${p => p.$numberColor ?? 'inherit'};
+  --stat-text-color: ${p => p.$textColor ?? p.$color};
   padding: 2rem;
   background-color: ${p => p.$bg};
   color: ${p => p.$color};
@@ -86,7 +88,6 @@ const StatBlock = styled.div`
   flex-direction: column;
   justify-content: space-between;
   min-height: 38vh;
-
 
   @media ${GRID.MEDIA_MOBILE} {
     min-height: 10rem;
@@ -100,12 +101,14 @@ const StatNumber = styled.span`
   line-height: 1;
   margin-bottom: 0.5rem;
   letter-spacing: -0.025em;
+  color: var(--stat-number-color);
 `
 
 const StatText = styled.span`
   font-size: 1.35rem;
   line-height: 1.4;
   font-weight: 400;
+  color: var(--stat-text-color);
 
   @media ${GRID.MEDIA_MOBILE} {
     font-size: 1rem;
@@ -188,19 +191,19 @@ function AtAGlance() {
         <InnerLayout>
           <ParentForRedAndBlue>
             <RedParent>
-              <StatBlock $bg="var(--color-forest)" $color="white">
+              <StatBlock $bg="var(--color-sky)" $color="var(--color-lime)">
                 <StatNumber>17</StatNumber>
                 <StatText>
                   Neighbourhood Improvement Areas will be connected by the Loop
                 </StatText>
               </StatBlock>
-              <StatBlock $bg="var(--color-mint)" $color="var(--color-forest)">
+              <StatBlock $bg="var(--color-mint)" $color="var(--color-lime)" $numberColor="var(--color-sky)" $textColor="var(--color-sky)">
                 <StatNumber>5</StatNumber>
                 <StatText>
                   community hubs to bring culture, community, food and art to the trail
                 </StatText>
               </StatBlock>
-              <StatBlock $bg="var(--color-brick)" $color="white">
+              <StatBlock $bg="var(--color-brick)" $color="var(--color-lime)">
                 <StatNumber>XX</StatNumber>
                 <StatText>Lorem Ipsum</StatText>
               </StatBlock>

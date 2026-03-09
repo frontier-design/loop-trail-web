@@ -5,11 +5,11 @@ import { GRID } from '../../../grid/config.js'
 import { renderStrapiRichText } from '../../../api/strapiRichText.jsx'
 
 const COLORS = [
-  { bg: 'var(--color-forest)', text: 'white', number: 'var(--color-mint)' },
+  { bg: 'var(--color-forest)', text: 'var(--color-lime)', number: 'var(--color-lime)' },
   { bg: 'var(--color-lime)', text: 'var(--color-forest)', number: 'var(--color-forest)' },
   { bg: 'var(--color-mint)', text: 'var(--color-forest)', number: 'var(--color-forest)' },
-  { bg: 'var(--color-forest)', text: 'white', number: 'var(--color-mint)' },
-  { bg: 'var(--color-brick)', text: 'white', number: 'white' },
+  { bg: 'var(--color-sky)', text: 'var(--color-lime)', number: 'var(--color-lime)' },
+  { bg: 'var(--color-brick)', text: 'var(--color-lime)', number: 'var(--color-lime)' },
 ]
 
 function getColor(index) {

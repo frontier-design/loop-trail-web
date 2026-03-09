@@ -2,11 +2,11 @@ import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
   :root {
-    --color-forest: #154C2C;
+    --color-forest: #154C44;
     --color-mint: #66D575;
-    --color-brick: #AE340F;
-    --color-sky: #B1EDFF;
-    --color-lime: #E7F5A6;
+    --color-brick: #D2401F;
+    --color-sky: #332E5F;
+    --color-lime: #EBF0C3;
   }
 
   @font-face {
