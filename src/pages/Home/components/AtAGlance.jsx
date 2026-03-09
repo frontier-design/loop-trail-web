@@ -137,6 +137,11 @@ const BlueLabel = styled.span`
   line-height: 1;
   margin-bottom: 0.5rem;
   letter-spacing: -0.025em;
+
+  @media ${GRID.MEDIA_MOBILE} {
+    font-size: 4rem;
+    margin-bottom: 0.25rem;
+  }
 `
 
 const BlueText = styled.span`
@@ -158,7 +163,7 @@ const GreenIndividual = styled.div`
   min-height: 100%;
 
   @media ${GRID.MEDIA_MOBILE} {
-    min-height: 10rem;
+    min-height: 9rem;
     padding: 1.5rem;
   }
 `
@@ -167,8 +172,15 @@ const GreenLabel = styled.span`
   font-size: clamp(6rem, 10vw, 10rem);
   font-weight: 800;
   line-height: 1;
+  display: block;
+  margin-top: -0.08em;
   margin-bottom: 0.5rem;
   letter-spacing: -0.025em;
+
+  @media ${GRID.MEDIA_MOBILE} {
+    font-size: 4rem;
+    margin-bottom: 0.25rem;
+  }
 `
 
 const GreenText = styled.span`
