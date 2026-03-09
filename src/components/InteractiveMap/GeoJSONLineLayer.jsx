@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 
-export default function GeoJSONLineLayer({ map, data, lineColor = '#00A86B', lineWidth = 4, lineOpacity = 1, id = 'trail-line' }) {
+export default function GeoJSONLineLayer({ map, data, lineColor = '#154C44', lineWidth = 4, lineOpacity = 1, id = 'trail-line' }) {
   const addedRef = useRef(false)
 
   useEffect(() => {

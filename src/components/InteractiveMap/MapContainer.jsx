@@ -15,6 +15,7 @@ const DEFAULT_MIN_ZOOM = 10
 const MAX_ZOOM = 18
 const MOBILE_BREAKPOINT = 950
 
+
 function MapContainer({ children, onMapLoad, mapStyle: mapStyleProp, minZoom = DEFAULT_MIN_ZOOM, maxBounds = TORONTO_BOUNDS, fitBoundsOnMobile = null }) {
   const mapContainer = useRef(null)
   const map = useRef(null)
@@ -79,8 +80,14 @@ function MapContainer({ children, onMapLoad, mapStyle: mapStyleProp, minZoom = D
           try {
             const layerName = layer.id.toLowerCase()
             const isBuilding = layerName.includes('building') || layerName.includes('extrusion')
+            const isPlaceLayer = layer.type === 'symbol' && layer['source-layer'] === 'place'
 
-            if (layer.type === 'fill') {
+            if (isPlaceLayer) {
+              const base = layer.filter ? [...layer.filter] : ['all']
+              base.push(['!=', 'name', 'Toronto'], ['!=', 'name', 'Vaughan'])
+              base.push(['!=', 'name_en', 'Toronto'], ['!=', 'name_en', 'Vaughan'])
+              instance.setFilter(layer.id, base)
+            } else if (layer.type === 'fill') {
               const isWater = layerName.includes('water')
               if (isWater) {
                 instance.setPaintProperty(layer.id, 'fill-color', '#d7e4ed')

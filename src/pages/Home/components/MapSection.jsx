@@ -90,7 +90,7 @@ const DesktopIntroBlock = styled(GridCell)`
   flex-direction: column;
   padding: 2rem;
   background: var(--color-forest);
-  color: white;
+  color: var(--color-lime);
   width: fit-content;
   align-self: center;
   pointer-events: auto;
@@ -111,7 +111,7 @@ const MobileSection = styled.section`
 const MobileInfoBlock = styled.div`
   width: 100%;
   background: var(--color-forest);
-  color: white;
+  color: var(--color-lime);
   padding: 2rem ${GRID.PADDING_MOBILE}px;
 `
 
@@ -134,7 +134,7 @@ const BottomSection = styled.div`
 
 const IntroTitle = styled.h2`
   font-family: 'ABCDiatype', system-ui, sans-serif;
-  color: white;
+  color: var(--color-lime);
   margin: 0 0 0.35em 0;
 `
 
@@ -142,7 +142,7 @@ const IntroParagraph = styled.p`
   font-family: 'ABCDiatype', system-ui, sans-serif;
   font-weight: 300;
   line-height: 1.45;
-  color: white;
+  color: var(--color-lime);
   margin: 0 0 0.75em 0;
   max-width: 24em;
 `
@@ -159,14 +159,14 @@ const LegendItem = styled.div`
   align-items: center;
   gap: 0.75rem;
   font-family: 'ABCDiatype', system-ui, sans-serif;
-  color: white;
+  color: var(--color-lime);
 `
 
 const LegendIconSolid = styled.span`
   display: inline-block;
   width: 24px;
   height: 4px;
-  background: white;
+  background: var(--color-lime);
   flex-shrink: 0;
 `
 
@@ -174,7 +174,7 @@ const LegendIconDashed = styled.span`
   display: inline-block;
   width: 24px;
   height: 4px;
-  border-top: 3px dashed white;
+  border-top: 3px dashed var(--color-lime);
   flex-shrink: 0;
 `
 
@@ -210,7 +210,7 @@ function MapSection() {
       <GeoJSONLineLayer
         map={map}
         data={trailData}
-        lineColor="#00A86B"
+        lineColor="#154C44"
         lineWidth={8}
         lineOpacity={1}
       />

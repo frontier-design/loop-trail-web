@@ -104,7 +104,7 @@ export default function HubRegionsLayer({
       source: sourceId,
       paint: {
         'circle-radius': 80,
-        'circle-color': '#00A86B',
+        'circle-color': '#66D575',
         'circle-opacity': 0.5,
         'circle-blur': 0.6,
       },
