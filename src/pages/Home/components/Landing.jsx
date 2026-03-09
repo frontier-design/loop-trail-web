@@ -8,7 +8,9 @@ const LandingSection = styled.section`
   position: relative;
   width: 100vw;
   height: 100vh;
+  height: 100dvh;
   min-height: 100vh;
+  min-height: -webkit-fill-available;
   overflow: hidden;
   background: #1a1a1a;
 
@@ -47,8 +49,11 @@ const ContentWrapper = styled.div`
   left: 0;
   right: 0;
   z-index: 3;
-  padding-bottom: clamp(0rem, 5vw, 2rem);
+  padding-bottom: max(clamp(0rem, 5vw, 2rem), env(safe-area-inset-bottom, 0px));
 
+  @media ${GRID.MEDIA_MOBILE} {
+    padding-top: env(safe-area-inset-top, 0px);
+  }
 `
 
 const Title = styled.h1`
@@ -174,7 +179,7 @@ const LaunchVideoButton = styled.button`
 
 const VideoToggleButton = styled.button`
   position: absolute;
-  bottom: clamp(2rem, 5vw, 4rem);
+  bottom: max(clamp(2rem, 5vw, 4rem), env(safe-area-inset-bottom, 0px));
   right: clamp(1.25rem, 4vw, 3.125rem);
   z-index: 4;
   width: 44px;

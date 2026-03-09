@@ -17,6 +17,7 @@ const Section = styled.section`
 
   @media (max-width: 768px) {
     min-height: 70vh;
+    min-height: 70dvh;
   }
 `
 
@@ -47,6 +48,10 @@ const ContentGrid = styled(Grid)`
   width: 100%;
   padding-top: 4rem;
   padding-bottom: 4rem;
+
+  @media (max-width: 768px) {
+    padding-bottom: max(4rem, env(safe-area-inset-bottom, 0px));
+  }
 `
 
 const Title = styled.h1`
