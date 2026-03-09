@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { Grid, GridCell } from '../../grid/index.js'
-import { getStrapiUrl } from '../../api/strapi.js'
 import { fetchCached } from '../../api/prefetchCache.js'
 import { renderStrapiRichText } from '../../api/strapiRichText.jsx'
 import PageIntro from '../../components/PageIntro.jsx'
@@ -15,8 +14,21 @@ const IntroParagraph = styled.div`
   white-space: pre-line;
 `
 
+const IntroHeading = styled.h2`
+  font-size: 2rem !important;
+  line-height: 1.15;
+
+  @media (min-width: 769px) {
+    font-size: 2.75rem !important;
+  }
+
+  @media (min-width: 1025px) {
+    font-size: 3.5rem !important;
+  }
+`
+
 const IntroSection = styled.div`
-  margin-bottom: 6rem;
+  margin-top: 4rem;
 `
 
 const ErrorMsg = styled.p`
@@ -69,22 +81,6 @@ function IndigenousStewardship() {
 
   const page = data?.data ?? data
   const headline = page?.Headline ?? 'Indigenous Stewardship'
-  const heroRaw = page?.Hero ?? null
-  // Hero is Multiple Media: { data: [{ attributes: { url, mime } }] } — take first item
-  const heroArray = heroRaw?.data ?? (Array.isArray(heroRaw) ? heroRaw : [heroRaw])
-  const heroItem = Array.isArray(heroArray) ? heroArray[0] : heroArray
-  const hero = heroItem?.attributes ?? heroItem
-  const heroUrl = hero?.url
-  const heroMime = hero?.mime ?? ''
-  const heroAlt = hero?.alternativeText ?? headline
-  const heroSrc = heroUrl
-    ? (String(heroUrl).startsWith('http') ? heroUrl : getStrapiUrl(heroUrl))
-    : null
-  const isVideo = heroMime.startsWith('video/')
-  const posterUrl = hero?.formats?.thumbnail?.url
-  const heroPoster = posterUrl
-    ? (String(posterUrl).startsWith('http') ? posterUrl : getStrapiUrl(posterUrl))
-    : null
 
   const introTitle = page?.IntroTitle ?? ''
   const introParagraph = page?.IntroParagraph ?? ''
@@ -98,30 +94,7 @@ function IndigenousStewardship() {
     <FadeInWrapper ready={!loading}>
     <Grid as="main">
       <GridCell $start={1} $span={6}>
-        <PageIntro
-          headline={headline}
-          heroSrc={heroSrc}
-          heroAlt={heroAlt}
-          isVideo={isVideo}
-          heroPoster={heroPoster}
-        />
-
-        {(introTitle || introParagraph) && (
-          <IntroSection>
-            <Grid as="div" $fullBleed>
-              {introTitle && (
-                <GridCell $start={1} $span={6}>
-                  <h2>{introTitle}</h2>
-                </GridCell>
-              )}
-              {introParagraph && (
-                <GridCell $start={1} $span={3}>
-                  <IntroParagraph>{renderStrapiRichText(introParagraph)}</IntroParagraph>
-                </GridCell>
-              )}
-            </Grid>
-          </IntroSection>
-        )}
+        <PageIntro headline={headline} />
       </GridCell>
 
       <GridCell $start={1} $span={6}>
@@ -132,6 +105,25 @@ function IndigenousStewardship() {
           />
         </RevealOnScroll>
       </GridCell>
+
+      {(introTitle || introParagraph) && (
+        <GridCell $start={1} $span={6}>
+          <IntroSection>
+            <Grid as="div" $fullBleed>
+              {introTitle && (
+                <GridCell $start={1} $span={3} $spanMobile={4}>
+                  <IntroHeading>{introTitle}</IntroHeading>
+                </GridCell>
+              )}
+              {introParagraph && (
+                <GridCell $start={4} $span={3} $spanMobile={4} $startMobile={1}>
+                  <IntroParagraph>{renderStrapiRichText(introParagraph)}</IntroParagraph>
+                </GridCell>
+              )}
+            </Grid>
+          </IntroSection>
+        </GridCell>
+      )}
 
       {stewardshipItems.length > 0 && (
         <GridCell $start={1} $span={6}>

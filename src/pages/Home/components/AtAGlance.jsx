@@ -116,7 +116,7 @@ const StatText = styled.span`
 `
 
 const BlueIndividual = styled.div`
-  padding: clamp(1.5rem, 3vw, 2.5rem);
+  padding: 2rem;
   background-color: var(--color-forest);
   color: var(--color-lime);
   min-height: 10rem;
@@ -149,7 +149,7 @@ const BlueText = styled.span`
 `
 
 const GreenIndividual = styled.div`
-  padding: clamp(1.5rem, 3vw, 2.5rem);
+  padding: 2rem;
   background-color: var(--color-lime);
   color: var(--color-forest);
   display: flex;
@@ -159,6 +159,7 @@ const GreenIndividual = styled.div`
 
   @media ${GRID.MEDIA_MOBILE} {
     min-height: 10rem;
+    padding: 1.5rem;
   }
 `
 
