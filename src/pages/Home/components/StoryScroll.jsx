@@ -153,15 +153,15 @@ const CTAButton = styled(Link)`
   padding: 0.6rem 1.25rem;
   display: inline-flex;
   align-items: center;
-  background: var(--color-lime, #E7F5A6);
-  color: var(--color-forest, #154C2C);
+  background: var(--color-brick);
+  color: var(--color-lime);
   text-decoration: none;
   border: none;
   cursor: pointer;
   transition: background 0.2s ease, color 0.2s ease;
 
   &:hover {
-    background: #d4ed8f;
+    background: color-mix(in srgb, var(--color-brick) 88%, black);
   }
 
   @media (min-width: 769px) {

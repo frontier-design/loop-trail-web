@@ -25,8 +25,7 @@ const ContentGrid = styled(Grid)`
 
 const TextCell = styled(GridCell)`
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  align-items: center;
 `
 
 const TextWrapper = styled.div`
@@ -35,14 +34,13 @@ const TextWrapper = styled.div`
     font-weight: 700;
   }
 
-  p + p {
-    margin-top: 1.25rem;
+  p {
+    font-size: 1.75rem;
+    line-height: 1.35;
   }
 
-  p {
-    margin: 0;
-    font-size: 2rem;
-    line-height: 1.3;
+  p + p {
+    margin-top: 1.5rem;
   }
 
   @media ${GRID.MEDIA_MOBILE} {
@@ -62,25 +60,13 @@ const ImageWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
-`
-
-const PortraitFrame = styled.div`
-  width: 100%;
-  aspect-ratio: 3 / 3;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 
   img,
   svg,
   object {
-    width: 100%;
-    height: 100%;
+    max-width: 100%;
+    height: auto;
     display: block;
-    object-fit: cover;
-    object-position: center;
   }
 `
 
@@ -148,15 +134,14 @@ function IndigenousComponent({ data }) {
                 const src = getMediaUrl(item)
                 if (!src) return null
                 return (
-                  <PortraitFrame key={i}>
-                    <img
-                      src={src}
-                      alt=""
-                      aria-hidden
-                      loading="lazy"
-                      decoding="async"
-                    />
-                  </PortraitFrame>
+                  <img
+                    key={i}
+                    src={src}
+                    alt=""
+                    aria-hidden
+                    loading="lazy"
+                    decoding="async"
+                  />
                 )
               })}
             </ImageWrapper>

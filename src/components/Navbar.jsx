@@ -195,15 +195,15 @@ const MobileCtaButton = styled(Link)`
   font-weight: 700;
   font-size: 1rem;
   padding: 0.75rem 1.5rem;
-  background: var(--color-lime, #E7F5A6);
-  color: var(--color-forest, #154C2C);
+  background: var(--color-brick);
+  color: var(--color-lime);
   text-decoration: none;
   margin-top: 0.5rem;
   align-self: flex-start;
   transition: background 0.2s ease;
 
   &:hover {
-    background: #d4ed8f;
+    background: color-mix(in srgb, var(--color-brick) 88%, black);
   }
 `
 
@@ -230,12 +230,12 @@ const CtaButton = styled(Link)`
   font-weight: 700;
   font-size: 0.875rem;
   padding: 0.6rem 1.25rem;
-  background: ${props => props.$dark ? 'var(--color-lime, #E7F5A6)' : 'var(--color-forest, #154C2C)'};
+  background: var(--color-brick);
 
   @media (min-width: 769px) {
     font-size: 1rem;
   }
-  color: ${props => props.$dark ? 'var(--color-forest, #154C2C)' : 'var(--color-lime, #E7F5A6)'};
+  color: var(--color-lime);
   text-decoration: none;
   border: none;
   cursor: pointer;
@@ -243,7 +243,7 @@ const CtaButton = styled(Link)`
   white-space: nowrap;
 
   &:hover {
-    background: ${props => props.$dark ? '#d4ed8f' : '#1a5c38'};
+    background: color-mix(in srgb, var(--color-brick) 88%, black);
   }
 
   @media (max-width: 768px) {
