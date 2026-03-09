@@ -29,11 +29,11 @@ const SectionGrid = styled(Grid)`
 
 const TitleCell = styled(GridCell)`
   margin-bottom: 2rem;
-  margin-top: 4rem;
+  margin-top: 2rem;
 
   @media ${GRID.MEDIA_MOBILE} {
     margin-bottom: 1.5rem;
-    margin-top: 2rem;
+    margin-top: 1rem;
   }
 `
 

@@ -63,6 +63,7 @@ const DesktopSection = styled.section`
   width: 100%;
   min-height: 100vh;
   overflow: hidden;
+  margin-bottom: 0;
 
   @media ${GRID.MEDIA_MOBILE} {
     display: none;
@@ -101,6 +102,7 @@ const DesktopIntroBlock = styled(GridCell)`
 /* ── Mobile: two stacked blocks ── */
 const MobileSection = styled.section`
   display: none;
+  margin-bottom: 0;
 
   @media ${GRID.MEDIA_MOBILE} {
     display: block;
@@ -118,6 +120,8 @@ const MobileInfoBlock = styled.div`
 const MobileMapBlock = styled.div`
   width: 100%;
   height: 60vh;
+  overflow: hidden;
+  line-height: 0;
 `
 
 const TopSection = styled.div`

@@ -164,6 +164,7 @@ function MapContainer({ children, onMapLoad, mapStyle: mapStyleProp, minZoom = D
         height: '100%',
         position: 'relative',
         backgroundColor: '#F5F5F1',
+        display: 'block',
       }}
     >
       {children && mapReady && mapInstance ? children(mapInstance) : null}

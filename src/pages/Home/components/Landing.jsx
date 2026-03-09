@@ -8,9 +8,18 @@ const LandingSection = styled.section`
   position: relative;
   width: 100vw;
   height: 100vh;
+  height: 100dvh;
   min-height: 100vh;
+  min-height: 100dvh;
   overflow: hidden;
   background: #1a1a1a;
+
+  /* On mobile: use svh so the search/address bar is included — landing fits the visible viewport */
+  @media ${GRID.MEDIA_MOBILE} {
+    height: 100svh;
+    min-height: 100svh;
+    min-height: -webkit-fill-available;
+  }
 
   @media (min-width: calc(${GRID.BREAKPOINT_TABLET} + 1px)) {
     cursor: ${props => props.$isCursorVisible ? 'none' : 'auto'};
