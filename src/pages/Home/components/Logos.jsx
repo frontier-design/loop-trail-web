@@ -268,7 +268,7 @@ function chunkRows(items, cols) {
   const n = items.length
   if (n === 0) return []
   if (n <= cols) return [items]
-  if (cols <= 1) return [items]
+  if (cols <= 1) return items.map(item => [item])
 
   const remainder = n % cols
   if (remainder !== 1) {
@@ -336,7 +336,7 @@ function Logos({ data }) {
                     ))}
                   </LogoGridDesktop>
                   <LogoGridMobile>
-                    {chunkRows(items, sectionType === 'imageOnly' ? 3 : 2).map((row, rIdx) => (
+                    {chunkRows(items, sIdx === 0 ? 1 : (sectionType === 'imageOnly' ? 3 : 2)).map((row, rIdx) => (
                       <LogoRow key={`m-${rIdx}`}>
                         {row.map((item, iIdx) => {
                           const imgSrc = getMediaUrl(item.LogoImage ?? item.logoImage)

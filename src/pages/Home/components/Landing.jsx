@@ -19,26 +19,19 @@ const LandingSection = styled.section`
 
 const VIMEO_VIDEO_ID = '1047610171'
 const VIMEO_HASH = '02b5799fd9'
-const VIMEO_BG_URL = `https://player.vimeo.com/video/${VIMEO_VIDEO_ID}?h=${VIMEO_HASH}&background=1&autoplay=1&loop=1&muted=1`
 const VIMEO_MODAL_URL = `https://player.vimeo.com/video/${VIMEO_VIDEO_ID}?h=${VIMEO_HASH}&autoplay=1`
 
-const VideoBackgroundWrapper = styled.div`
+const VideoBackground = styled.video`
   position: absolute;
-  inset: 0;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
   z-index: 0;
-  pointer-events: none;
-  overflow: hidden;
-
-  iframe {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: calc(100vw + 6px);
-    height: calc(56.25vw + 6px);
-    min-height: calc(100vh + 6px);
-    min-width: calc(177.78vh + 6px);
-    transform: translate(-50%, -50%);
-  }
 `
 
 const Overlay = styled.div`
@@ -211,7 +204,6 @@ function Landing() {
   const cursorRef = useRef(null)
   const videoModalRef = useRef(null)
   const backgroundVideoRef = useRef(null)
-  const vimeoPlayerRef = useRef(null)
   const isPressed = useRef(false)
 
   const handleOpenVideoModal = () => {
@@ -240,40 +232,15 @@ function Landing() {
 
   const handleBackgroundVideoToggle = (e) => {
     e.stopPropagation()
-    const player = vimeoPlayerRef.current
-    if (player) {
-      if (isBackgroundVideoPlaying) {
-        player.pause().then(() => setIsBackgroundVideoPlaying(false))
-      } else {
-        player.play().then(() => setIsBackgroundVideoPlaying(true))
-      }
+    if (!backgroundVideoRef.current) return
+    if (isBackgroundVideoPlaying) {
+      backgroundVideoRef.current.pause()
+      setIsBackgroundVideoPlaying(false)
+    } else {
+      backgroundVideoRef.current.play().catch(() => {})
+      setIsBackgroundVideoPlaying(true)
     }
   }
-
-
-  useEffect(() => {
-    const iframe = backgroundVideoRef.current
-    if (!iframe) return
-
-    function initPlayer() {
-      if (window.Vimeo?.Player && iframe) {
-        vimeoPlayerRef.current = new window.Vimeo.Player(iframe)
-      }
-    }
-
-    if (window.Vimeo?.Player) {
-      initPlayer()
-    } else {
-      const script = document.createElement('script')
-      script.src = 'https://player.vimeo.com/api/player.js'
-      script.async = true
-      script.onload = initPlayer
-      document.body.appendChild(script)
-      return () => {
-        try { document.body.removeChild(script) } catch { /* ignore */ }
-      }
-    }
-  }, [])
 
   const handleMouseMove = (e) => {
     const shouldHideCursor = e.target.closest('[data-hide-cursor], a, button')
@@ -378,15 +345,18 @@ function Landing() {
         onMouseDown={handleMouseDown}
         onClick={handleLandingClick}
       >
-        <VideoBackgroundWrapper>
-          <iframe
-            ref={backgroundVideoRef}
-            src={VIMEO_BG_URL}
-            title="Landing background video"
-            allow="autoplay; fullscreen"
-            allowFullScreen
-          />
-        </VideoBackgroundWrapper>
+        <VideoBackground
+          ref={backgroundVideoRef}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          poster={`${import.meta.env.BASE_URL}video/landing-poster.jpg`}
+          src={`${import.meta.env.BASE_URL}video/landing-video.mp4`}
+          onPlay={() => setIsBackgroundVideoPlaying(true)}
+          onPause={() => setIsBackgroundVideoPlaying(false)}
+        />
         <Overlay />
 
         <CustomCursor

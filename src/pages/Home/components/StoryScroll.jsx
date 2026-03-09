@@ -20,6 +20,10 @@ const STEPS = [
 const Wrapper = styled.div`
   position: relative;
   height: 400vh;
+
+  @media ${GRID.MEDIA_MOBILE} {
+    height: 350vh;
+  }
 `
 
 const Section = styled.section`
@@ -28,6 +32,7 @@ const Section = styled.section`
   width: 100vw;
   height: 100vh;
   overflow: hidden;
+  touch-action: pan-y;
 `
 
 const VideoContainer = styled.div`
@@ -75,33 +80,34 @@ const TextSlide = styled.div`
 
 const StepText = styled.p`
   width: 100%;
-  max-width: 825px;
+  max-width: 900px;
   margin: 0 auto;
   text-align: center;
   font-family: 'ABCDiatype', system-ui, sans-serif;
   font-weight: 700;
-  font-size: 1.5rem;
-  line-height: 1.3;
+  font-size: 1.75rem;
+  line-height: 1.25;
   color: white;
   hyphens: none;
   overflow-wrap: normal;
   word-break: normal;
 
   @media (min-width: 480px) {
-    font-size: 1.75rem;
+    font-size: 2.25rem;
   }
 
   @media (min-width: 640px) {
-    font-size: 2rem;
+    font-size: 2.75rem;
   }
 
   @media (min-width: 769px) {
-    font-size: 2.75rem;
-    line-height: 1.2;
+    font-size: 3.25rem;
+    line-height: 1.15;
   }
 
   @media (min-width: 1024px) {
-    font-size: 3.5rem;
+    font-size: 4rem;
+    max-width: 1000px;
   }
 `
 
