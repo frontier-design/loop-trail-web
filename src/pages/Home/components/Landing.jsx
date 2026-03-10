@@ -57,7 +57,7 @@ const ContentWrapper = styled.div`
   padding-bottom: clamp(0rem, 5vw, 2rem);
 
   @media ${GRID.MEDIA_MOBILE} {
-    padding-bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
+    padding-bottom: calc((100vh - 100svh) + env(safe-area-inset-bottom, 0px) + 1rem);
   }
 `
 
@@ -206,7 +206,7 @@ const VideoToggleButton = styled.button`
   }
 
   @media ${GRID.MEDIA_MOBILE} {
-    bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
+    bottom: calc((100vh - 100svh) + env(safe-area-inset-bottom, 0px) + 1rem);
   }
 `
 
@@ -431,13 +431,14 @@ function Landing() {
                 <path d="M1 1l16 16M17 1L1 17" />
               </svg>
             </CloseButton>
-            <iframe
-              ref={videoModalRef}
-              src={isVideoModalOpen ? VIMEO_MODAL_URL : ''}
-              title="Launch video"
-              allow="autoplay; fullscreen"
-              allowFullScreen
-            />
+            {isVideoModalOpen && (
+              <iframe
+                ref={videoModalRef}
+                src={VIMEO_MODAL_URL}
+                title="Launch video"
+                allow="autoplay; fullscreen"
+              />
+            )}
           </VideoModalContent>
         </VideoModalWrapper>
       </VideoModalOverlay>
