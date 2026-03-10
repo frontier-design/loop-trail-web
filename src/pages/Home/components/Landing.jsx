@@ -80,19 +80,24 @@ const Title = styled.h1`
 
 const Subtitle = styled.p`
   font-size: 1rem;
-  line-height: 1.45;
+  line-height: 1.35;
   margin-bottom: 1rem;
   color: white;
   hyphens: none;
   overflow-wrap: normal;
   word-break: keep-all;
 
-  &:last-child {
+  span {
+    display: block;
+    margin-bottom: 0.75em;
+  }
+
+  span:last-child {
     margin-bottom: 0;
   }
 
   @media (min-width: 769px) {
-    font-size: 1.1rem;
+    font-size: 1.25rem;
   }
 `
 
@@ -389,13 +394,9 @@ function Landing() {
             </GridCell>
             <GridCell $start={5} $span={2} $startMobile={1} $spanMobile={4}>
               <Subtitle>
-                Toronto's ravine system is the city's most defining and cherished natural treasure.
-                <br />
-                <br />
-                A groundbreaking 80km multi-use trail that will connect Toronto's ravines, neighbourhoods and people.
-                <br />
-                <br />
-                Made in Toronto, for Toronto.
+                <span>Toronto's ravine system is the city's most defining and cherished natural treasure.</span>
+                <span>A groundbreaking 80km multi-use trail that will connect Toronto's ravines, neighbourhoods and people.</span>
+                <span>Made in Toronto, for Toronto.</span>
               </Subtitle>
               <LaunchVideoButton type="button" data-hide-cursor onClick={handleOpenVideoModal}>
                 Watch the launch video
