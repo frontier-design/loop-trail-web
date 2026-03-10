@@ -8,6 +8,7 @@ import {
   GeoJSONLineLayer,
   TTCSubwayLayer,
   HubRegionsLayer,
+  CityLabelsLayer,
 } from '../../../components/InteractiveMap/index.js'
 import { CardLink } from '../../../styles/cardContent.js'
 import { fetchCached } from '../../../api/prefetchCache.js'
@@ -230,6 +231,7 @@ function MapSection() {
         lineWidth={4}
         lineOpacity={1}
       />
+      <CityLabelsLayer map={map} />
     </>
   )
 
@@ -278,7 +280,7 @@ function MapSection() {
           {introContent}
         </MobileInfoBlock>
         <MobileMapBlock>
-          <MapContainer fitBoundsOnMobile={trailBbox}>{mapLayers}</MapContainer>
+          <MapContainer fitBoundsOnMobile={trailBbox} mobileTapToInteract>{mapLayers}</MapContainer>
         </MobileMapBlock>
       </MobileSection>
     </>

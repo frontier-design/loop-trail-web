@@ -16,15 +16,36 @@ const MAX_ZOOM = 18
 const MOBILE_BREAKPOINT = 950
 
 
-function MapContainer({ children, onMapLoad, mapStyle: mapStyleProp, minZoom = DEFAULT_MIN_ZOOM, maxBounds = TORONTO_BOUNDS, fitBoundsOnMobile = null }) {
+function MapContainer({
+  children,
+  onMapLoad,
+  mapStyle: mapStyleProp,
+  minZoom = DEFAULT_MIN_ZOOM,
+  maxBounds = TORONTO_BOUNDS,
+  fitBoundsOnMobile = null,
+  mobileTapToInteract = false,
+}) {
   const mapContainer = useRef(null)
   const map = useRef(null)
   const mapLoadedRef = useRef(false)
   const isInitializingRef = useRef(false)
   const [mapReady, setMapReady] = useState(false)
   const [mapInstance, setMapInstance] = useState(null)
+  const [isMobile, setIsMobile] = useState(false)
+  const [isInteractionEnabled, setIsInteractionEnabled] = useState(false)
 
   const mapStyle = mapStyleProp || defaultVectorStyle
+
+  useEffect(() => {
+    const updateIsMobile = () => setIsMobile(window.innerWidth <= MOBILE_BREAKPOINT)
+    updateIsMobile()
+    window.addEventListener('resize', updateIsMobile)
+    return () => window.removeEventListener('resize', updateIsMobile)
+  }, [])
+
+  const interactionEnabled = mobileTapToInteract
+    ? (isMobile ? isInteractionEnabled : true)
+    : true
 
   useEffect(() => {
     if (map.current || isInitializingRef.current) return
@@ -156,6 +177,21 @@ function MapContainer({ children, onMapLoad, mapStyle: mapStyleProp, minZoom = D
     }
   }, [onMapLoad, mapStyle, minZoom, maxBounds, fitBoundsOnMobile])
 
+  useEffect(() => {
+    if (!mapInstance) return
+    const shouldLock = mobileTapToInteract && isMobile && !interactionEnabled
+
+    if (shouldLock) {
+      mapInstance.dragPan.disable()
+      mapInstance.touchZoomRotate.disable()
+      mapInstance.doubleClickZoom.disable()
+    } else {
+      mapInstance.dragPan.enable()
+      mapInstance.touchZoomRotate.enable()
+      mapInstance.doubleClickZoom.enable()
+    }
+  }, [mapInstance, isMobile, interactionEnabled, mobileTapToInteract])
+
   return (
     <div
       ref={mapContainer}
@@ -167,6 +203,60 @@ function MapContainer({ children, onMapLoad, mapStyle: mapStyleProp, minZoom = D
         display: 'block',
       }}
     >
+      {mobileTapToInteract && isMobile && !interactionEnabled ? (
+        <button
+          type="button"
+          onClick={() => setIsInteractionEnabled(true)}
+          style={{
+            position: 'absolute',
+            inset: 0,
+            zIndex: 20,
+            border: 0,
+            margin: 0,
+            padding: '1rem',
+            cursor: 'pointer',
+            color: '#fff',
+            background: 'linear-gradient(to top, rgba(0, 0, 0, 0.42), rgba(0, 0, 0, 0.08) 45%, transparent 70%)',
+            display: 'flex',
+            alignItems: 'flex-end',
+            justifyContent: 'center',
+            touchAction: 'pan-y',
+            fontFamily: 'ABCDiatype, system-ui, sans-serif',
+            fontSize: '0.95rem',
+            fontWeight: 700,
+            lineHeight: 1.2,
+          }}
+          aria-label="Enable map interaction"
+        >
+          Tap to interact with map
+        </button>
+      ) : null}
+
+      {mobileTapToInteract && isMobile && interactionEnabled ? (
+        <button
+          type="button"
+          onClick={() => setIsInteractionEnabled(false)}
+          style={{
+            position: 'absolute',
+            bottom: 12,
+            right: 12,
+            zIndex: 21,
+            border: 0,
+            padding: '0.5rem 0.9rem',
+            cursor: 'pointer',
+            color: '#fff',
+            background: 'rgba(0, 0, 0, 0.7)',
+            fontFamily: 'ABCDiatype, system-ui, sans-serif',
+            fontSize: '0.85rem',
+            fontWeight: 700,
+            lineHeight: 1,
+          }}
+          aria-label="Disable map interaction"
+        >
+          Done
+        </button>
+      ) : null}
+
       {children && mapReady && mapInstance ? children(mapInstance) : null}
     </div>
   )

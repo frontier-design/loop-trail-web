@@ -203,7 +203,8 @@ function StoryScroll() {
     })
 
     const holdDuration = 8
-    const fadeDuration = 4
+    const fadeDuration = 7.5
+    const textOverlap = 1
     const segmentDuration = holdDuration + fadeDuration * 2
 
     const tl = gsap.timeline({
@@ -217,38 +218,40 @@ function StoryScroll() {
 
     for (let i = 0; i < videoSteps.length; i++) {
       const segStart = i * segmentDuration
+      const transitionStart = segStart + holdDuration
+      const textInStart = transitionStart + fadeDuration * textOverlap
 
       tl.to(texts[i], {
         opacity: 0,
         duration: fadeDuration,
         ease: 'power2.inOut'
-      }, segStart + holdDuration)
+      }, transitionStart)
 
       if (i < videoSteps.length - 1) {
         tl.to(videos[i], {
           opacity: 0,
           duration: fadeDuration,
           ease: 'power2.inOut'
-        }, segStart + holdDuration)
+        }, transitionStart)
 
         tl.to(videos[i + 1], {
           opacity: 1,
           duration: fadeDuration,
           ease: 'power2.inOut'
-        }, segStart + holdDuration)
+        }, transitionStart)
 
         tl.fromTo(texts[i + 1], { opacity: 0 }, {
           opacity: 1,
           duration: fadeDuration,
-          ease: 'power2.out'
-        }, segStart + holdDuration + fadeDuration)
+          ease: 'power2.inOut'
+        }, textInStart)
       } else {
         if (cta) {
           tl.fromTo(cta, { opacity: 0 }, {
             opacity: 1,
             duration: fadeDuration,
-            ease: 'power2.out'
-          }, segStart + holdDuration + fadeDuration)
+            ease: 'power2.inOut'
+          }, textInStart)
         }
       }
     }

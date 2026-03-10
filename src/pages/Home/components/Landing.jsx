@@ -38,12 +38,13 @@ const VideoBackground = styled.video`
   transform: translate(-50%, -50%);
   object-fit: cover;
   z-index: 0;
+  filter: saturate(1.3);
 `
 
 const Overlay = styled.div`
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.45);
   z-index: 1;
 `
 
@@ -107,7 +108,7 @@ const VideoModalOverlay = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.95);
+  background-color: rgba(0, 0, 0, 0.95) ;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -424,10 +425,10 @@ function Landing() {
         </VideoToggleButton>
       </LandingSection>
 
-      <VideoModalOverlay $isOpen={isVideoModalOpen} onClick={handleVideoOverlayClick}>
+      <VideoModalOverlay $isOpen={isVideoModalOpen} onClick={handleVideoOverlayClick} aria-hidden={!isVideoModalOpen}>
         <VideoModalWrapper $isOpen={isVideoModalOpen}>
           <VideoModalContent>
-            <CloseButton onClick={handleCloseVideoModal} aria-label="Close video">
+            <CloseButton onClick={handleCloseVideoModal} aria-label="Close video" tabIndex={isVideoModalOpen ? 0 : -1}>
               <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
                 <path d="M1 1l16 16M17 1L1 17" />
               </svg>

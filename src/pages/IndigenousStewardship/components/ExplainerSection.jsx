@@ -24,6 +24,16 @@ const ContentGrid = styled(Grid)`
 const TextCell = styled(GridCell)`
   display: flex;
   align-items: center;
+
+  @media ${GRID.MEDIA_MOBILE} {
+    order: 2;
+  }
+`
+
+const ImageCell = styled(GridCell)`
+  @media ${GRID.MEDIA_MOBILE} {
+    order: 1;
+  }
 `
 
 const TextWrapper = styled.div`
@@ -99,7 +109,7 @@ function ExplainerSection({ explainerText, explainerImage }) {
           </TextCell>
         )}
         {imageSrc && (
-          <GridCell
+          <ImageCell
             $start={4}
             $span={3}
             $spanMobile={4}
@@ -109,7 +119,7 @@ function ExplainerSection({ explainerText, explainerImage }) {
               <img src={imageSrc} alt="" aria-hidden loading="lazy" decoding="async" />
               <ImageCredit>Design de Plume Agency</ImageCredit>
             </ImageWrapper>
-          </GridCell>
+          </ImageCell>
         )}
       </ContentGrid>
     </Section>

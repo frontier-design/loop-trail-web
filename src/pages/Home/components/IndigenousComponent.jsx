@@ -9,13 +9,12 @@ import { GRID } from '../../../grid/config.js'
 const Section = styled.section`
   width: 100vw;
   margin-left: calc(50% - 50vw);
-  background-color: #ECF4D4;
+  /* background-color: #ECF4D4; */
   padding-top: 4rem;
   padding-bottom: 4rem;
 
   @media ${GRID.MEDIA_MOBILE} {
-    padding-top: 2.5rem;
-    padding-bottom: 2.5rem;
+    padding-top: 5rem 0;
   }
 `
 
