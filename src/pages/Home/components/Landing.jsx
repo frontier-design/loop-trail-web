@@ -57,7 +57,7 @@ const ContentWrapper = styled.div`
   padding-bottom: clamp(0rem, 5vw, 2rem);
 
   @media ${GRID.MEDIA_MOBILE} {
-    padding-bottom: calc((100vh - 100svh) + env(safe-area-inset-bottom, 0px) + 2.5rem);
+    padding-bottom: calc((100vh - 100svh) + env(safe-area-inset-bottom, 0px) + 1.25rem);
   }
 `
 
@@ -211,7 +211,7 @@ const VideoToggleButton = styled.button`
   }
 
   @media ${GRID.MEDIA_MOBILE} {
-    bottom: calc((100vh - 100svh) + env(safe-area-inset-bottom, 0px) + 2.5rem);
+    bottom: calc((100vh - 100svh) + env(safe-area-inset-bottom, 0px) + 1.25rem);
   }
 `
 
