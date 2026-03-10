@@ -16,6 +16,12 @@ const IntroParagraph = styled.div`
   white-space: pre-line;
 `
 
+const IntroTitle = styled.h2`
+  @media (max-width: 768px) {
+    font-size: 2.25rem !important;
+  }
+`
+
 const IntroSection = styled.div`
   margin-bottom: 6rem;
 `
@@ -121,7 +127,7 @@ function Hubs() {
             <Grid as="div" $fullBleed>
               {introTitle && (
                 <GridCell $start={1} $span={3}>
-                  <h2>{introTitle}</h2>
+                  <IntroTitle>{introTitle}</IntroTitle>
                 </GridCell>
               )}
               {introParagraph && (

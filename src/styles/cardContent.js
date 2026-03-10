@@ -8,7 +8,7 @@ export const CardTitle = styled.h3`
   margin: 0;
 
   @media (max-width: 768px) {
-    font-size: 2.75rem;
+    font-size: 2.25rem;
   }
 `;
 

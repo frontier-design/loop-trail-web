@@ -27,7 +27,7 @@ const Title = styled.h1`
   margin-bottom: 3rem;
 
   @media ${GRID.MEDIA_MOBILE} {
-    font-size: 3em !important;
+    font-size: 2.25rem !important;
   }
 `
 

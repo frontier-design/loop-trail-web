@@ -211,7 +211,7 @@ const VideoToggleButton = styled.button`
   }
 
   @media ${GRID.MEDIA_MOBILE} {
-    bottom: calc((100vh - 100svh) + env(safe-area-inset-bottom, 0px) + 1rem);
+    bottom: calc((100vh - 100svh) + env(safe-area-inset-bottom, 0px) + 2.5rem);
   }
 `
 
