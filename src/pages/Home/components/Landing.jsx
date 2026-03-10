@@ -12,17 +12,11 @@ const LandingSection = styled.section`
   width: 100vw;
   height: 100vh;
   height: 100svh;
+  min-height: 100vh;
+  min-height: 100svh;
   min-height: -webkit-fill-available;
   overflow: hidden;
   background: #1a1a1a;
-
-  @media ${GRID.MEDIA_MOBILE} {
-    height: 100svh;
-    height: -webkit-fill-available;
-    min-height: 0;
-    max-height: 100svh;
-    max-height: -webkit-fill-available;
-  }
 
   @media (min-width: calc(${GRID.BREAKPOINT_TABLET} + 1px)) {
     cursor: ${props => props.$isCursorVisible ? 'none' : 'auto'};
