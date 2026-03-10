@@ -55,6 +55,7 @@ const Headline = styled.h1`
   line-height: 1.1;
   margin-bottom: 1.5rem;
   font-weight: 800;
+  hyphens: none;
 
   @media ${GRID.MEDIA_MOBILE} {
     font-size: 3rem !important;

@@ -14,11 +14,16 @@ import { GetInvolvedForm } from './components/index.js'
 
 const IntroSection = styled.div`
   padding: 0;
-  margin-top: 3rem;
+  margin-top: 4rem;
   margin-bottom: 6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
   @media ${GRID.MEDIA_MOBILE} {
-    margin-top: 2rem;
+    margin-top: 2.5rem;
     margin-bottom: 2.5rem;
+    gap: 1.25rem;
   }
 `
 
