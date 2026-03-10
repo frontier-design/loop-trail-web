@@ -4,7 +4,7 @@ import { GRID } from '../../../grid/config.js'
 
 const HubItemGrid = styled(Grid)`
   @media ${GRID.MEDIA_MOBILE} {
-    row-gap: 0.25rem;
+    row-gap: 1.25rem;
   }
 `
 import { getStrapiUrl } from '../../../api/strapi.js'
@@ -41,18 +41,22 @@ const ImageCol = styled.div`
 `
 
 const ImageWrapper = styled.div`
-  flex: 1;
-  min-height: 280px;
+  width: 100%;
+  overflow: hidden;
 
   img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
     display: block;
+    height: auto;
   }
 
   @media (min-width: 769px) {
     min-height: 400px;
+
+    img {
+      height: 100%;
+      object-fit: cover;
+    }
   }
 `
 
