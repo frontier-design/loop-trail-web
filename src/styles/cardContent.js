@@ -28,6 +28,12 @@ export const CardParagraph = styled.div`
   & p + p {
     margin-top: 1em;
   }
+
+  @media (max-width: 768px) {
+    & p + p {
+      margin-top: 0.75em;
+    }
+  }
   & p:last-child,
   & > *:last-child {
     margin-bottom: 0;

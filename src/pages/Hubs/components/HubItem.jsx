@@ -1,6 +1,12 @@
 import styled from 'styled-components'
 import { Grid, GridCell } from '../../../grid/index.js'
 import { GRID } from '../../../grid/config.js'
+
+const HubItemGrid = styled(Grid)`
+  @media ${GRID.MEDIA_MOBILE} {
+    row-gap: 0.25rem;
+  }
+`
 import { getStrapiUrl } from '../../../api/strapi.js'
 import { renderStrapiRichText } from '../../../api/strapiRichText.jsx'
 import { CardTitle, CardParagraph, CardLinkList, CardLink } from '../../../styles/cardContent.js'
@@ -21,6 +27,10 @@ const ContentCol = styled.div`
 
   ${CardLinkList} {
     margin-top: 0;
+  }
+
+  @media ${GRID.MEDIA_MOBILE} {
+    gap: 0.75rem;
   }
 `
 
@@ -52,6 +62,10 @@ const ImageCredit = styled.span`
   color: #888;
   text-align: right;
   padding: 0.5rem 1rem 0.75rem;
+
+  @media ${GRID.MEDIA_MOBILE} {
+    padding: 0.375rem 0.75rem 0.25rem;
+  }
 `
 
 /* On mobile, force image → title → paragraph → links order via CSS order */
@@ -138,13 +152,13 @@ function HubItem({ item, index = 0 }) {
 
   return (
     <Card id={slug || undefined}>
-      <Grid $fullBleed>
+      <HubItemGrid $fullBleed>
         {imageLeft ? (
           <>{imageCell}{contentCell}</>
         ) : (
           <>{contentCell}{imageCell}</>
         )}
-      </Grid>
+      </HubItemGrid>
     </Card>
   )
 }
