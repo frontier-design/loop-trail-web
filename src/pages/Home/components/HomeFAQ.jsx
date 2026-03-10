@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Grid, GridCell } from '../../../grid/index.js'
+import { Grid, GridCell, GRID } from '../../../grid/index.js'
 import PageIntro from '../../../components/PageIntro.jsx'
 import homeFaqImage from '../../../assets/images/home-faq.jpg'
 
@@ -14,6 +14,10 @@ const HOME_FAQ_DATA = {
 const Section = styled.section`
   width: 100%;
   padding-top: 5rem;
+
+  @media ${GRID.MEDIA_MOBILE} {
+    padding-top: 2.5rem;
+  }
 
   h1 {
     font-size: 3.25rem !important;

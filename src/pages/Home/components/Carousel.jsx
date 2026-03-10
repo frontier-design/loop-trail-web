@@ -25,8 +25,8 @@ const SectionGrid = styled(Grid)`
   margin-top: 4rem;
 
   @media ${GRID.MEDIA_MOBILE} {
-    margin-bottom: 1.5rem;
-    margin-top: 2rem;
+    margin-bottom: 2.5rem;
+    margin-top: 2.5rem;
   }
 `
 

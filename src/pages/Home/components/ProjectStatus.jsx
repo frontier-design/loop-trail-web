@@ -47,6 +47,10 @@ const YEARS = [2024, 2025, 2026, 2027, 2028, 2029, 2030]
 const Section = styled.section`
   width: 100%;
   margin-top: 5rem;
+
+  @media ${GRID.MEDIA_MOBILE} {
+    margin-top: 0;
+  }
 `
 
 const SectionGrid = styled(Grid)`
@@ -54,7 +58,8 @@ const SectionGrid = styled(Grid)`
   margin-bottom: 2rem;
 
   @media ${GRID.MEDIA_MOBILE} {
-    margin-top: 2rem;
+    margin-top: 2.5rem;
+    margin-bottom: 2.5rem;
   }
 `
 

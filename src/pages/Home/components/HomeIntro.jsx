@@ -9,7 +9,7 @@ const Section = styled.section`
   padding: clamp(4rem, 8vw, 6rem) 0;
 
   @media ${GRID.MEDIA_MOBILE} {
-    padding: 3rem 0;
+    padding: 2.5rem 0 !important;
   }
 `
 
