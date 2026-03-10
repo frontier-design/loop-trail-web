@@ -261,7 +261,6 @@ export default function HubRegionsLayer({
 
         const container = document.createElement('div')
         container.style.paddingTop = '8px'
-        container.style.paddingBottom = '12px'
         container.addEventListener('mouseenter', () => {
           if (hideTimeoutRef.current) {
             clearTimeout(hideTimeoutRef.current)

@@ -24,6 +24,7 @@ const ImageWrap = styled.div`
 
 const TextSection = styled.div`
   padding: 1rem 1.25rem;
+  padding-bottom: 1.5rem;
   background: var(--color-mint);
   color: var(--color-forest);
 `
