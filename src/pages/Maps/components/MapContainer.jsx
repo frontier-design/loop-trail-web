@@ -10,6 +10,7 @@ const MapGrid = styled.div`
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
+    row-gap: 3.5rem;
   }
 `
 
@@ -17,6 +18,12 @@ const Card = styled.article`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+
+  @media (max-width: 768px) {
+    ${CardParagraph} {
+      line-height: 1.4;
+    }
+  }
 
   &:last-child {
     margin-bottom: 4rem;
