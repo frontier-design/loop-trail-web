@@ -25,12 +25,22 @@ const ContentCol = styled.div`
   flex-direction: column;
   gap: 2rem;
 
+  ${CardParagraph} {
+    font-size: 1.125rem;
+    line-height: 1.45;
+  }
+
   ${CardLinkList} {
     margin-top: 0;
   }
 
   @media ${GRID.MEDIA_MOBILE} {
     gap: 0.75rem;
+
+    ${CardParagraph} {
+      font-size: 1.25rem;
+      line-height: 1.55;
+    }
   }
 `
 
