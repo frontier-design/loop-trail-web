@@ -223,7 +223,7 @@ function Footer() {
               </FooterLink>
             ))}
           </NavColumn>
-          <Copyright>Copyright 2026</Copyright>
+          <Copyright>Copyright 2026 Evergreen Brick Works</Copyright>
         </LeftCell>
         <NewsletterCell $start={4} $span={3} $startTablet={4} $spanTablet={5} $spanMobile={4}>
           <NewsletterHeading>Sign up to stay in the Loop</NewsletterHeading>
@@ -254,7 +254,7 @@ function Footer() {
           </NewsletterForm>
         </NewsletterCell>
         <CopyrightCell $span={2} $spanTablet={8} $spanMobile={4}>
-          <CopyrightBottom>Copyright 2026</CopyrightBottom>
+          <CopyrightBottom>Copyright 2026 Evergreen Brick Works</CopyrightBottom>
         </CopyrightCell>
       </FooterGrid>
     </FooterWrapper>

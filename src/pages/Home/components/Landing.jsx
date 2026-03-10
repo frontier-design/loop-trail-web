@@ -4,21 +4,19 @@ import gsap from 'gsap'
 import { Grid, GridCell, GRID } from '../../../grid/index.js'
 import CustomCursor from './CustomCursor.jsx'
 
-/* Navbar height for layout calculations (matches Navbar padding + content) */
+/* Navbar height for inner padding so content and buttons don't intersect with fixed navbar */
 const NAVBAR_HEIGHT = '5rem'
 
 const LandingSection = styled.section`
   position: relative;
   width: 100vw;
   height: 100vh;
+  height: 100svh;
   min-height: 100vh;
+  min-height: 100svh;
+  min-height: -webkit-fill-available;
   overflow: hidden;
   background: #1a1a1a;
-
-  /* Use svh (small viewport) minus navbar so content and buttons don't intersect with fixed navbar */
-  height: calc(100svh - ${NAVBAR_HEIGHT});
-  min-height: calc(100vh - ${NAVBAR_HEIGHT});
-  min-height: calc(100svh - ${NAVBAR_HEIGHT});
 
   @media (min-width: calc(${GRID.BREAKPOINT_TABLET} + 1px)) {
     cursor: ${props => props.$isCursorVisible ? 'none' : 'auto'};
@@ -55,8 +53,8 @@ const ContentWrapper = styled.div`
   left: 0;
   right: 0;
   z-index: 3;
+  padding-top: ${NAVBAR_HEIGHT};
   padding-bottom: clamp(0rem, 5vw, 2rem);
-
 `
 
 const Title = styled.h1`

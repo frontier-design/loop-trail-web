@@ -48,6 +48,30 @@ function getPolygonBoundaryPoints(geom) {
   return pts
 }
 
+export function hubPointsCentroids(regionsData) {
+  const pointFeatures = []
+  ;(regionsData?.features ?? []).forEach((feature) => {
+    const geom = feature?.geometry
+    const props = feature?.properties ?? {}
+    if (!geom) return
+    const pts = getPolygonBoundaryPoints(geom)
+    if (pts.length === 0) return
+
+    let sumX = 0
+    let sumY = 0
+    for (const [x, y] of pts) {
+      sumX += x
+      sumY += y
+    }
+    pointFeatures.push({
+      type: 'Feature',
+      properties: props,
+      geometry: { type: 'Point', coordinates: [sumX / pts.length, sumY / pts.length] },
+    })
+  })
+  return { type: 'FeatureCollection', features: pointFeatures }
+}
+
 export function hubPointsClosestToLoop(regionsData, trailData) {
   const loopSegments = []
   ;(trailData?.features ?? []).forEach((f) => {

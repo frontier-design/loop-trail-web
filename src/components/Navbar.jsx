@@ -179,7 +179,7 @@ const MobileMenu = styled.div`
 
 const MobileNavLink = styled(Link)`
   font-family: 'ABCDiatype', system-ui, sans-serif;
-  font-weight: 300;
+  font-weight: 400;
   font-size: 1.5rem;
   color: #1a1a1a;
   text-decoration: none;

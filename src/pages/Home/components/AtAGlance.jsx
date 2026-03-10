@@ -207,13 +207,13 @@ function AtAGlance() {
               <StatBlock $bg="var(--color-sky)" $color="var(--color-lime)">
                 <StatNumber>17</StatNumber>
                 <StatText>
-                  Neighbourhood Improvement Areas will be connected by the Loop
+                  Neighbourhood Improvement Areas Will Be Connected by the Loop
                 </StatText>
               </StatBlock>
               <StatBlock $bg="var(--color-mint)" $color="var(--color-lime)" $numberColor="var(--color-sky)" $textColor="var(--color-sky)">
                 <StatNumber>5</StatNumber>
                 <StatText>
-                  community hubs to bring culture, community, food and art to the trail
+                  Community Hubs to Bring Culture, Community, Food and Art to the Trail
                 </StatText>
               </StatBlock>
               <StatBlock $bg="var(--color-brick)" $color="var(--color-lime)">
@@ -223,12 +223,12 @@ function AtAGlance() {
             </RedParent>
             <BlueIndividual>
               <BlueLabel>City-wide</BlueLabel>
-              <BlueText>project that will transform dozens of neighbourhoods</BlueText>
+              <BlueText>Project That Will Transform Dozens of Neighbourhoods</BlueText>
             </BlueIndividual>
           </ParentForRedAndBlue>
           <GreenIndividual>
             <GreenLabel>Over 80km</GreenLabel>
-            <GreenText>of new and existing trails</GreenText>
+            <GreenText>of New and Existing Trails</GreenText>
           </GreenIndividual>
         </InnerLayout>
       </InnerLayoutWrapper>

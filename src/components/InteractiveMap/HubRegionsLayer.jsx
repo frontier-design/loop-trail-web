@@ -2,10 +2,16 @@ import { useEffect, useRef, useMemo } from 'react'
 import { createRoot } from 'react-dom/client'
 import { createGlobalStyle } from 'styled-components'
 import * as maplibregl from 'maplibre-gl'
-import { hubPointsClosestToLoop } from './hubPointsFromRegions.js'
+import { hubPointsClosestToLoop, hubPointsCentroids } from './hubPointsFromRegions.js'
 import HubPopupContent from './HubPopupContent.jsx'
 
 const FADE_DURATION_MS = 180
+
+const RING_DURATION = 2.4
+const RING_START_SIZE = 8
+const RING_MAX_SIZE = 48
+const RING_STROKE = 3
+const HUB_COLOR = '#66D575'
 
 const HubPopupStyles = createGlobalStyle`
   @keyframes hubPopupFadeIn {
@@ -27,6 +33,51 @@ const HubPopupStyles = createGlobalStyle`
   }
   .hub-map-popup .maplibregl-popup-tip {
     display: none;
+  }
+
+  @keyframes hubRingExpand {
+    0% {
+      width: ${RING_START_SIZE}px;
+      height: ${RING_START_SIZE}px;
+      margin-left: -${RING_START_SIZE / 2}px;
+      margin-top: -${RING_START_SIZE / 2}px;
+      opacity: 1;
+    }
+    60% {
+      opacity: 0.6;
+    }
+    100% {
+      width: ${RING_MAX_SIZE}px;
+      height: ${RING_MAX_SIZE}px;
+      margin-left: -${RING_MAX_SIZE / 2}px;
+      margin-top: -${RING_MAX_SIZE / 2}px;
+      opacity: 0;
+    }
+  }
+
+  .hub-ring-marker {
+    pointer-events: none;
+    width: 0;
+    height: 0;
+    position: relative;
+    overflow: visible;
+  }
+  .hub-ring-marker__container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: ${RING_MAX_SIZE * 2}px;
+    height: ${RING_MAX_SIZE * 2}px;
+    transform: translate(-50%, -50%);
+  }
+  .hub-ring-marker__ring {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    border: ${RING_STROKE}px solid ${HUB_COLOR};
+    border-radius: 50%;
+    background: transparent;
+    animation: hubRingExpand ${RING_DURATION}s ease-out infinite;
   }
 `
 
@@ -56,6 +107,7 @@ export default function HubRegionsLayer({
   const popupRootRef = useRef(null)
   const hubMetaRef = useRef(hubMeta)
   const hideTimeoutRef = useRef(null)
+  const dotMarkersRef = useRef([])
 
   useEffect(() => {
     hubMetaRef.current = hubMeta
@@ -66,11 +118,17 @@ export default function HubRegionsLayer({
     return hubPointsClosestToLoop(regionsData, trailData)
   }, [regionsData, trailData])
 
+  const centroidData = useMemo(() => {
+    if (!regionsData) return null
+    return hubPointsCentroids(regionsData)
+  }, [regionsData])
+
   useEffect(() => {
-    if (!map || !pointsData || addedRef.current) return
+    if (!map || !pointsData || !centroidData || addedRef.current) return
     if (!pointsData.features || pointsData.features.length === 0) return
 
     const sourceId = `${id}-source`
+    const centroidSourceId = `${id}-centroid-source`
     const layerId = `${id}-layer`
 
     function createPopup(hubId) {
@@ -98,10 +156,15 @@ export default function HubRegionsLayer({
       data: pointsData,
     })
 
+    map.addSource(centroidSourceId, {
+      type: 'geojson',
+      data: centroidData,
+    })
+
     map.addLayer({
       id: layerId,
       type: 'circle',
-      source: sourceId,
+      source: centroidSourceId,
       paint: {
         'circle-radius': 80,
         'circle-color': '#66D575',
@@ -109,6 +172,26 @@ export default function HubRegionsLayer({
         'circle-blur': 0.6,
       },
     })
+
+    const dotMarkers = []
+    centroidData.features.forEach((feature, idx) => {
+      const coords = feature.geometry?.coordinates
+      if (!coords || coords.length < 2) return
+      const el = document.createElement('div')
+      el.className = 'hub-ring-marker'
+      const container = document.createElement('div')
+      container.className = 'hub-ring-marker__container'
+      const ring = document.createElement('span')
+      ring.className = 'hub-ring-marker__ring'
+      ring.style.animationDelay = `${idx * 0.6}s`
+      container.appendChild(ring)
+      el.appendChild(container)
+      const marker = new maplibregl.Marker({ element: el, anchor: 'center' })
+        .setLngLat(coords)
+        .addTo(map)
+      dotMarkers.push(marker)
+    })
+    dotMarkersRef.current = dotMarkers
 
     if (onRegionClick) {
       map.on('click', layerId, (e) => {
@@ -224,13 +307,18 @@ export default function HubRegionsLayer({
       const p = popupRef.current
       if (p) p.remove()
       popupRef.current = null
+      dotMarkersRef.current.forEach((m) => {
+        try { m.remove() } catch { /* ignore */ }
+      })
+      dotMarkersRef.current = []
       try {
         if (map.getLayer(layerId)) map.removeLayer(layerId)
+        if (map.getSource(centroidSourceId)) map.removeSource(centroidSourceId)
         if (map.getSource(sourceId)) map.removeSource(sourceId)
       } catch { /* ignore */ }
       addedRef.current = false
     }
-  }, [map, pointsData, onRegionClick, id])
+  }, [map, pointsData, centroidData, onRegionClick, id])
 
   return <HubPopupStyles />
 }

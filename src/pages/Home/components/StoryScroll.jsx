@@ -123,7 +123,7 @@ const CTASlide = styled.div`
   pointer-events: auto;
 
   @media ${GRID.MEDIA_MOBILE} {
-    padding: 0 ${GRID.PADDING_MOBILE}px;
+    padding: 0 12px;
     gap: 1rem;
   }
 `
@@ -143,10 +143,11 @@ const CTATitle = styled.h2`
 
   @media (min-width: 769px) {
     font-size: 6rem;
+    max-width: 1000px;
   }
 
   @media ${GRID.MEDIA_MOBILE} {
-    font-size: 2.75rem;
+    font-size: 3.5rem;
   }
 `
 

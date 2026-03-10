@@ -14,6 +14,36 @@ const HOME_FAQ_DATA = {
 const Section = styled.section`
   width: 100%;
   padding-top: 5rem;
+
+  h1 {
+    font-size: 3.25rem !important;
+    letter-spacing: 0em;
+  }
+
+  @media (min-width: 480px) {
+    h1 {
+      font-size: 4rem !important;
+    }
+  }
+
+  @media (min-width: 640px) {
+    h1 {
+      font-size: 4.75rem !important;
+    }
+  }
+
+  @media (min-width: 769px) {
+    h1 {
+      font-size: 5.25rem !important;
+      letter-spacing: -0.025em !important;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    h1 {
+      font-size: 6rem !important;
+    }
+  }
 `
 
 function HomeFAQ() {

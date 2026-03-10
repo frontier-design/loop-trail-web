@@ -50,13 +50,13 @@ const GlobalStyle = createGlobalStyle`
   html {
     overflow-x: clip;
     font-family: 'ABCDiatype', system-ui, -apple-system, sans-serif;
-    hyphens: auto;
+    hyphens: none;
     word-break: normal;
     overflow-wrap: normal;
   }
 
   body {
-    hyphens: auto;
+    hyphens: none;
     word-break: normal;
     overflow-wrap: normal;
     background-color: white;
