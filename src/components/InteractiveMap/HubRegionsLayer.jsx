@@ -9,9 +9,9 @@ const FADE_DURATION_MS = 180
 
 const RING_DURATION = 2.4
 const RING_START_SIZE = 8
-const RING_MAX_SIZE = 48
+const RING_MAX_SIZE = 60
 const RING_STROKE = 3
-const HUB_COLOR = '#66D575'
+const HUB_COLOR = '#5abe67'
 
 const HubPopupStyles = createGlobalStyle`
   @keyframes hubPopupFadeIn {

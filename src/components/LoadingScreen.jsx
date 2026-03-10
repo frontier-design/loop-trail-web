@@ -27,7 +27,7 @@ const Overlay = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: white;
+  background-color: var(--color-forest);
   z-index: 99999;
   pointer-events: ${props => props.$fading ? 'none' : 'auto'};
   animation: ${props => props.$fading ? fadeOut : 'none'} 0.5s ease-out forwards;
@@ -41,7 +41,7 @@ const SvgWrapper = styled.div`
 
 const TracePath = styled.path`
   fill: none;
-  stroke: black;
+  stroke: var(--color-mint);
   stroke-width: 7;
   stroke-miterlimit: 10;
   stroke-linecap: round;
