@@ -80,9 +80,9 @@ const Panel = styled.div`
     width: 100%;
     min-width: 100%;
     flex: ${p => (p.$isActive ? '0 0 auto' : '0 0 auto')};
-    height: ${p => (p.$isActive ? '220px' : '3.5rem')};
-    min-height: ${p => (p.$isActive ? '220px' : '3.5rem')};
-    max-height: ${p => (p.$isActive ? '220px' : '3.5rem')};
+    height: ${p => (p.$isActive ? '250px' : '3.5rem')};
+    min-height: ${p => (p.$isActive ? '250px' : '3.5rem')};
+    max-height: ${p => (p.$isActive ? '250px' : '3.5rem')};
     transition: height 0.3s cubic-bezier(0, 1.118, 0.68, 1),
                 min-height 0.3s cubic-bezier(0, 1.118, 0.68, 1);
   }
@@ -144,7 +144,7 @@ const ExpandedContent = styled.div`
   min-height: 0;
 
   @media ${GRID.MEDIA_MOBILE} {
-    padding: 2.75rem 1.25rem 1.5rem 1rem;
+    padding: 3.25rem 1.25rem 1.5rem 1rem;
   }
 `
 
@@ -153,13 +153,15 @@ const ContentTitle = styled.h3`
   font-weight: 800;
   line-height: 1.05;
   letter-spacing: -0.025em;
-  margin-bottom: 0.75rem;
+  margin-bottom: 1.5rem;
   max-width: 70%;
   hyphens: none;
 
   @media ${GRID.MEDIA_MOBILE} {
     font-size: clamp(1.35rem, 5vw, 2.5rem);
     font-weight: 600;
+    margin-bottom: 0.75rem;
+    max-width: 100%;
   }
 `
 

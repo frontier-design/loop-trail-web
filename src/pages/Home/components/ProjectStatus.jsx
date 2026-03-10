@@ -89,12 +89,17 @@ const TitleHeading = styled.h2`
   @media (min-width: 769px) {
     font-size: 4rem !important;
   }
+
+  @media ${GRID.MEDIA_MOBILE} {
+    margin-bottom: 0.5rem;
+  }
 `
 
 const Paragraph = styled.p`
   padding-bottom: 2rem;
 
   @media ${GRID.MEDIA_MOBILE} {
+    font-size: 1.25rem;
     margin-bottom: 1rem;
   }
 `
