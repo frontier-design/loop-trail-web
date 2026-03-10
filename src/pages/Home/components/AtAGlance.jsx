@@ -17,7 +17,7 @@ const FullbleedDiv = styled.section`
   width: 100%;
 
   @media ${GRID.MEDIA_MOBILE} {
-    padding-top: 2.5rem;
+    padding-top: 0;
     padding-bottom: 0;
     margin-bottom: 0;
   }

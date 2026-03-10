@@ -74,8 +74,16 @@ const IntroGrid = styled.div`
 
 const TitleHeading = styled.h2`
   color: black;
-  font-size: 4rem !important;
+  font-size: 1.5rem !important;
   margin-bottom: 1rem;
+
+  @media (min-width: 480px) {
+    font-size: 2.5rem !important;
+  }
+
+  @media (min-width: 769px) {
+    font-size: 4rem !important;
+  }
 `
 
 const Paragraph = styled.p`
