@@ -7,6 +7,7 @@ import { CardLink } from '../styles/cardContent.js'
 const Headline = styled.h1`
   color: black;
   max-width: 85%;
+  hyphens: none;
 
   @media ${GRID.MEDIA_MOBILE} {
     font-size: 2.25rem !important;
@@ -22,7 +23,7 @@ const HeroWrapper = styled.div`
   padding-top: ${p => (p.$compact ? '0' : '25vh')};
 
   @media ${GRID.MEDIA_MOBILE} {
-    padding-top: ${p => (p.$compact ? '0' : '10vh')};
+    padding-top: ${p => (p.$compact ? '0' : '7.5rem')};
   }
 `
 

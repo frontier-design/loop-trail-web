@@ -4,12 +4,13 @@ import { CardParagraph } from '../../../styles/cardContent.js'
 import { GRID } from '../../../grid/config.js'
 
 const ItemTitle = styled.h3`
-  font-size: 2.6rem;
+  font-size: 2.2rem;
   font-weight: 900;
   letter-spacing: -0.02em;
   margin-bottom: 1rem;
   overflow-wrap: break-word;
-  word-wrap: break-word;
+  word-break: normal;
+  hyphens: none;
 
   @media ${GRID.MEDIA_MOBILE} {
     font-size: 1.75rem;
