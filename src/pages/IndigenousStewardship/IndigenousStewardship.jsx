@@ -37,40 +37,6 @@ const ErrorMsg = styled.p`
   color: crimson;
 `
 
-function forceLinksToHomepage(content) {
-  if (content == null) return content
-
-  if (typeof content === 'string') {
-    return content.replace(
-      /<a\b([^>]*?)href=(['"])(.*?)\2([^>]*)>/gi,
-      '<a$1href="/"$4>'
-    )
-  }
-
-  const updateNode = (node) => {
-    if (!node || typeof node !== 'object') return node
-
-    const next = { ...node }
-
-    if (next.type === 'link') {
-      next.url = '/'
-      if (next.link && typeof next.link === 'object') {
-        next.link = { ...next.link, url: '/' }
-      }
-    }
-
-    if (Array.isArray(next.children)) {
-      next.children = next.children.map(updateNode)
-    }
-
-    return next
-  }
-
-  if (Array.isArray(content)) return content.map(updateNode)
-  if (typeof content === 'object') return updateNode(content)
-  return content
-}
-
 function IndigenousStewardship() {
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -136,6 +102,7 @@ function IndigenousStewardship() {
           <ExplainerSection
             explainerText={explainerText}
             explainerImage={explainerImage}
+            websiteUrlOverride="/"
           />
         </RevealOnScroll>
       </GridCell>
@@ -151,7 +118,7 @@ function IndigenousStewardship() {
               )}
               {introParagraph && (
                 <GridCell $start={4} $span={3} $spanMobile={4} $startMobile={1}>
-                  <IntroParagraph>{renderStrapiRichText(forceLinksToHomepage(introParagraph))}</IntroParagraph>
+                  <IntroParagraph>{renderStrapiRichText(introParagraph, { websiteUrlOverride: '/' })}</IntroParagraph>
                 </GridCell>
               )}
             </Grid>

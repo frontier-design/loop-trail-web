@@ -74,7 +74,7 @@ function getMediaUrl(media) {
   return String(url).startsWith('http') ? url : getStrapiUrl(url)
 }
 
-function renderExplainerText(content) {
+function renderExplainerText(content, websiteUrlOverride) {
   if (content == null) return null
   // Plain string with paragraph breaks – split by double newlines and wrap in <p>
   if (typeof content === 'string' && content.trim() !== '') {
@@ -82,9 +82,9 @@ function renderExplainerText(content) {
     if (paragraphs.length > 1) {
       return paragraphs.map((para, i) => <p key={i}>{para.trim()}</p>)
     }
-    return renderStrapiRichText(content)
+    return renderStrapiRichText(content, { websiteUrlOverride })
   }
-  return renderStrapiRichText(content)
+  return renderStrapiRichText(content, { websiteUrlOverride })
 }
 
 /**
@@ -94,7 +94,7 @@ function renderExplainerText(content) {
  * @param {string|Array|object} explainerText - Rich text from Strapi
  * @param {object} explainerImage - Media from Strapi (single Media field)
  */
-function ExplainerSection({ explainerText, explainerImage }) {
+function ExplainerSection({ explainerText, explainerImage, websiteUrlOverride }) {
   const imageSrc = explainerImage ? getMediaUrl(explainerImage) : null
   const hasContent = explainerText || imageSrc
 
@@ -105,7 +105,7 @@ function ExplainerSection({ explainerText, explainerImage }) {
       <ContentGrid as="div">
         {explainerText && (
           <TextCell $start={1} $span={3} $spanMobile={4}>
-            <TextWrapper>{renderExplainerText(explainerText)}</TextWrapper>
+            <TextWrapper>{renderExplainerText(explainerText, websiteUrlOverride)}</TextWrapper>
           </TextCell>
         )}
         {imageSrc && (

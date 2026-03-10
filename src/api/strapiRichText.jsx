@@ -6,17 +6,19 @@ const DESIGN_DE_PLUME_URL =
 /**
  * Renders Strapi Rich Text content (plain string, HTML, or Blocks format).
  * @param {string|Array|object} content - From Strapi: plain string, HTML string, or blocks array
+ * @param {{ websiteUrlOverride?: string }} [options] - Optional renderer overrides
  * @returns {React.ReactNode}
  */
-export function renderStrapiRichText(content) {
+export function renderStrapiRichText(content, options = {}) {
   if (content == null) return null
+  const websiteUrl = options.websiteUrlOverride || DESIGN_DE_PLUME_URL
 
   // Plain string
   if (typeof content === 'string') {
     if (content.trim() === '') return null
     const withLink = content.replace(
       /<u>drafting on their website here<\/u>|drafting on their website here/gi,
-      `<a href="${DESIGN_DE_PLUME_URL}" target="_blank" rel="noopener noreferrer" style="color: black;">drafting on their website here</a>`
+      `<a href="${websiteUrl}"${websiteUrl.startsWith('http') ? ' target="_blank" rel="noopener noreferrer"' : ''} style="color: black;">drafting on their website here</a>`
     )
     // HTML string (contains tags) – render as HTML
     if (/<[a-z][\s\S]*>/i.test(withLink)) {
@@ -28,18 +30,18 @@ export function renderStrapiRichText(content) {
 
   // Strapi Blocks (array of block nodes)
   if (Array.isArray(content)) {
-    return content.map((block, i) => renderBlock(block, i))
+    return content.map((block, i) => renderBlock(block, i, websiteUrl))
   }
 
   // Single block object
   if (typeof content === 'object' && content !== null) {
-    return renderBlock(content, 0)
+    return renderBlock(content, 0, websiteUrl)
   }
 
   return null
 }
 
-function renderBlock(block, key) {
+function renderBlock(block, key, websiteUrl) {
   if (!block || typeof block !== 'object') return null
 
   const { type, children, level, format, url } = block
@@ -52,9 +54,8 @@ function renderBlock(block, key) {
       return (
         <a
           key={key}
-          href={DESIGN_DE_PLUME_URL}
-          target="_blank"
-          rel="noopener noreferrer"
+          href={websiteUrl}
+          {...(websiteUrl.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
           style={{ color: 'black' }}
         >
           {text}
@@ -72,7 +73,7 @@ function renderBlock(block, key) {
 
   // Render children recursively
   const childNodes = Array.isArray(children)
-    ? children.map((child, i) => renderBlock(child, `${key}-${i}`))
+    ? children.map((child, i) => renderBlock(child, `${key}-${i}`, websiteUrl))
     : null
 
   switch (type) {
