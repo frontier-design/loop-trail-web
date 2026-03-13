@@ -10,6 +10,7 @@ import CTA from '../../components/CTA.jsx'
 import FadeInWrapper from '../../components/FadeInWrapper.jsx'
 import RevealOnScroll from '../../components/RevealOnScroll.jsx'
 import { FAQItem } from './components/index.js'
+import SEOHead from '../../components/SEOHead.jsx'
 
 const ErrorMsg = styled.p`
   padding: 2rem 0;
@@ -34,7 +35,7 @@ function FAQs() {
     async function load() {
       try {
         const res = await fetchCached(
-          '/api/faqs?populate[0]=Hero&populate[1]=FAQItem&populate[2]=FAQItem.QuestionItem&populate[3]=CTA&populate[4]=CTA.Background&populate[5]=CTA.Button',
+          '/api/faqs?populate[0]=Hero&populate[1]=FAQItem&populate[2]=FAQItem.QuestionItem&populate[3]=CTA&populate[4]=CTA.Background&populate[5]=CTA.Button&populate[6]=Meta&populate[7]=Meta.MetaImage',
           { draft: isDraft }
         )
         setData(res)
@@ -54,6 +55,7 @@ function FAQs() {
   const headline = page?.Headline ?? 'FAQs'
   const faqItems = Array.isArray(page?.FAQItem) ? page.FAQItem : []
   const cta = page?.CTA ?? null
+  const meta = page?.Meta ?? page?.meta ?? null
   const hero = page?.Hero ?? null
   const heroUrl = hero?.url
   const heroMime = hero?.mime ?? ''
@@ -69,6 +71,7 @@ function FAQs() {
 
   return (
     <FadeInWrapper ready={!loading}>
+    <SEOHead meta={meta} />
     <Grid as="main">
       <GridCell $start={1} $span={6}>
         <PageIntro

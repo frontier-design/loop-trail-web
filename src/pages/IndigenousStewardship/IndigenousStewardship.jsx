@@ -9,6 +9,7 @@ import PageSkeleton from '../../components/skeletons/PageSkeleton.jsx'
 import FadeInWrapper from '../../components/FadeInWrapper.jsx'
 import RevealOnScroll from '../../components/RevealOnScroll.jsx'
 import { ExplainerSection, StewardshipItems } from './components/index.js'
+import SEOHead from '../../components/SEOHead.jsx'
 
 const IntroParagraph = styled.div`
   white-space: pre-line;
@@ -54,7 +55,7 @@ function IndigenousStewardship() {
     async function load() {
       try {
         const res = await fetchCached(
-          '/api/indigenous-stewardship?populate[0]=Hero&populate[1]=ExplainerImage&populate[2]=ComponentExplainer&populate[3]=ComponentExplainer.Image',
+          '/api/indigenous-stewardship?populate[0]=Hero&populate[1]=ExplainerImage&populate[2]=ComponentExplainer&populate[3]=ComponentExplainer.Image&populate[4]=Meta&populate[5]=Meta.MetaImage',
           { draft: isDraft }
         )
         setData(res)
@@ -89,9 +90,11 @@ function IndigenousStewardship() {
   const stewardshipItems = Array.isArray(page?.ComponentExplainer)
     ? page.ComponentExplainer
     : []
+  const meta = page?.Meta ?? page?.meta ?? null
 
   return (
     <FadeInWrapper ready={!loading}>
+    <SEOHead meta={meta} />
     <Grid as="main">
       <GridCell $start={1} $span={6}>
         <PageIntro headline={headline} />

@@ -11,6 +11,7 @@ import FadeInWrapper from '../../components/FadeInWrapper.jsx'
 import RevealOnScroll from '../../components/RevealOnScroll.jsx'
 import HubItem from './components/HubItem.jsx'
 import Neighbourhoods from './components/Neighbourhoods.jsx'
+import SEOHead from '../../components/SEOHead.jsx'
 
 const IntroParagraph = styled.div`
   white-space: pre-line;
@@ -56,7 +57,7 @@ function Hubs() {
     async function load() {
       try {
         const res = await fetchCached(
-          '/api/hubs?populate[0]=Hero&populate[1]=HubItem&populate[2]=HubItem.Image&populate[3]=HubItem.Link&populate[4]=Neighbourhoods',
+          '/api/hubs?populate[0]=Hero&populate[1]=HubItem&populate[2]=HubItem.Image&populate[3]=HubItem.Link&populate[4]=Neighbourhoods&populate[5]=Meta&populate[6]=Meta.MetaImage',
           { draft: isDraft }
         )
         setData(res)
@@ -97,6 +98,7 @@ function Hubs() {
   const introParagraph = page.IntroParagraph ?? ''
   const hubItems = Array.isArray(page.HubItem) ? page.HubItem : []
   const neighbourhoodsData = Array.isArray(page.Neighbourhoods) ? page.Neighbourhoods : []
+  const meta = page?.Meta ?? page?.meta ?? null
 
   const heroUrl = hero?.url
   const heroMime = hero?.mime ?? ''
@@ -112,6 +114,7 @@ function Hubs() {
 
   return (
     <FadeInWrapper ready={!loading}>
+    <SEOHead meta={meta} />
     <Grid as="main">
       <GridCell $start={1} $span={6}>
         <PageIntro

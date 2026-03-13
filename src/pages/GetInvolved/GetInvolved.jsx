@@ -11,6 +11,7 @@ import PageSkeleton from '../../components/skeletons/PageSkeleton.jsx'
 import FadeInWrapper from '../../components/FadeInWrapper.jsx'
 import { CardTitle, CardParagraph } from '../../styles/cardContent.js'
 import { GetInvolvedForm } from './components/index.js'
+import SEOHead from '../../components/SEOHead.jsx'
 
 const IntroSection = styled.div`
   padding: 0;
@@ -42,7 +43,7 @@ function GetInvolved() {
   useEffect(() => {
     async function load() {
       const res = await fetchCached(
-        '/api/get-involved?populate[0]=Hero',
+        '/api/get-involved?populate[0]=Hero&populate[1]=Meta&populate[2]=Meta.MetaImage',
         { draft: isDraft }
       )
       setData(res)
@@ -58,6 +59,7 @@ function GetInvolved() {
   const hero = page?.Hero ?? null
   const introTitle = page?.IntroTitle ?? ''
   const introParagraph = page?.IntroParagraph ?? ''
+  const meta = page?.Meta ?? page?.meta ?? null
 
   const heroUrl = hero?.url
   const heroMime = hero?.mime ?? ''
@@ -73,6 +75,7 @@ function GetInvolved() {
 
   return (
     <FadeInWrapper ready={!loading}>
+    <SEOHead meta={meta} />
     <Grid as="main">
       <GridCell $start={1} $span={6}>
         <FullBleedIntro

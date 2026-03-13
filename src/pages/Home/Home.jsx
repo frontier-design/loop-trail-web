@@ -12,9 +12,10 @@ import MapSection from './components/MapSection.jsx'
 import CTA from '../../components/CTA.jsx'
 import RevealOnScroll from '../../components/RevealOnScroll.jsx'
 import { fetchCached } from '../../api/prefetchCache.js'
+import SEOHead from '../../components/SEOHead.jsx'
 
 const HOME_API =
-  '/api/home?populate[0]=HomeIntro&populate[1]=HomeIntro.StackingImage&populate[2]=IndigenousHomepageComponent&populate[3]=IndigenousHomepageComponent.Image&populate[4]=IndigenousHomepageComponent.Link&populate[5]=HomeCta&populate[6]=HomeCta.Background&populate[7]=HomeCta.Button&populate[8]=WaysTheLoopWillTransformToronto&populate[9]=Logos&populate[10]=Logos.LogoItem&populate[11]=Logos.LogoItem.LogoImage'
+  '/api/home?populate[0]=HomeIntro&populate[1]=HomeIntro.StackingImage&populate[2]=IndigenousHomepageComponent&populate[3]=IndigenousHomepageComponent.Image&populate[4]=IndigenousHomepageComponent.Link&populate[5]=HomeCta&populate[6]=HomeCta.Background&populate[7]=HomeCta.Button&populate[8]=WaysTheLoopWillTransformToronto&populate[9]=Logos&populate[10]=Logos.LogoItem&populate[11]=Logos.LogoItem.LogoImage&populate[12]=Meta&populate[13]=Meta.MetaImage'
 
 function Home() {
   const [data, setData] = useState(null)
@@ -53,9 +54,11 @@ function Home() {
           ? attrs.carousel
           : []
   const logosData = Array.isArray(attrs?.Logos) ? attrs.Logos : Array.isArray(attrs?.logos) ? attrs.logos : []
+  const meta = attrs?.Meta ?? attrs?.meta ?? null
 
   return (
     <>
+      <SEOHead meta={meta} />
       <Landing />
       {firstIntro && (
         <RevealOnScroll>

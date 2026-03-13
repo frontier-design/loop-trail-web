@@ -7,15 +7,15 @@ const inflight = new Map();
 
 export const ROUTE_APIS = {
   "/hubs":
-    "/api/hubs?populate[0]=Hero&populate[1]=HubItem&populate[2]=HubItem.Image&populate[3]=HubItem.Link&populate[4]=Neighbourhoods",
+    "/api/hubs?populate[0]=Hero&populate[1]=HubItem&populate[2]=HubItem.Image&populate[3]=HubItem.Link&populate[4]=Neighbourhoods&populate[5]=Meta&populate[6]=Meta.MetaImage",
   "/indigenous-stewardship":
-    "/api/indigenous-stewardship?populate[0]=Hero&populate[1]=ExplainerImage&populate[2]=ComponentExplainer&populate[3]=ComponentExplainer.Image",
+    "/api/indigenous-stewardship?populate[0]=Hero&populate[1]=ExplainerImage&populate[2]=ComponentExplainer&populate[3]=ComponentExplainer.Image&populate[4]=Meta&populate[5]=Meta.MetaImage",
   "/maps":
-    "/api/maps?populate[0]=Hero&populate[1]=MapContainer&populate[2]=MapContainer.MapThumbnail&populate[3]=MapContainer.MapDownloadLink&populate[4]=MapContainer.MapDownloadLink.MapFile",
+    "/api/maps?populate[0]=Hero&populate[1]=MapContainer&populate[2]=MapContainer.MapThumbnail&populate[3]=MapContainer.MapDownloadLink&populate[4]=MapContainer.MapDownloadLink.MapFile&populate[5]=Meta&populate[6]=Meta.MetaImage",
   "/faqs":
-    "/api/faqs?populate[0]=Hero&populate[1]=FAQItem&populate[2]=FAQItem.QuestionItem&populate[3]=CTA&populate[4]=CTA.Background&populate[5]=CTA.Button",
-  "/get-involved": "/api/get-involved?populate[0]=Hero",
-  "/": "/api/home?populate[0]=HomeIntro&populate[1]=HomeIntro.StackingImage&populate[2]=IndigenousHomepageComponent&populate[3]=IndigenousHomepageComponent.Image&populate[4]=IndigenousHomepageComponent.Link&populate[5]=HomeCta&populate[6]=HomeCta.Background&populate[7]=HomeCta.Button&populate[8]=WaysTheLoopWillTransformToronto&populate[9]=Logos&populate[10]=Logos.LogoItem&populate[11]=Logos.LogoItem.LogoImage",
+    "/api/faqs?populate[0]=Hero&populate[1]=FAQItem&populate[2]=FAQItem.QuestionItem&populate[3]=CTA&populate[4]=CTA.Background&populate[5]=CTA.Button&populate[6]=Meta&populate[7]=Meta.MetaImage",
+  "/get-involved": "/api/get-involved?populate[0]=Hero&populate[1]=Meta&populate[2]=Meta.MetaImage",
+  "/": "/api/home?populate[0]=HomeIntro&populate[1]=HomeIntro.StackingImage&populate[2]=IndigenousHomepageComponent&populate[3]=IndigenousHomepageComponent.Image&populate[4]=IndigenousHomepageComponent.Link&populate[5]=HomeCta&populate[6]=HomeCta.Background&populate[7]=HomeCta.Button&populate[8]=WaysTheLoopWillTransformToronto&populate[9]=Logos&populate[10]=Logos.LogoItem&populate[11]=Logos.LogoItem.LogoImage&populate[12]=Meta&populate[13]=Meta.MetaImage",
 };
 
 // Max age before a background revalidation is triggered (5 minutes)
