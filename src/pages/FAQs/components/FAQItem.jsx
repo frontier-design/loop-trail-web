@@ -39,7 +39,7 @@ function FAQItem({ item }) {
                 <FAQQuestionItem
                   key={q?.id ?? i}
                   question={q?.Question ?? ''}
-                  answer={q?.Answer ?? ''}
+                  answer={q?.Answers ?? q?.Answer ?? ''}
                 />
               ))}
             </QuestionList>

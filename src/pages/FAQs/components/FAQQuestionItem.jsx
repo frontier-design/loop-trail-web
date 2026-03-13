@@ -1,5 +1,6 @@
 import { useState, useId } from 'react'
 import styled from 'styled-components'
+import { renderStrapiRichText } from '../../../api/strapiRichText.jsx'
 
 const Row = styled.div`
 margin-bottom: 1rem;
@@ -67,13 +68,30 @@ const AnswerRegion = styled.div`
   transition: max-height 0.3s ease, opacity 0.25s ease;
 `
 
-const AnswerText = styled.p`
-padding: 2rem;
+const AnswerText = styled.div`
+  padding: 2rem;
   font-size: 1rem;
   line-height: 1.6;
   font-weight: 400;
-  margin-bottom: 0;
   max-width: 1000px;
+
+  p {
+    margin: 0 0 1rem;
+  }
+
+  p:last-child {
+    margin-bottom: 0;
+  }
+
+  ul,
+  ol {
+    margin: 0 0 1rem;
+    padding-left: 1.5rem;
+  }
+
+  li + li {
+    margin-top: 0.25rem;
+  }
 
   @media (min-width: 769px) {
     font-size: 1.1rem;
@@ -99,7 +117,7 @@ function FAQQuestionItem({ question, answer }) {
         <PlusIcon $isOpen={isOpen} aria-hidden="true" />
       </Trigger>
       <AnswerRegion id={answerId} $isOpen={isOpen} role="region" aria-labelledby={undefined}>
-        {answer && <AnswerText>{answer}</AnswerText>}
+        {answer && <AnswerText>{renderStrapiRichText(answer)}</AnswerText>}
       </AnswerRegion>
     </Row>
   )

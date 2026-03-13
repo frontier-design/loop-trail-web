@@ -222,7 +222,7 @@ function GetInvolvedForm() {
       </FormEl>
       <EmailFooter>
         Prefer to send us an email? Email{' '}
-        <a href="mailto:looptrail@evergreen.ca">looptrail@evergreen.ca</a>
+        <a href="mailto:theloop@evergreen.ca">theloop@evergreen.ca</a>
       </EmailFooter>
     </FormWrapper>
   )
