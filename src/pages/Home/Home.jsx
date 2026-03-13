@@ -33,8 +33,8 @@ function Home() {
 
   const page = data?.data ?? data ?? {}
   const attrs = page?.attributes ?? page
-  const homeIntroItems = Array.isArray(attrs?.HomeIntro) ? attrs.HomeIntro : []
-  const firstIntro = homeIntroItems[0] ?? null
+  const homeIntroRaw = attrs?.HomeIntro ?? attrs?.homeIntro ?? null
+  const firstIntro = Array.isArray(homeIntroRaw) ? (homeIntroRaw[0] ?? null) : homeIntroRaw
   const indigenousData = attrs?.IndigenousHomepageComponent ?? attrs?.indigenousHomepageComponent ?? null
   const homeCtaRaw =
     attrs?.HomeCTA ??
