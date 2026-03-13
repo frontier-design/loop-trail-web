@@ -43,7 +43,7 @@ function GetInvolved() {
   useEffect(() => {
     async function load() {
       const res = await fetchCached(
-        '/api/get-involved?populate[0]=Hero&populate[1]=Meta&populate[2]=Meta.MetaImage',
+        '/api/get-involved?populate[0]=Hero&populate[1]=SharedMeta&populate[2]=SharedMeta.MetaImage',
         { draft: isDraft }
       )
       setData(res)
@@ -59,7 +59,7 @@ function GetInvolved() {
   const hero = page?.Hero ?? null
   const introTitle = page?.IntroTitle ?? ''
   const introParagraph = page?.IntroParagraph ?? ''
-  const meta = page?.Meta ?? page?.meta ?? null
+  const meta = page?.SharedMeta ?? page?.sharedMeta ?? null
 
   const heroUrl = hero?.url
   const heroMime = hero?.mime ?? ''

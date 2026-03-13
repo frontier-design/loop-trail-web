@@ -57,7 +57,7 @@ function Hubs() {
     async function load() {
       try {
         const res = await fetchCached(
-          '/api/hubs?populate[0]=Hero&populate[1]=HubItem&populate[2]=HubItem.Image&populate[3]=HubItem.Link&populate[4]=Neighbourhoods&populate[5]=Meta&populate[6]=Meta.MetaImage',
+          '/api/hubs?populate[0]=Hero&populate[1]=HubItem&populate[2]=HubItem.Image&populate[3]=HubItem.Link&populate[4]=Neighbourhoods&populate[5]=SharedMeta&populate[6]=SharedMeta.MetaImage',
           { draft: isDraft }
         )
         setData(res)
@@ -98,7 +98,7 @@ function Hubs() {
   const introParagraph = page.IntroParagraph ?? ''
   const hubItems = Array.isArray(page.HubItem) ? page.HubItem : []
   const neighbourhoodsData = Array.isArray(page.Neighbourhoods) ? page.Neighbourhoods : []
-  const meta = page?.Meta ?? page?.meta ?? null
+  const meta = page?.SharedMeta ?? page?.sharedMeta ?? null
 
   const heroUrl = hero?.url
   const heroMime = hero?.mime ?? ''

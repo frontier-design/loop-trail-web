@@ -42,7 +42,7 @@ function Maps() {
     async function load() {
       try {
         const res = await fetchCached(
-          '/api/maps?populate[0]=Hero&populate[1]=MapContainer&populate[2]=MapContainer.MapThumbnail&populate[3]=MapContainer.MapDownloadLink&populate[4]=MapContainer.MapDownloadLink.MapFile&populate[5]=Meta&populate[6]=Meta.MetaImage',
+          '/api/maps?populate[0]=Hero&populate[1]=MapContainer&populate[2]=MapContainer.MapThumbnail&populate[3]=MapContainer.MapDownloadLink&populate[4]=MapContainer.MapDownloadLink.MapFile&populate[5]=SharedMeta&populate[6]=SharedMeta.MetaImage',
           { draft: isDraft }
         )
         setData(res)
@@ -67,7 +67,7 @@ function Maps() {
   const introTitle = page?.IntroTitle ?? ''
   const introParagraph = page?.IntroParagraph ?? ''
   const mapItems = Array.isArray(page?.MapContainer) ? page.MapContainer : []
-  const meta = page?.Meta ?? page?.meta ?? null
+  const meta = page?.SharedMeta ?? page?.sharedMeta ?? null
   const hero = page?.Hero ?? null
   const heroUrl = hero?.url
   const heroMime = hero?.mime ?? ''

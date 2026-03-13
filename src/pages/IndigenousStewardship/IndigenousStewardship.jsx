@@ -55,7 +55,7 @@ function IndigenousStewardship() {
     async function load() {
       try {
         const res = await fetchCached(
-          '/api/indigenous-stewardship?populate[0]=Hero&populate[1]=ExplainerImage&populate[2]=ComponentExplainer&populate[3]=ComponentExplainer.Image&populate[4]=Meta&populate[5]=Meta.MetaImage',
+          '/api/indigenous-stewardship?populate[0]=Hero&populate[1]=ExplainerImage&populate[2]=ComponentExplainer&populate[3]=ComponentExplainer.Image&populate[4]=SharedMeta&populate[5]=SharedMeta.MetaImage',
           { draft: isDraft }
         )
         setData(res)
@@ -90,7 +90,7 @@ function IndigenousStewardship() {
   const stewardshipItems = Array.isArray(page?.ComponentExplainer)
     ? page.ComponentExplainer
     : []
-  const meta = page?.Meta ?? page?.meta ?? null
+  const meta = page?.SharedMeta ?? page?.sharedMeta ?? null
 
   return (
     <FadeInWrapper ready={!loading}>

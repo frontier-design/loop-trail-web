@@ -35,7 +35,7 @@ function FAQs() {
     async function load() {
       try {
         const res = await fetchCached(
-          '/api/faqs?populate[0]=Hero&populate[1]=FAQItem&populate[2]=FAQItem.QuestionItem&populate[3]=CTA&populate[4]=CTA.Background&populate[5]=CTA.Button&populate[6]=Meta&populate[7]=Meta.MetaImage',
+          '/api/faqs?populate[0]=Hero&populate[1]=FAQItem&populate[2]=FAQItem.QuestionItem&populate[3]=CTA&populate[4]=CTA.Background&populate[5]=CTA.Button&populate[6]=SharedMeta&populate[7]=SharedMeta.MetaImage',
           { draft: isDraft }
         )
         setData(res)
@@ -55,7 +55,7 @@ function FAQs() {
   const headline = page?.Headline ?? 'FAQs'
   const faqItems = Array.isArray(page?.FAQItem) ? page.FAQItem : []
   const cta = page?.CTA ?? null
-  const meta = page?.Meta ?? page?.meta ?? null
+  const meta = page?.SharedMeta ?? page?.sharedMeta ?? null
   const hero = page?.Hero ?? null
   const heroUrl = hero?.url
   const heroMime = hero?.mime ?? ''

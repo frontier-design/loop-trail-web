@@ -7,14 +7,14 @@ const inflight = new Map();
 
 export const ROUTE_APIS = {
   "/hubs":
-    "/api/hubs?populate[0]=Hero&populate[1]=HubItem&populate[2]=HubItem.Image&populate[3]=HubItem.Link&populate[4]=Neighbourhoods&populate[5]=Meta&populate[6]=Meta.MetaImage",
+    "/api/hubs?populate[0]=Hero&populate[1]=HubItem&populate[2]=HubItem.Image&populate[3]=HubItem.Link&populate[4]=Neighbourhoods&populate[5]=SharedMeta&populate[6]=SharedMeta.MetaImage",
   "/indigenous-stewardship":
-    "/api/indigenous-stewardship?populate[0]=Hero&populate[1]=ExplainerImage&populate[2]=ComponentExplainer&populate[3]=ComponentExplainer.Image&populate[4]=Meta&populate[5]=Meta.MetaImage",
+    "/api/indigenous-stewardship?populate[0]=Hero&populate[1]=ExplainerImage&populate[2]=ComponentExplainer&populate[3]=ComponentExplainer.Image&populate[4]=SharedMeta&populate[5]=SharedMeta.MetaImage",
   "/maps":
-    "/api/maps?populate[0]=Hero&populate[1]=MapContainer&populate[2]=MapContainer.MapThumbnail&populate[3]=MapContainer.MapDownloadLink&populate[4]=MapContainer.MapDownloadLink.MapFile&populate[5]=Meta&populate[6]=Meta.MetaImage",
+    "/api/maps?populate[0]=Hero&populate[1]=MapContainer&populate[2]=MapContainer.MapThumbnail&populate[3]=MapContainer.MapDownloadLink&populate[4]=MapContainer.MapDownloadLink.MapFile&populate[5]=SharedMeta&populate[6]=SharedMeta.MetaImage",
   "/faqs":
-    "/api/faqs?populate[0]=Hero&populate[1]=FAQItem&populate[2]=FAQItem.QuestionItem&populate[3]=CTA&populate[4]=CTA.Background&populate[5]=CTA.Button&populate[6]=Meta&populate[7]=Meta.MetaImage",
-  "/get-involved": "/api/get-involved?populate[0]=Hero&populate[1]=Meta&populate[2]=Meta.MetaImage",
+    "/api/faqs?populate[0]=Hero&populate[1]=FAQItem&populate[2]=FAQItem.QuestionItem&populate[3]=CTA&populate[4]=CTA.Background&populate[5]=CTA.Button&populate[6]=SharedMeta&populate[7]=SharedMeta.MetaImage",
+  "/get-involved": "/api/get-involved?populate[0]=Hero&populate[1]=SharedMeta&populate[2]=SharedMeta.MetaImage",
   "/": "/api/home?populate[HomeIntro][populate]=*&populate[IndigenousHomepageComponent][populate]=*&populate[HomeCta][populate]=*&populate[WaysTheLoopWillTransformToronto][populate]=*&populate[Logos][populate][LogoItem][populate]=*&populate[SharedMeta][populate]=*",
 };
 
