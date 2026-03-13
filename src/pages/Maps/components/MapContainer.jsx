@@ -6,27 +6,44 @@ import { CardTitle, CardParagraph, CardLink } from '../../../styles/cardContent.
 const MapGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 2rem;
+  grid-template-rows: auto;
+  column-gap: 2rem;
+  row-gap: 0;
+  margin-bottom: 6rem;
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
-    row-gap: 3.5rem;
+    row-gap: 0;
   }
 `
 
 const Card = styled.article`
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: subgrid;
+  grid-row: span 4;
   gap: 1rem;
+  padding-bottom: 5rem;
 
   @media (max-width: 768px) {
+    padding-bottom: 2.5rem;
+
     ${CardParagraph} {
       line-height: 1.4;
     }
-  }
 
-  &:last-child {
-    margin-bottom: 4rem;
+    &:not(:first-child) {
+      margin-top: 2.5rem;
+    }
+  }
+`
+
+const MapCardTitle = styled(CardTitle)`
+  font-size: 2.75rem;
+  line-height: 1.15;
+  text-transform: capitalize;
+
+  @media (max-width: 768px) {
+    font-size: 1.75rem;
   }
 `
 
@@ -71,7 +88,7 @@ function MapContainer({ items = [] }) {
 
         return (
           <Card key={item?.id ?? i}>
-            {title && <CardTitle>{title}</CardTitle>}
+            {title && <MapCardTitle>{title}</MapCardTitle>}
             {description && <CardParagraph>{renderStrapiRichText(description)}</CardParagraph>}
             {thumbSrc && (
               <ThumbnailWrapper>
