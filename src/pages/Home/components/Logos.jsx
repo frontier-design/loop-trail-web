@@ -240,6 +240,38 @@ function getMediaUrl(media) {
   return String(url).startsWith('http') ? url : getStrapiUrl(url)
 }
 
+function getLogoImageProps(media) {
+  const attrs = media?.data?.attributes ?? media?.attributes ?? media
+  const src = getMediaUrl(media)
+  if (!src || !attrs) return null
+
+  const formatCandidates = Object.values(attrs?.formats ?? {})
+    .filter(format => format?.url && Number.isFinite(format?.width))
+    .map(format => ({
+      url: String(format.url).startsWith('http') ? format.url : getStrapiUrl(format.url),
+      width: Number(format.width),
+    }))
+
+  if (Number.isFinite(attrs?.width)) {
+    formatCandidates.push({ url: src, width: Number(attrs.width) })
+  }
+
+  const byWidth = new Map()
+  formatCandidates.forEach(item => {
+    if (!byWidth.has(item.width)) byWidth.set(item.width, item.url)
+  })
+
+  const srcSet = [...byWidth.entries()]
+    .sort((a, b) => a[0] - b[0])
+    .map(([width, url]) => `${url} ${width}w`)
+    .join(', ')
+
+  return {
+    src,
+    ...(srcSet ? { srcSet, sizes: '(max-width: 768px) 42vw, 16vw' } : {}),
+  }
+}
+
 function getSectionType(items) {
   if (!Array.isArray(items) || items.length === 0) return 'full'
 
@@ -317,14 +349,14 @@ function Logos({ data }) {
                     {chunkRows(items, sIdx === 0 ? 4 : (sectionType === 'imageOnly' ? 4 : 3)).map((row, rIdx) => (
                       <LogoRow key={`d-${rIdx}`}>
                         {row.map((item, iIdx) => {
-                          const imgSrc = getMediaUrl(item.LogoImage ?? item.logoImage)
+                          const imgProps = getLogoImageProps(item.LogoImage ?? item.logoImage)
                           const itemTitle = item.LogoTitle ?? item.logoTitle
                           const itemText = item.LogoText ?? item.logoText
                           return (
                             <LogoCard key={iIdx} $sectionType={sectionType}>
-                              {imgSrc && (
+                              {imgProps && (
                                 <LogoImageWrapper $sectionType={sectionType}>
-                                  <img src={imgSrc} alt={itemTitle || ''} loading="lazy" decoding="async" />
+                                  <img {...imgProps} alt={itemTitle || ''} loading="lazy" decoding="async" />
                                 </LogoImageWrapper>
                               )}
                               {itemTitle && <LogoTitle $sectionType={sectionType} $hidden={sIdx === 0}>{itemTitle}</LogoTitle>}
@@ -339,14 +371,14 @@ function Logos({ data }) {
                     {chunkRows(items, sIdx === 0 ? 1 : (sectionType === 'imageOnly' ? 3 : 2)).map((row, rIdx) => (
                       <LogoRow key={`m-${rIdx}`}>
                         {row.map((item, iIdx) => {
-                          const imgSrc = getMediaUrl(item.LogoImage ?? item.logoImage)
+                          const imgProps = getLogoImageProps(item.LogoImage ?? item.logoImage)
                           const itemTitle = item.LogoTitle ?? item.logoTitle
                           const itemText = item.LogoText ?? item.logoText
                           return (
                             <LogoCard key={iIdx} $sectionType={sectionType}>
-                              {imgSrc && (
+                              {imgProps && (
                                 <LogoImageWrapper $sectionType={sectionType}>
-                                  <img src={imgSrc} alt={itemTitle || ''} loading="lazy" decoding="async" />
+                                  <img {...imgProps} alt={itemTitle || ''} loading="lazy" decoding="async" />
                                 </LogoImageWrapper>
                               )}
                               {itemTitle && <LogoTitle $sectionType={sectionType} $hidden={sIdx === 0}>{itemTitle}</LogoTitle>}
