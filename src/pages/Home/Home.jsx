@@ -14,7 +14,7 @@ import RevealOnScroll from '../../components/RevealOnScroll.jsx'
 import { fetchCached } from '../../api/prefetchCache.js'
 
 const HOME_API =
-  '/api/home?populate[0]=HomeIntro&populate[1]=HomeIntro.StackingImage&populate[2]=IndigenousHomepageComponent&populate[3]=IndigenousHomepageComponent.Image&populate[4]=IndigenousHomepageComponent.Link&populate[5]=HomeCta&populate[6]=HomeCta.Background&populate[7]=HomeCta.Button&populate[8]=HomeCTA&populate[9]=HomeCTA.Background&populate[10]=HomeCTA.Button&populate[11]=WaysTheLoopWillTransformToronto&populate[12]=Logos&populate[13]=Logos.LogoItem&populate[14]=Logos.LogoItem.LogoImage'
+  '/api/home?populate[0]=HomeIntro&populate[1]=HomeIntro.StackingImage&populate[2]=IndigenousHomepageComponent&populate[3]=IndigenousHomepageComponent.Image&populate[4]=IndigenousHomepageComponent.Link&populate[5]=HomeCta&populate[6]=HomeCta.Background&populate[7]=HomeCta.Button&populate[8]=WaysTheLoopWillTransformToronto&populate[9]=Logos&populate[10]=Logos.LogoItem&populate[11]=Logos.LogoItem.LogoImage'
 
 function Home() {
   const [data, setData] = useState(null)
