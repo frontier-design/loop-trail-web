@@ -14,7 +14,7 @@ import RevealOnScroll from '../../components/RevealOnScroll.jsx'
 import { fetchCached } from '../../api/prefetchCache.js'
 
 const HOME_API =
-  '/api/home?populate[0]=HomeIntro&populate[1]=HomeIntro.StackingImage&populate[2]=IndigenousHomepageComponent&populate[3]=IndigenousHomepageComponent.Image&populate[4]=IndigenousHomepageComponent.Link&populate[5]=HomeCta&populate[6]=HomeCta.Background&populate[7]=HomeCta.Button&populate[8]=Carousel&populate[9]=Logos&populate[10]=Logos.LogoItem&populate[11]=Logos.LogoItem.LogoImage'
+  '/api/home?populate[0]=HomeIntro&populate[1]=HomeIntro.StackingImage&populate[2]=IndigenousHomepageComponent&populate[3]=IndigenousHomepageComponent.Image&populate[4]=IndigenousHomepageComponent.Link&populate[5]=HomeCta&populate[6]=HomeCta.Background&populate[7]=HomeCta.Button&populate[8]=HomeCTA&populate[9]=HomeCTA.Background&populate[10]=HomeCTA.Button&populate[11]=WaysTheLoopWillTransformToronto&populate[12]=Logos&populate[13]=Logos.LogoItem&populate[14]=Logos.LogoItem.LogoImage'
 
 function Home() {
   const [data, setData] = useState(null)
@@ -36,9 +36,22 @@ function Home() {
   const homeIntroItems = Array.isArray(attrs?.HomeIntro) ? attrs.HomeIntro : []
   const firstIntro = homeIntroItems[0] ?? null
   const indigenousData = attrs?.IndigenousHomepageComponent ?? attrs?.indigenousHomepageComponent ?? null
-  const homeCtaItems = Array.isArray(attrs?.HomeCta) ? attrs.HomeCta : Array.isArray(attrs?.homeCta) ? attrs.homeCta : []
-  const homeCtaData = homeCtaItems[0] ?? null
-  const carouselItems = Array.isArray(attrs?.Carousel) ? attrs.Carousel : Array.isArray(attrs?.carousel) ? attrs.carousel : []
+  const homeCtaRaw =
+    attrs?.HomeCTA ??
+    attrs?.homeCTA ??
+    attrs?.HomeCta ??
+    attrs?.homeCta ??
+    null
+  const homeCtaData = Array.isArray(homeCtaRaw) ? (homeCtaRaw[0] ?? null) : homeCtaRaw
+  const carouselItems = Array.isArray(attrs?.WaysTheLoopWillTransformToronto)
+    ? attrs.WaysTheLoopWillTransformToronto
+    : Array.isArray(attrs?.waysTheLoopWillTransformToronto)
+      ? attrs.waysTheLoopWillTransformToronto
+      : Array.isArray(attrs?.Carousel)
+        ? attrs.Carousel
+        : Array.isArray(attrs?.carousel)
+          ? attrs.carousel
+          : []
   const logosData = Array.isArray(attrs?.Logos) ? attrs.Logos : Array.isArray(attrs?.logos) ? attrs.logos : []
 
   return (
