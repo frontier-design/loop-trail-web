@@ -65,10 +65,7 @@ function Home() {
         <RevealOnScroll>
           <HomeIntro
             introText={firstIntro.IntroText}
-            stackingImage={
-              firstIntro.StackingImage ??
-              firstIntro.HomeIntro_StackingImage_1600x1600_JPGorWebP_max700KB
-            }
+            stackingImage={firstIntro.StackingImage}
           />
         </RevealOnScroll>
       )}
@@ -92,11 +89,7 @@ function Home() {
         <CTA
           title={homeCtaData?.Title ?? homeCtaData?.title ?? 'Get Involved'}
           subtitle={homeCtaData?.Subtitle ?? homeCtaData?.subtitle}
-          background={
-            homeCtaData?.Background ??
-            homeCtaData?.background ??
-            homeCtaData?.HomeCta_Background_2400x1350_JPGorWebP_max900KB
-          }
+          background={homeCtaData?.Background ?? homeCtaData?.background}
           button={homeCtaData?.Button ?? homeCtaData?.button}
         />
       </RevealOnScroll>

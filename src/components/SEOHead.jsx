@@ -18,11 +18,7 @@ function SEOHead({ meta }) {
   const title = meta?.MetaTitle || meta?.metaTitle || DEFAULTS.title
   const description =
     meta?.MetaDescription || meta?.metaDescription || DEFAULTS.description
-  const imageUrl = getImageUrl(
-    meta?.MetaImage ??
-    meta?.metaImage ??
-    meta?.MetaImage_1200x630_max500kb
-  )
+  const imageUrl = getImageUrl(meta?.MetaImage ?? meta?.metaImage)
 
   return (
     <Helmet>
