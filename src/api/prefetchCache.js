@@ -15,7 +15,7 @@ export const ROUTE_APIS = {
   "/faqs":
     "/api/faqs?populate[0]=Hero&populate[1]=FAQItem&populate[2]=FAQItem.QuestionItem&populate[3]=CTA&populate[4]=CTA.Background&populate[5]=CTA.Button&populate[6]=Meta&populate[7]=Meta.MetaImage",
   "/get-involved": "/api/get-involved?populate[0]=Hero&populate[1]=Meta&populate[2]=Meta.MetaImage",
-  "/": "/api/home?populate[0]=HomeIntro&populate[1]=HomeIntro.StackingImage&populate[2]=IndigenousHomepageComponent&populate[3]=IndigenousHomepageComponent.Image&populate[4]=IndigenousHomepageComponent.Link&populate[5]=HomeCta&populate[6]=HomeCta.Background&populate[7]=HomeCta.Button&populate[8]=WaysTheLoopWillTransformToronto&populate[9]=Logos&populate[10]=Logos.LogoItem&populate[11]=Logos.LogoItem.LogoImage&populate[12]=Meta&populate[13]=Meta.MetaImage",
+  "/": "/api/home?populate[HomeIntro][populate]=*&populate[IndigenousHomepageComponent][populate]=*&populate[HomeCta][populate]=*&populate[WaysTheLoopWillTransformToronto][populate]=*&populate[Logos][populate][LogoItem][populate]=*&populate[SharedMeta][populate]=*",
 };
 
 // Max age before a background revalidation is triggered (5 minutes)

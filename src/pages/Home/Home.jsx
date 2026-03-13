@@ -15,7 +15,7 @@ import { fetchCached } from '../../api/prefetchCache.js'
 import SEOHead from '../../components/SEOHead.jsx'
 
 const HOME_API =
-  '/api/home?populate[0]=HomeIntro&populate[1]=HomeIntro.StackingImage&populate[2]=IndigenousHomepageComponent&populate[3]=IndigenousHomepageComponent.Image&populate[4]=IndigenousHomepageComponent.Link&populate[5]=HomeCta&populate[6]=HomeCta.Background&populate[7]=HomeCta.Button&populate[8]=WaysTheLoopWillTransformToronto&populate[9]=Logos&populate[10]=Logos.LogoItem&populate[11]=Logos.LogoItem.LogoImage&populate[12]=Meta&populate[13]=Meta.MetaImage'
+  '/api/home?populate[HomeIntro][populate]=*&populate[IndigenousHomepageComponent][populate]=*&populate[HomeCta][populate]=*&populate[WaysTheLoopWillTransformToronto][populate]=*&populate[Logos][populate][LogoItem][populate]=*&populate[SharedMeta][populate]=*'
 
 function Home() {
   const [data, setData] = useState(null)
@@ -54,7 +54,8 @@ function Home() {
           ? attrs.carousel
           : []
   const logosData = Array.isArray(attrs?.Logos) ? attrs.Logos : Array.isArray(attrs?.logos) ? attrs.logos : []
-  const meta = attrs?.Meta ?? attrs?.meta ?? null
+  const sharedMeta = attrs?.SharedMeta ?? attrs?.sharedMeta ?? []
+  const meta = Array.isArray(sharedMeta) ? (sharedMeta[0] ?? null) : sharedMeta
 
   return (
     <>
@@ -64,7 +65,10 @@ function Home() {
         <RevealOnScroll>
           <HomeIntro
             introText={firstIntro.IntroText}
-            stackingImage={firstIntro.StackingImage}
+            stackingImage={
+              firstIntro.StackingImage ??
+              firstIntro.HomeIntro_StackingImage_1600x1600_JPGorWebP_max700KB
+            }
           />
         </RevealOnScroll>
       )}
@@ -88,7 +92,11 @@ function Home() {
         <CTA
           title={homeCtaData?.Title ?? homeCtaData?.title ?? 'Get Involved'}
           subtitle={homeCtaData?.Subtitle ?? homeCtaData?.subtitle}
-          background={homeCtaData?.Background ?? homeCtaData?.background}
+          background={
+            homeCtaData?.Background ??
+            homeCtaData?.background ??
+            homeCtaData?.HomeCta_Background_2400x1350_JPGorWebP_max900KB
+          }
           button={homeCtaData?.Button ?? homeCtaData?.button}
         />
       </RevealOnScroll>

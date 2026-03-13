@@ -97,7 +97,11 @@ function IndigenousComponent({ data }) {
   const paragraph = data.Paragraph ?? data.paragraph
   const link = data.Link ?? data.link
   const linkDisplay = link?.LinkDisplay ?? link?.linkDisplay ?? 'Learn more'
-  const imageItems = getMediaItems(data.Image ?? data.image)
+  const imageItems = getMediaItems(
+    data.Image ??
+    data.image ??
+    data.IndigenousHomepageComponent_Image_1600x1600_JPGorWebP_max700KB
+  )
 
   const hasContent = paragraph || linkDisplay || imageItems.length > 0
   if (!hasContent) return null

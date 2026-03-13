@@ -279,7 +279,11 @@ function getSectionType(items) {
   let withTitleOnly = 0
 
   items.forEach(item => {
-    const imgSrc = getMediaUrl(item.LogoImage ?? item.logoImage)
+    const imgSrc = getMediaUrl(
+      item.LogoImage ??
+      item.logoImage ??
+      item.Logos_LogoItem_LogoImage_SVG_preferred_or_PNGorWebP_min800pxwide_max400KB
+    )
     const itemTitle = String(item.LogoTitle ?? item.logoTitle ?? '').trim()
     const itemText = String(item.LogoText ?? item.logoText ?? '').trim()
 
@@ -349,7 +353,11 @@ function Logos({ data }) {
                     {chunkRows(items, sIdx === 0 ? 4 : (sectionType === 'imageOnly' ? 4 : 3)).map((row, rIdx) => (
                       <LogoRow key={`d-${rIdx}`}>
                         {row.map((item, iIdx) => {
-                          const imgProps = getLogoImageProps(item.LogoImage ?? item.logoImage)
+                          const imgProps = getLogoImageProps(
+                            item.LogoImage ??
+                            item.logoImage ??
+                            item.Logos_LogoItem_LogoImage_SVG_preferred_or_PNGorWebP_min800pxwide_max400KB
+                          )
                           const itemTitle = item.LogoTitle ?? item.logoTitle
                           const itemText = item.LogoText ?? item.logoText
                           return (
@@ -371,7 +379,11 @@ function Logos({ data }) {
                     {chunkRows(items, sIdx === 0 ? 1 : (sectionType === 'imageOnly' ? 3 : 2)).map((row, rIdx) => (
                       <LogoRow key={`m-${rIdx}`}>
                         {row.map((item, iIdx) => {
-                          const imgProps = getLogoImageProps(item.LogoImage ?? item.logoImage)
+                          const imgProps = getLogoImageProps(
+                            item.LogoImage ??
+                            item.logoImage ??
+                            item.Logos_LogoItem_LogoImage_SVG_preferred_or_PNGorWebP_min800pxwide_max400KB
+                          )
                           const itemTitle = item.LogoTitle ?? item.logoTitle
                           const itemText = item.LogoText ?? item.logoText
                           return (
