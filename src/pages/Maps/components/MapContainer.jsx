@@ -61,7 +61,9 @@ function MapContainer({ items = [] }) {
         const thumbnail = Array.isArray(thumbnails) ? thumbnails[0] : thumbnails
         const links = item?.MapDownloadLink
         const link = Array.isArray(links) ? links[0] : links
-        const linkUrl = link?.URL ?? ''
+        const mapFile = link?.MapFile
+        const fileUrl = mapFile ? getMediaUrl(mapFile) : (link?.URL ?? '')
+        const fileName = mapFile?.name ?? null
         const linkLabel = link?.LinkDisplay ?? 'Download Map'
 
         const thumbSrc = thumbnail ? getMediaUrl(thumbnail) : null
@@ -76,8 +78,13 @@ function MapContainer({ items = [] }) {
                 <img src={thumbSrc} alt={thumbAlt || ''} loading="lazy" decoding="async" />
               </ThumbnailWrapper>
             )}
-            {linkUrl && (
-              <CardLink href={linkUrl} target="_blank" rel="noopener noreferrer">
+            {fileUrl && (
+              <CardLink
+                href={fileUrl}
+                download={fileName || true}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 {linkLabel} &rarr;
               </CardLink>
             )}

@@ -11,7 +11,7 @@ export const ROUTE_APIS = {
   "/indigenous-stewardship":
     "/api/indigenous-stewardship?populate[0]=Hero&populate[1]=ExplainerImage&populate[2]=ComponentExplainer&populate[3]=ComponentExplainer.Image",
   "/maps":
-    "/api/maps?populate[0]=Hero&populate[1]=MapContainer&populate[2]=MapContainer.MapThumbnail&populate[3]=MapContainer.MapDownloadLink",
+    "/api/maps?populate[0]=Hero&populate[1]=MapContainer&populate[2]=MapContainer.MapThumbnail&populate[3]=MapContainer.MapDownloadLink&populate[4]=MapContainer.MapDownloadLink.MapFile",
   "/faqs":
     "/api/faqs?populate[0]=Hero&populate[1]=FAQItem&populate[2]=FAQItem.QuestionItem&populate[3]=CTA&populate[4]=CTA.Background&populate[5]=CTA.Button",
   "/get-involved": "/api/get-involved?populate[0]=Hero",

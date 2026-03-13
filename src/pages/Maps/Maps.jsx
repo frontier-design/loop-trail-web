@@ -41,7 +41,7 @@ function Maps() {
     async function load() {
       try {
         const res = await fetchCached(
-          '/api/maps?populate[0]=Hero&populate[1]=MapContainer&populate[2]=MapContainer.MapThumbnail&populate[3]=MapContainer.MapDownloadLink',
+          '/api/maps?populate[0]=Hero&populate[1]=MapContainer&populate[2]=MapContainer.MapThumbnail&populate[3]=MapContainer.MapDownloadLink&populate[4]=MapContainer.MapDownloadLink.MapFile',
           { draft: isDraft }
         )
         setData(res)
