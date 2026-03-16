@@ -213,12 +213,14 @@ function AtAGlance() {
               <StatBlock $bg="var(--color-mint)" $color="var(--color-lime)" $numberColor="var(--color-sky)" $textColor="var(--color-sky)">
                 <StatNumber>5</StatNumber>
                 <StatText>
-                  Community Hubs to Bring Culture, Community, Food and Art to the Trail
+                  5 community hubs to bring culture, community, food and art to the trail (with more to come).
                 </StatText>
               </StatBlock>
               <StatBlock $bg="var(--color-brick)" $color="var(--color-lime)">
-                <StatNumber>XX</StatNumber>
-                <StatText>Lorem Ipsum</StatText>
+                <StatNumber>37</StatNumber>
+                <StatText>
+                  Connects 12 subway stations, 20 LRT stops and 5 GO train stations within 500m radius of the trail.
+                </StatText>
               </StatBlock>
             </RedParent>
             <BlueIndividual>
