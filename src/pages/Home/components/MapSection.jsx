@@ -243,7 +243,7 @@ function MapSection() {
           Dive deeper into the Loop&apos;s route, features, and connections through our
           detailed interactive maps.
         </IntroParagraph>
-        <CardLink as={Link} to="/maps">Explore More Maps→</CardLink>
+        <CardLink as={Link} to="/maps">Explore More Maps →</CardLink>
       </TopSection>
       <BottomSection>
         <SidebarLegend>
