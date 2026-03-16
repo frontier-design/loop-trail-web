@@ -11,7 +11,7 @@ import storyVid3 from '../../../assets/videos/story-vid-3.mp4'
 gsap.registerPlugin(ScrollTrigger)
 
 const STEPS = [
-  { text: 'Imagine Toronto with a groundbreaking, 80km trail network.', video: video1 },
+  { text: 'Imagine Toronto brought to life by community hubs, great amenities, public art and ecological stewardship.', video: video1 },
   { text: 'Making the city more explorable, accessible, and supporting the local economy.', video: video3 },
   { text: 'The trail is mostly there. The opportunity is to complete, enhance, and better connect it.', video: storyVid3 },
   { cta: true }

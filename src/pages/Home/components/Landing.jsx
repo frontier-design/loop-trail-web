@@ -395,9 +395,9 @@ function Landing() {
             </GridCell>
             <GridCell $start={5} $span={2} $startMobile={1} $spanMobile={4}>
               <Subtitle>
-                <span>Toronto's ravine system is the city's most defining and cherished natural treasure.</span>
-                <span>A groundbreaking 80km multi-use trail that will connect Toronto's ravines, neighbourhoods and people.</span>
-                <span>Made in Toronto, for Toronto.</span>
+              <span> A groundbreaking 80km network of trails that will connect Toronto’s ravines, neighbourhoods and people.</span>
+              <span>The Loop will connect the people of Toronto with nature and each other.</span>
+              <span>Made in Toronto, for everyone.</span>
               </Subtitle>
               <LaunchVideoButton type="button" data-hide-cursor onClick={handleOpenVideoModal}>
                 Watch the launch video

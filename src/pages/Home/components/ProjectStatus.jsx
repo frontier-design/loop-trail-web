@@ -6,7 +6,7 @@ import { GRID } from '../../../grid/config.js'
  * 6-column grid — one column per year (2024–2029), right edge = 2030.
  * Column borders double as vertical timeline lines.
  *
- * Phase 1:  Co-Design & Development        → cols 1–2
+ * Phase 1:  Co-Design & Project Development → cols 1–2
  * Phase 2:  Activation & Public Engagement  → cols 3–5
  * Phase 3:  Full-Scale Project Execution    → cols 5–6
  * Ongoing:  full width                      → cols 1–6
@@ -14,8 +14,8 @@ import { GRID } from '../../../grid/config.js'
 
 const PHASES = [
   {
-    name: 'Co-Design & Development',
-    range: 'Winter 2024 – Winter 2026',
+    name: 'Co-Design & Project Development',
+    range: 'Winter 2024 – Spring 2026',
     bg: 'var(--color-forest)',
     color: 'white',
     colStart: 1,
@@ -24,7 +24,7 @@ const PHASES = [
   },
   {
     name: 'Activation & Public Engagement',
-    range: 'Spring 2026 – Fall 2028',
+    range: 'Summer 2026 – Fall 2028',
     bg: 'var(--color-mint)',
     color: 'var(--color-forest)',
     colStart: 3,
@@ -101,6 +101,15 @@ const Paragraph = styled.p`
   @media ${GRID.MEDIA_MOBILE} {
     font-size: 1.25rem;
     margin-bottom: 1rem;
+  }
+  
+  span {
+    display: block;
+    margin-bottom: 1rem;
+  }
+
+  span:last-child {
+    margin-bottom: 0;
   }
 `
 
@@ -337,7 +346,10 @@ function ProjectStatus() {
         <GridCell $start={1} $span={6} $spanMobile={4}>
           <IntroGrid>
             <TitleHeading>Project Status</TitleHeading>
-            <Paragraph>The project is currently in an early implementation phase, with foundational planning, partnerships, and design work underway. We are excited to share more details about the project as it progresses.</Paragraph>
+            <Paragraph>
+              <span>The Loop is a multi-year, multi-phase project – part of the City of Toronto’s ambitious Ravine Strategy.</span>
+              <span>The current phase is focused on laying the groundwork for the entire project by refining the vision for The Loop, establishing design standards and concept plans, and building a coalition of champions, trail users, and community leaders. Even while this planning work advances, shovels are already in the ground, as the City of Toronto undertakes ongoing improvements to the trail.</span>
+            </Paragraph>
           </IntroGrid>
         </GridCell>
 
