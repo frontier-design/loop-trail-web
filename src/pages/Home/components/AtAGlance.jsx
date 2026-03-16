@@ -213,7 +213,7 @@ function AtAGlance() {
               <StatBlock $bg="var(--color-mint)" $color="var(--color-lime)" $numberColor="var(--color-sky)" $textColor="var(--color-sky)">
                 <StatNumber>5</StatNumber>
                 <StatText>
-                  5 community hubs to bring culture, community, food and art to the trail (with more to come).
+                  community hubs to bring culture, community, food and art to the trail (with more to come).
                 </StatText>
               </StatBlock>
               <StatBlock $bg="var(--color-brick)" $color="var(--color-lime)">

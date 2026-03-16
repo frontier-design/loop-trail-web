@@ -11,7 +11,7 @@ import storyVid3 from '../../../assets/videos/story-vid-3.mp4'
 gsap.registerPlugin(ScrollTrigger)
 
 const STEPS = [
-  { text: 'Imagine Toronto brought to life by community hubs, great amenities, public art and ecological stewardship.', video: video1 },
+  { text: <>Imagine Toronto with a groundbreaking, 80km trail network. <span>Brought to life by community hubs, great amenities,public art and ecological stewardship.</span></>, video: video1 },
   { text: 'Making the city more explorable, accessible, and supporting the local economy.', video: video3 },
   { text: 'The trail is mostly there. The opportunity is to complete, enhance, and better connect it.', video: storyVid3 },
   { cta: true }
@@ -91,6 +91,7 @@ const StepText = styled.p`
   hyphens: none;
   overflow-wrap: normal;
   word-break: normal;
+  white-space: pre-line;
 
   @media (min-width: 480px) {
     font-size: 2.25rem;
@@ -108,6 +109,11 @@ const StepText = styled.p`
   @media (min-width: 1024px) {
     font-size: 4rem;
     max-width: 1000px;
+  }
+
+  span {
+    display: block;
+    margin-top: 1.5rem;
   }
 `
 
