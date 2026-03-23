@@ -181,17 +181,17 @@ const PhaseBar = styled.div`
   grid-column: ${p => p.$colStart} / ${p => p.$colEnd};
   background: ${p => p.$bg};
   color: ${p => p.$color};
-  padding: 1.25rem 1.5rem;
+  padding: 1.75rem 1.75rem;
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
   min-height: 5.5rem;
-  justify-content: center;
+  justify-content: flex-start;
 
   @media ${GRID.MEDIA_MOBILE} {
     grid-column: ${p => p.$mobileCol + 1};
     grid-row: ${p => p.$colStart} / ${p => p.$colEnd};
-    padding: 1rem;
+    padding: 1.25rem;
     min-height: auto;
     z-index: 1;
   }
