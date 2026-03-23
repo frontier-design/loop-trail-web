@@ -66,14 +66,14 @@ const NavLeft = styled.div`
 const Logo = styled(Link)`
   font-family: 'ABCDiatype', system-ui, sans-serif;
   font-weight: 700;
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   color: ${props => props.$dark ? '#fff' : '#1a1a1a'};
   text-decoration: none;
   transition: color 0.2s ease;
   white-space: nowrap;
 
   @media (min-width: 769px) {
-    font-size: 1.5rem;
+    font-size: 2rem;
   }
 
   &:hover {

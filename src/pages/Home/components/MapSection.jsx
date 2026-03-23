@@ -249,7 +249,7 @@ function MapSection() {
         <SidebarLegend>
           <LegendItem>
             <LegendIconSolid aria-hidden />
-            <span>Loop Trail</span>
+            <span>The Loop</span>
           </LegendItem>
           <LegendItem>
             <LegendIconDashed aria-hidden />

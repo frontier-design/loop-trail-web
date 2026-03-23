@@ -3,8 +3,19 @@ import styled from 'styled-components'
 import { renderStrapiRichText } from '../../../api/strapiRichText.jsx'
 
 const Row = styled.div`
-margin-bottom: 1rem;
-background-color: #f0f0f0;
+  margin-bottom: 1rem;
+  background-color: var(--color-forest);
+  color: #fff;
+  transition: background-color 0.25s ease, color 0.25s ease;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+
+  &:hover {
+    background-color: #f0f0f0;
+    color: #1a1a1a;
+  }
 `
 
 const Trigger = styled.button`
@@ -74,6 +85,17 @@ const AnswerText = styled.div`
   line-height: 1.6;
   font-weight: 400;
   max-width: 1000px;
+  color: inherit;
+
+  a {
+    color: var(--color-mint);
+    text-decoration: underline;
+  }
+
+  ${Row}:hover & a {
+    color: inherit;
+    text-decoration: underline;
+  }
 
   p {
     margin: 0 0 1rem;

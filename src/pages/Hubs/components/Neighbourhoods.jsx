@@ -73,7 +73,7 @@ function Neighbourhoods({ data }) {
         <GridCell $start={1} $span={6} $spanMobile={4}>
           <RevealOnScroll>
             <TitleWrapper>
-              <Title>Neighbourhoods <br /> Connected by the Loop</Title>
+              <Title> Connected by the Loop</Title>
             </TitleWrapper>
             <Grid as="div" $fullBleed>
               <GridCell $start={1} $span={3} $spanMobile={4}>

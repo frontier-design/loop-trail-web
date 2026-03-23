@@ -61,6 +61,12 @@ const LogoCard = styled.div`
   background: #fff;
   transition: border-color 180ms ease, transform 180ms ease;
   cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+
+  &:visited {
+    color: inherit;
+  }
 
   &:hover {
     border-color: rgba(21, 76, 44, 0.24);
@@ -233,6 +239,13 @@ const LogoGridMobile = styled.div`
   }
 `
 
+function getLogoLink(item) {
+  const raw = item?.LogoLink ?? item?.logoLink
+  if (raw == null) return null
+  const s = String(raw).trim()
+  return s || null
+}
+
 function getMediaUrl(media) {
   const attrs = media?.data?.attributes ?? media?.attributes ?? media
   const url = attrs?.url ?? media?.url
@@ -320,6 +333,28 @@ function chunkRows(items, cols) {
   return rows
 }
 
+function LogoItem({ item, sectionType, sIdx }) {
+  const imgProps = getLogoImageProps(item.LogoImage ?? item.logoImage)
+  const itemTitle = item.LogoTitle ?? item.logoTitle
+  const itemText = item.LogoText ?? item.logoText
+  const logoLink = getLogoLink(item)
+  const linkProps = logoLink
+    ? { href: logoLink, target: '_blank', rel: 'noopener noreferrer' }
+    : {}
+
+  return (
+    <LogoCard as={logoLink ? 'a' : 'div'} {...linkProps} $sectionType={sectionType}>
+      {imgProps && (
+        <LogoImageWrapper $sectionType={sectionType}>
+          <img {...imgProps} alt={itemTitle || ''} loading="lazy" decoding="async" />
+        </LogoImageWrapper>
+      )}
+      {itemTitle && <LogoTitle $sectionType={sectionType} $hidden={sIdx === 0}>{itemTitle}</LogoTitle>}
+      {itemText && <LogoText>{itemText}</LogoText>}
+    </LogoCard>
+  )
+}
+
 function Logos({ data }) {
   const sections = Array.isArray(data) ? data : []
 
@@ -348,44 +383,18 @@ function Logos({ data }) {
                   <LogoGridDesktop>
                     {chunkRows(items, sIdx === 0 ? 4 : (sectionType === 'imageOnly' ? 4 : 3)).map((row, rIdx) => (
                       <LogoRow key={`d-${rIdx}`}>
-                        {row.map((item, iIdx) => {
-                          const imgProps = getLogoImageProps(item.LogoImage ?? item.logoImage)
-                          const itemTitle = item.LogoTitle ?? item.logoTitle
-                          const itemText = item.LogoText ?? item.logoText
-                          return (
-                            <LogoCard key={iIdx} $sectionType={sectionType}>
-                              {imgProps && (
-                                <LogoImageWrapper $sectionType={sectionType}>
-                                  <img {...imgProps} alt={itemTitle || ''} loading="lazy" decoding="async" />
-                                </LogoImageWrapper>
-                              )}
-                              {itemTitle && <LogoTitle $sectionType={sectionType} $hidden={sIdx === 0}>{itemTitle}</LogoTitle>}
-                              {itemText && <LogoText>{itemText}</LogoText>}
-                            </LogoCard>
-                          )
-                        })}
+                        {row.map((item, iIdx) => (
+                          <LogoItem key={iIdx} item={item} sectionType={sectionType} sIdx={sIdx} />
+                        ))}
                       </LogoRow>
                     ))}
                   </LogoGridDesktop>
                   <LogoGridMobile>
                     {chunkRows(items, sIdx === 0 ? 1 : (sectionType === 'imageOnly' ? 3 : 2)).map((row, rIdx) => (
                       <LogoRow key={`m-${rIdx}`}>
-                        {row.map((item, iIdx) => {
-                          const imgProps = getLogoImageProps(item.LogoImage ?? item.logoImage)
-                          const itemTitle = item.LogoTitle ?? item.logoTitle
-                          const itemText = item.LogoText ?? item.logoText
-                          return (
-                            <LogoCard key={iIdx} $sectionType={sectionType}>
-                              {imgProps && (
-                                <LogoImageWrapper $sectionType={sectionType}>
-                                  <img {...imgProps} alt={itemTitle || ''} loading="lazy" decoding="async" />
-                                </LogoImageWrapper>
-                              )}
-                              {itemTitle && <LogoTitle $sectionType={sectionType} $hidden={sIdx === 0}>{itemTitle}</LogoTitle>}
-                              {itemText && <LogoText>{itemText}</LogoText>}
-                            </LogoCard>
-                          )
-                        })}
+                        {row.map((item, iIdx) => (
+                          <LogoItem key={iIdx} item={item} sectionType={sectionType} sIdx={sIdx} />
+                        ))}
                       </LogoRow>
                     ))}
                   </LogoGridMobile>
