@@ -135,8 +135,8 @@ const MobileTimelineGrid = styled.div`
   @media ${GRID.MEDIA_MOBILE} {
     display: grid;
     grid-template-columns: auto 1fr 1fr;
-    grid-template-rows: repeat(6, minmax(2.5rem, 1fr));
-    height: 30rem;
+    grid-template-rows: repeat(6, minmax(3.5rem, 1fr));
+    height: 38rem;
   }
 `
 
@@ -216,6 +216,18 @@ const PhaseRange = styled.span`
   @media ${GRID.MEDIA_MOBILE} {
     font-size: 0.8rem;
     opacity: 0.85;
+  }
+`
+
+const PhaseDescription = styled.span`
+  font-size: 0.9rem;
+  line-height: 1.3;
+  color: ${p => p.$color};
+  margin-top: 1rem;
+
+  @media ${GRID.MEDIA_MOBILE} {
+    font-size: 0.75rem;
+    margin-top: 0.45rem;
   }
 `
 
@@ -338,7 +350,7 @@ const GridLine = styled.div`
 
 
 
-function ProjectStatus() {
+function ProjectStatus({ statusItems = [] }) {
   return (
     <Section>
       <SectionGrid as="div">
@@ -391,8 +403,11 @@ function ProjectStatus() {
                 $bg={phase.bg}
                 $color={phase.color}
               >
-                <PhaseName>{phase.name}</PhaseName>
+                <PhaseName>{statusItems[i]?.StatusTitle || phase.name}</PhaseName>
                 <PhaseRange>{phase.range}</PhaseRange>
+                {statusItems[i]?.StatusDescription && (
+                  <PhaseDescription $color={phase.color}>{statusItems[i].StatusDescription}</PhaseDescription>
+                )}
               </PhaseBar>
             ))}
 
@@ -433,8 +448,11 @@ function ProjectStatus() {
                 $bg={phase.bg}
                 $color={phase.color}
               >
-                <PhaseName>{phase.name}</PhaseName>
+                <PhaseName>{statusItems[i]?.StatusTitle || phase.name}</PhaseName>
                 <PhaseRange>{phase.range}</PhaseRange>
+                {statusItems[i]?.StatusDescription && (
+                  <PhaseDescription $color={phase.color}>{statusItems[i].StatusDescription}</PhaseDescription>
+                )}
               </PhaseBar>
             ))}
           </MobileTimelineGrid>

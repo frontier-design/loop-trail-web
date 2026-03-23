@@ -15,7 +15,7 @@ import { fetchCached } from '../../api/prefetchCache.js'
 import SEOHead from '../../components/SEOHead.jsx'
 
 const HOME_API =
-  '/api/home?populate[HomeIntro][populate]=*&populate[IndigenousHomepageComponent][populate]=*&populate[HomeCta][populate]=*&populate[WaysTheLoopWillTransformToronto][populate]=*&populate[Logos][populate][LogoItem][populate]=*&populate[SharedMeta][populate]=*'
+  '/api/home?populate[HomeIntro][populate]=*&populate[IndigenousHomepageComponent][populate]=*&populate[HomeCta][populate]=*&populate[WaysTheLoopWillTransformToronto][populate]=*&populate[Logos][populate][LogoItem][populate]=*&populate[SharedMeta][populate]=*&populate[StatusDescription][populate]=*'
 
 function Home() {
   const [data, setData] = useState(null)
@@ -54,6 +54,7 @@ function Home() {
           ? attrs.carousel
           : []
   const logosData = Array.isArray(attrs?.Logos) ? attrs.Logos : Array.isArray(attrs?.logos) ? attrs.logos : []
+  const statusItems = attrs?.StatusDescription ?? attrs?.statusDescription ?? []
   const sharedMeta = attrs?.SharedMeta ?? attrs?.sharedMeta ?? []
   const meta = Array.isArray(sharedMeta) ? (sharedMeta[0] ?? null) : sharedMeta
 
@@ -99,7 +100,7 @@ function Home() {
       </RevealOnScroll>
 
       <RevealOnScroll>
-        <ProjectStatus />
+        <ProjectStatus statusItems={statusItems} />
       </RevealOnScroll>
 
       <RevealOnScroll>

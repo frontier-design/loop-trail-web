@@ -17,6 +17,7 @@ dist-ssr
 
 # Editor directories and files
 .cursor
+.claude
 .vscode/*
 !.vscode/extensions.json
 .idea
@@ -26,3 +27,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Claude
+.claude/* 
