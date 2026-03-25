@@ -6,7 +6,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { GRID } from '../../../grid/config.js'
 import video1 from '../../../assets/videos/video-1.mp4'
 import video3 from '../../../assets/videos/video-3.mp4'
-import storyVid3 from '../../../assets/videos/story-vid-3.mp4'
+import storyVid3 from '../../../assets/videos/loop-landing-vid.mp4'
 
 gsap.registerPlugin(ScrollTrigger)
 

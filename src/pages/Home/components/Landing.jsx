@@ -72,6 +72,7 @@ const Title = styled.h1`
   hyphens: none;
   overflow-wrap: normal;
   word-break: keep-all;
+  color: red !important;
 
   span {
     white-space: nowrap;
