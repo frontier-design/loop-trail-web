@@ -8,10 +8,8 @@ const Headline = styled.h1`
   color: black;
   max-width: 85%;
   hyphens: none;
-
-  @media ${GRID.MEDIA_MOBILE} {
-    font-size: 2.25rem !important;
-  }
+  font-size: clamp(2.25rem, 0.5rem + 8vw, 7rem) !important;
+  line-height: 1;
 `
 
 const IntroLink = styled(CardLink).attrs({ as: Link })`

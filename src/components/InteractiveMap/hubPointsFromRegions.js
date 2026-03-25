@@ -51,8 +51,8 @@ function getPolygonBoundaryPoints(geom) {
 /** Hub-specific centroid offsets [lngDelta, latDelta] — applied for display to nudge markers toward the trail */
 const HUB_CENTROID_OFFSETS = {
   "lower-don": [-0.018, 0.015], // move up-left (west, north) to get closer to loop trail
-  "don-mills": [-0.018, -0.045], // move lower (south) toward the trail
-  "don-valley": [-0.005, -0.045], // move lower (south) toward the trail
+  "don-mills": [-0.005, -0.045], // tuned for northern hub polygon
+  "don-valley": [-0.018, -0.045], // tuned for southern hub polygon
 };
 
 export function hubPointsCentroids(regionsData) {
