@@ -92,7 +92,7 @@ function MapContainer({ items = [] }) {
             {description && <CardParagraph>{renderStrapiRichText(description)}</CardParagraph>}
             {thumbSrc && (
               <ThumbnailWrapper>
-                <img src={thumbSrc} alt={thumbAlt || ''} loading="lazy" decoding="async" />
+                <img src={thumbSrc} alt={thumbAlt || 'Map preview'} loading="lazy" decoding="async" />
               </ThumbnailWrapper>
             )}
             {fileUrl && (

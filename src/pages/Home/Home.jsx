@@ -59,7 +59,7 @@ function Home() {
   const meta = Array.isArray(sharedMeta) ? (sharedMeta[0] ?? null) : sharedMeta
 
   return (
-    <>
+    <main>
       <SEOHead meta={meta} />
       <Landing />
       {firstIntro && (
@@ -110,7 +110,7 @@ function Home() {
       <RevealOnScroll>
         <Logos data={logosData} />
       </RevealOnScroll>
-    </>
+    </main>
   )
 }
 

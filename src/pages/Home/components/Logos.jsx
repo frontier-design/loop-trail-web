@@ -344,7 +344,7 @@ function LogoItem({ item, sectionType, sIdx, imageSizes }) {
     <LogoCard as={logoLink ? 'a' : 'div'} {...linkProps} $sectionType={sectionType}>
       {imgProps && (
         <LogoImageWrapper $sectionType={sectionType}>
-          <img {...imgProps} alt={itemTitle || ''} loading="lazy" decoding="async" />
+          <img {...imgProps} alt={itemTitle || 'Partner logo'} loading="lazy" decoding="async" />
         </LogoImageWrapper>
       )}
       {itemTitle && <LogoTitle $sectionType={sectionType} $hidden={sIdx === 0}>{itemTitle}</LogoTitle>}

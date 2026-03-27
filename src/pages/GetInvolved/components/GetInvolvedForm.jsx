@@ -48,14 +48,14 @@ const Input = styled.input`
   border: 1px solid #ccc;
   background: white;
   box-sizing: border-box;
-  outline: none;
 
   &::placeholder {
     color: #666;
   }
 
-  &:focus {
+  &:focus-visible {
     border-color: var(--color-forest, #154C2C);
+    box-shadow: inset 0 0 0 2px var(--color-forest);
   }
 `
 
@@ -69,14 +69,14 @@ const Textarea = styled.textarea`
   background: white;
   box-sizing: border-box;
   resize: vertical;
-  outline: none;
 
   &::placeholder {
     color: #666;
   }
 
-  &:focus {
+  &:focus-visible {
     border-color: var(--color-forest, #154C2C);
+    box-shadow: inset 0 0 0 2px var(--color-forest);
   }
 `
 
@@ -88,18 +88,18 @@ const SubmitBtn = styled.button`
   min-height: 44px;
   background: var(--color-forest, #154C2C);
   color: var(--color-lime, #E7F5A6);
-  border: none;
+  border: 2px solid transparent;
   cursor: pointer;
-  outline: none;
-  transition: background 0.2s ease, color 0.2s ease;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
   width: fit-content;
 
   &:hover {
     background: #0f3d22;
   }
 
-  &:focus {
-    background: #0f3d22;
+  &:focus-visible {
+    border-color: var(--color-lime);
+    box-shadow: none;
   }
 
   &:disabled {
@@ -124,11 +124,6 @@ const EmailFooter = styled.p`
     color: currentColor;
     text-decoration: underline;
     text-underline-offset: 4px;
-    outline: none;
-  }
-
-  a:focus {
-    text-decoration-thickness: 2px;
   }
 `
 

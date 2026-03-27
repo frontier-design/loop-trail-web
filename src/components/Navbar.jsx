@@ -184,6 +184,9 @@ const MobileNavLink = styled(Link)`
   color: #1a1a1a;
   text-decoration: none;
   transition: color 0.2s ease;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
 
   &:hover {
     text-decoration: underline;

@@ -59,7 +59,7 @@ export default function HubPopupContent({ title, imageUrl, description, hubId })
     <Wrapper href={href}>
       {hasImage && (
         <ImageWrap>
-          <img src={imageUrl} alt={title || ''} />
+          <img src={imageUrl} alt={title || 'Hub location'} />
         </ImageWrap>
       )}
       <TextSection>

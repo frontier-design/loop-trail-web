@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useId } from 'react'
 import styled from 'styled-components'
 import { Grid, GridCell } from '../../../grid/index.js'
 import { GRID } from '../../../grid/config.js'
@@ -206,9 +206,36 @@ const FALLBACK_ITEMS = [
 
 function Carousel({ items, sectionTitle }) {
   const [activeIndex, setActiveIndex] = useState(0)
+  const baseId = useId()
 
   const displayItems = items && items.length > 0 ? items : FALLBACK_ITEMS
   const title = sectionTitle ?? `${displayItems.length} ways the Loop will transform Toronto:`
+
+  const handleTabKeyDown = (e, i) => {
+    let next = null
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      e.preventDefault()
+      next = (i + 1) % displayItems.length
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault()
+      next = (i - 1 + displayItems.length) % displayItems.length
+    } else if (e.key === 'Home') {
+      e.preventDefault()
+      next = 0
+    } else if (e.key === 'End') {
+      e.preventDefault()
+      next = displayItems.length - 1
+    } else if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault()
+      setActiveIndex(i)
+      return
+    }
+
+    if (next !== null) {
+      setActiveIndex(next)
+      document.getElementById(`${baseId}-tab-${next}`)?.focus()
+    }
+  }
 
   return (
     <Section>
@@ -218,34 +245,37 @@ function Carousel({ items, sectionTitle }) {
         </GridCell>
         <GridCell $start={1} $span={6} $spanMobile={4}>
           <PanelWrapper>
-        <PanelRow role="tablist">
+        <PanelRow role="tablist" aria-label={title}>
           {displayItems.map((item, i) => {
             const color = getColor(i)
             const isActive = i === activeIndex
             const itemTitle = item.Title ?? item.title ?? ''
             const paragraph = item.Paragraph ?? item.paragraph
+            const tabId = `${baseId}-tab-${i}`
+            const panelId = `${baseId}-panel-${i}`
 
             return (
               <Panel
                 key={item.id ?? i}
+                id={tabId}
                 $bg={color.bg}
                 $color={color.text}
                 $isActive={isActive}
                 role="tab"
                 aria-selected={isActive}
-                aria-expanded={isActive}
-                tabIndex={0}
+                aria-controls={panelId}
+                tabIndex={isActive ? 0 : -1}
                 onClick={() => setActiveIndex(i)}
-                onKeyDown={e => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault()
-                    setActiveIndex(i)
-                  }
-                }}
+                onKeyDown={e => handleTabKeyDown(e, i)}
               >
                 <PanelNumber $numColor={color.number} $isActive={isActive}>{i + 1}</PanelNumber>
                 <CollapsedLabel $isActive={isActive}>{itemTitle}</CollapsedLabel>
-                <ExpandedContent $isActive={isActive}>
+                <ExpandedContent
+                  id={panelId}
+                  role="tabpanel"
+                  aria-labelledby={tabId}
+                  $isActive={isActive}
+                >
                   {itemTitle && <ContentTitle>{itemTitle}</ContentTitle>}
                   {paragraph && (
                     <ContentParagraph>

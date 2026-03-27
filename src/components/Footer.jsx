@@ -42,6 +42,7 @@ const FooterLink = styled(Link)`
   transition: opacity 0.2s ease;
   display: inline-flex;
   align-items: center;
+  min-height: 44px;
 
   &:hover {
     opacity: 0.85;
@@ -138,9 +139,9 @@ const EmailInput = styled.input`
     color: rgba(255, 255, 255, 0.7);
   }
 
-  &:focus {
-    outline: none;
-    border-color: rgba(255, 255, 255, 0.5);
+  &:focus-visible {
+    border-color: var(--color-lime);
+    box-shadow: inset 0 0 0 2px var(--color-lime);
   }
 `
 

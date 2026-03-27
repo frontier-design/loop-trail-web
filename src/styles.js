@@ -47,6 +47,11 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
   }
 
+  :focus-visible {
+    outline: none;
+    box-shadow: inset 0 0 0 2px var(--color-forest);
+  }
+
   html {
     overflow-x: clip;
     font-family: 'ABCDiatype', system-ui, -apple-system, sans-serif;

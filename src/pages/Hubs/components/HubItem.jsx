@@ -157,7 +157,7 @@ function HubItem({ item, index = 0 }) {
     <ImageCell $start={imageLeft ? 1 : 4} $span={3} $spanMobile={4} $startMobile={1}>
       <ImageCol>
         <ImageWrapper>
-          <img src={firstSrc} alt={firstAlt || ''} loading="lazy" decoding="async" />
+          <img src={firstSrc} alt={firstAlt || 'Hub image'} loading="lazy" decoding="async" />
         </ImageWrapper>
         {imageCaption && <ImageCredit>{imageCaption}</ImageCredit>}
       </ImageCol>

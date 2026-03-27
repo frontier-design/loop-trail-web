@@ -15,6 +15,24 @@ const Maps = lazy(() => import('./pages/Maps/Maps.jsx'))
 const FAQs = lazy(() => import('./pages/FAQs/FAQs.jsx'))
 const GetInvolved = lazy(() => import('./pages/GetInvolved/GetInvolved.jsx'))
 
+const SkipLink = styled.a`
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  z-index: 10000;
+  padding: 0.75rem 1.25rem;
+  background: var(--color-forest);
+  color: var(--color-lime);
+  font-family: 'ABCDiatype', system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  text-decoration: none;
+
+  &:focus {
+    top: 1rem;
+  }
+`
+
 const MainWrapper = styled.div`
   min-height: 100vh;
 `
@@ -32,8 +50,9 @@ function App() {
       )}
       <BrowserRouter>
         <ScrollToTop />
+        <SkipLink href="#main-content">Skip to main content</SkipLink>
         <Navbar />
-        <MainWrapper>
+        <MainWrapper id="main-content">
           <Suspense fallback={null}>
             <Routes>
               <Route path="/" element={<Home />} />

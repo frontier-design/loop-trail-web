@@ -148,8 +148,8 @@ const CloseButton = styled.button`
   top: 16px;
   right: 16px;
   z-index: 10;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   background: white;
   border: none;
   color: black;
@@ -225,8 +225,12 @@ function Landing() {
   const videoModalRef = useRef(null)
   const backgroundVideoRef = useRef(null)
   const isPressed = useRef(false)
+  const modalTriggerRef = useRef(null)
+  const modalOverlayRef = useRef(null)
+  const closeButtonRef = useRef(null)
 
   const handleOpenVideoModal = () => {
+    modalTriggerRef.current = document.activeElement
     setIsVideoModalOpen(true)
     setIsCursorVisible(false)
     document.body.style.overflow = 'hidden'
@@ -235,7 +239,53 @@ function Landing() {
   const handleCloseVideoModal = () => {
     setIsVideoModalOpen(false)
     document.body.style.overflow = ''
+    modalTriggerRef.current?.focus?.()
+    modalTriggerRef.current = null
   }
+
+  // Focus the close button when modal opens
+  useEffect(() => {
+    if (isVideoModalOpen && closeButtonRef.current) {
+      closeButtonRef.current.focus()
+    }
+  }, [isVideoModalOpen])
+
+  // Escape key + focus trap
+  useEffect(() => {
+    if (!isVideoModalOpen) return
+
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        handleCloseVideoModal()
+        return
+      }
+
+      if (e.key === 'Tab') {
+        const modal = modalOverlayRef.current
+        if (!modal) return
+        const focusable = modal.querySelectorAll('button, [href], iframe, [tabindex]:not([tabindex="-1"])')
+        if (focusable.length === 0) return
+
+        const first = focusable[0]
+        const last = focusable[focusable.length - 1]
+
+        if (e.shiftKey) {
+          if (document.activeElement === first) {
+            e.preventDefault()
+            last.focus()
+          }
+        } else {
+          if (document.activeElement === last) {
+            e.preventDefault()
+            first.focus()
+          }
+        }
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyDown)
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [isVideoModalOpen])
 
   const handleVideoOverlayClick = (e) => {
     if (e.target === e.currentTarget) {
@@ -425,10 +475,10 @@ function Landing() {
         </VideoToggleButton>
       </LandingSection>
 
-      <VideoModalOverlay $isOpen={isVideoModalOpen} onClick={handleVideoOverlayClick} aria-hidden={!isVideoModalOpen}>
+      <VideoModalOverlay ref={modalOverlayRef} $isOpen={isVideoModalOpen} onClick={handleVideoOverlayClick} aria-hidden={!isVideoModalOpen} role="dialog" aria-label="Launch video">
         <VideoModalWrapper $isOpen={isVideoModalOpen}>
           <VideoModalContent>
-            <CloseButton onClick={handleCloseVideoModal} aria-label="Close video" tabIndex={isVideoModalOpen ? 0 : -1}>
+            <CloseButton ref={closeButtonRef} onClick={handleCloseVideoModal} aria-label="Close video" tabIndex={isVideoModalOpen ? 0 : -1}>
               <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
                 <path d="M1 1l16 16M17 1L1 17" />
               </svg>
