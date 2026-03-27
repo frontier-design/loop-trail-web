@@ -32,8 +32,9 @@ const SectionTitle = styled.h2`
   text-align: center;
 
   @media ${GRID.MEDIA_MOBILE} {
-    font-size: 1.25rem !important;
+    font-size: clamp(1.05rem, 4vw, 1.35rem) !important;
     margin-bottom: 0.75rem;
+    padding-inline: 0.25rem;
   }
 `
 
@@ -57,6 +58,7 @@ const LogoCard = styled.div`
   gap: 1.5rem;
   min-height: 11rem;
   padding: 1.1rem 1.25rem;
+  box-sizing: border-box;
   border: 1px solid rgba(21, 76, 44, 0.14);
   background: #fff;
   transition: border-color 180ms ease, transform 180ms ease;
@@ -100,15 +102,24 @@ const LogoCard = styled.div`
     `}
 
   @media ${GRID.MEDIA_MOBILE} {
-    min-width: 8rem;
+    flex: none;
+    width: 100%;
+    min-width: 0;
     max-width: none;
-    min-height: 9.5rem;
-    padding: 1rem;
+    min-height: auto;
+    padding: clamp(0.75rem, 3vw, 1rem);
+    gap: clamp(0.75rem, 2.5vw, 1.25rem);
 
     ${p =>
       p.$sectionType === 'titleOnly' &&
       css`
         min-height: 6.25rem;
+      `}
+
+    ${p =>
+      p.$sectionType !== 'titleOnly' &&
+      css`
+        min-height: clamp(7.5rem, 28vw, 10rem);
       `}
   }
 `
@@ -137,7 +148,8 @@ const LogoImageWrapper = styled.div`
   }
 
   @media ${GRID.MEDIA_MOBILE} {
-    height: 4rem;
+    height: clamp(3.25rem, 11vw + 1.5rem, 4.75rem);
+    min-height: 3rem;
   }
 `
 
@@ -158,7 +170,7 @@ const LogoTitle = styled.span`
     `}
 
   @media ${GRID.MEDIA_MOBILE} {
-    font-size: 1rem;
+    font-size: clamp(0.9rem, 3.2vw, 1.05rem);
   }
 `
 
@@ -173,7 +185,8 @@ const LogoText = styled.p`
   hyphens: none;
 
   @media ${GRID.MEDIA_MOBILE} {
-    font-size: 0.9rem;
+    font-size: clamp(0.8125rem, 2.8vw, 0.9375rem);
+    max-width: 100%;
   }
 `
 
@@ -187,10 +200,18 @@ const LogoRow = styled.div`
   &:last-child {
     margin-bottom: 0;
   }
+`
+
+const LogoMobileGrid = styled.div`
+  display: none;
 
   @media ${GRID.MEDIA_MOBILE} {
-    gap: 1rem;
-    margin-bottom: 1rem;
+    display: grid;
+    width: 100%;
+    box-sizing: border-box;
+    gap: clamp(0.75rem, 3vw, 1rem);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: stretch;
   }
 `
 
@@ -250,7 +271,12 @@ function getLogoImageProps(media) {
 
   return {
     src,
-    ...(srcSet ? { srcSet, sizes: '(max-width: 768px) 42vw, 16vw' } : {}),
+    ...(srcSet
+      ? {
+          srcSet,
+          sizes: '(max-width: 768px) 50vw, (max-width: 1200px) 22vw, 16vw',
+        }
+      : {}),
   }
 }
 
@@ -359,13 +385,11 @@ function Logos({ data }) {
                     ))}
                   </LogoGridDesktop>
                   <LogoGridMobile>
-                    {chunkRows(items, sIdx === 0 ? 1 : (sectionType === 'imageOnly' ? 3 : 2)).map((row, rIdx) => (
-                      <LogoRow key={`m-${rIdx}`}>
-                        {row.map((item, iIdx) => (
-                          <LogoItem key={iIdx} item={item} sectionType={sectionType} sIdx={sIdx} />
-                        ))}
-                      </LogoRow>
-                    ))}
+                    <LogoMobileGrid>
+                      {items.map((item, iIdx) => (
+                        <LogoItem key={iIdx} item={item} sectionType={sectionType} sIdx={sIdx} />
+                      ))}
+                    </LogoMobileGrid>
                   </LogoGridMobile>
                 </LogoGrid>
               </GridCell>
