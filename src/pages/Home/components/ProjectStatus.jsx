@@ -135,8 +135,9 @@ const MobileTimelineGrid = styled.div`
   @media ${GRID.MEDIA_MOBILE} {
     display: grid;
     grid-template-columns: auto 1fr 1fr;
+    /* Equal row heights; taller total than 38rem so phase copy (esp. first bar) doesn’t clip */
     grid-template-rows: repeat(6, minmax(3.5rem, 1fr));
-    height: 38rem;
+    height: 52rem;
   }
 `
 
@@ -144,13 +145,14 @@ const YearColumnFlex = styled.div`
   display: none;
 
   @media ${GRID.MEDIA_MOBILE} {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding-right: 0.75rem;
-    grid-column: 1;
+    display: grid;
+    grid-template-rows: subgrid;
     grid-row: 1 / -1;
+    grid-column: 1;
+    align-items: start;
+    padding-right: 0.75rem;
     align-self: stretch;
+    padding-top: 0.125rem;
   }
 `
 

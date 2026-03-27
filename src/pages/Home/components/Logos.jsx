@@ -92,16 +92,10 @@ const LogoCard = styled.div`
       }
     `}
 
+  /* imageOnly: same card / logo scale as full — only image+text sections used to shrink these */
   ${p =>
     p.$sectionType === 'imageOnly' &&
     css`
-      min-width: 8rem;
-      max-width: 14rem;
-      min-height: 6rem;
-      justify-content: center;
-      align-items: center;
-      padding: 0.75rem;
-      gap: 0.25rem;
       border-color: rgba(21, 76, 44, 0.1);
     `}
 
@@ -115,13 +109,6 @@ const LogoCard = styled.div`
       p.$sectionType === 'titleOnly' &&
       css`
         min-height: 6.25rem;
-      `}
-
-    ${p =>
-      p.$sectionType === 'imageOnly' &&
-      css`
-        min-width: 6rem;
-        min-height: 5rem;
       `}
   }
 `
@@ -149,26 +136,8 @@ const LogoImageWrapper = styled.div`
     opacity: 1;
   }
 
-  ${p =>
-    p.$sectionType === 'imageOnly' &&
-    css`
-      justify-content: center;
-      height: 3.25rem;
-
-      img {
-        object-position: center;
-        opacity: 0.82;
-      }
-    `}
-
   @media ${GRID.MEDIA_MOBILE} {
     height: 4rem;
-
-    ${p =>
-      p.$sectionType === 'imageOnly' &&
-      css`
-        height: 2.75rem;
-      `}
   }
 `
 

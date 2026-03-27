@@ -8,8 +8,19 @@ const Headline = styled.h1`
   color: black;
   max-width: 85%;
   hyphens: none;
-  font-size: clamp(2.25rem, 0.5rem + 8vw, 7rem) !important;
-  line-height: 1;
+  /* Fluid type; lower floor than before so long titles fit narrow viewports (#root h1 is high-specificity) */
+  font-size: clamp(1.625rem, 0.4rem + 6.25vw, 7rem) !important;
+  /* Global #root h1 uses line-height: 1 — too tight on mobile; beat specificity for glyph clipping */
+  line-height: 1.08 !important;
+  letter-spacing: -0.025em;
+  overflow-wrap: break-word;
+  text-transform: uppercase;
+  font-weight: 800;
+
+  @media ${GRID.MEDIA_MOBILE} {
+    max-width: 100%;
+    line-height: 1.1 !important;
+  }
 `
 
 const IntroLink = styled(CardLink).attrs({ as: Link })`

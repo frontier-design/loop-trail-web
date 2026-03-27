@@ -39,7 +39,7 @@ const TitleHeading = styled.h2`
   }
 
   @media (min-width: 769px) {
-    font-size: 4rem !important;
+    font-size: 4.5rem !important;
   }
 `
 
@@ -51,12 +51,15 @@ const PanelRow = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
-  height: 60vh;
+  /* Floor height so short viewports (e.g. horizontal laptop) don’t collapse the strip */
+  height: max(60vh, 23rem);
+  min-height: 23rem;
   gap: 0;
 
   @media ${GRID.MEDIA_MOBILE} {
     flex-direction: column;
     height: auto;
+    min-height: 0;
     max-height: none;
     overflow: visible;
   }
@@ -89,7 +92,7 @@ const Panel = styled.div`
 `
 
 const PanelNumber = styled.span`
-  font-size: 2rem;
+  font-size: 2.25rem;
   font-weight: 800;
   line-height: 1;
   color: ${p => p.$numColor};
@@ -131,7 +134,8 @@ const ExpandedContent = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: 2rem;
+  /* Reserve space for absolutely positioned PanelNumber (type + vertical padding) */
+  padding: 5.25rem 2rem 2rem 2rem;
   opacity: ${p => (p.$isActive ? 1 : 0)};
   visibility: ${p => (p.$isActive ? 'visible' : 'hidden')};
   transform: scale(${p => (p.$isActive ? 1 : 0.92)});
@@ -149,24 +153,31 @@ const ExpandedContent = styled.div`
 `
 
 const ContentTitle = styled.h3`
-  font-size: 5rem;
+  font-size: clamp(1.875rem, 3.1vw + 1.2rem, 5.5rem);
   font-weight: 800;
-  line-height: 1.05;
+  line-height: 1.08;
   letter-spacing: -0.025em;
   margin-bottom: 1.5rem;
   max-width: 70%;
   hyphens: none;
+  /* Absorb extra column height so the block stays clear of PanelNumber */
+  margin-top: auto;
+
+  @media (min-width: 769px) and (max-width: 1100px) {
+    max-width: 90%;
+  }
 
   @media ${GRID.MEDIA_MOBILE} {
     font-size: clamp(1.35rem, 5vw, 2.5rem);
     font-weight: 600;
     margin-bottom: 0.75rem;
     max-width: 100%;
+    margin-top: 0;
   }
 `
 
 const ContentParagraph = styled.div`
-  font-size: clamp(0.875rem, 1.25vw, 1.35rem);
+  font-size: clamp(0.9375rem, 1.35vw, 1.5rem);
   line-height: 1.4;
   max-width: 34em;
 
