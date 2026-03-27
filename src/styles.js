@@ -7,6 +7,8 @@ const GlobalStyle = createGlobalStyle`
     --color-brick: #D2401F;
     --color-sky: #332E5F;
     --color-lime: #EBF0C3;
+    /* Lime on brick ≈3.96:1 (fails WCAG AA for UI copy). White passes (~4.67:1). */
+    --color-on-brick: #ffffff;
   }
 
   @font-face {

@@ -216,7 +216,7 @@ function AtAGlance() {
                   community hubs to bring culture, community, food and art to the trail (with more to come).
                 </StatText>
               </StatBlock>
-              <StatBlock $bg="var(--color-brick)" $color="var(--color-lime)">
+              <StatBlock $bg="var(--color-brick)" $color="var(--color-on-brick)">
                 <StatNumber>37</StatNumber>
                 <StatText>
                   public transit connections within a 500m radius of the trail: 12 subway stations, 20 LRT stops and 5 GO train stations.

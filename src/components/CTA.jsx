@@ -87,7 +87,7 @@ const CtaLink = styled(Link)`
   display: inline-flex;
   align-items: center;
   background: var(--color-brick);
-  color: var(--color-lime);
+  color: var(--color-on-brick);
   text-decoration: none;
   border: none;
   cursor: pointer;

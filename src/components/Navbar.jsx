@@ -199,7 +199,7 @@ const MobileCtaButton = styled(Link)`
   font-size: 1rem;
   padding: 0.75rem 1.5rem;
   background: var(--color-brick);
-  color: var(--color-lime);
+  color: var(--color-on-brick);
   text-decoration: none;
   margin-top: 0.5rem;
   align-self: flex-start;
@@ -238,7 +238,7 @@ const CtaButton = styled(Link)`
   @media (min-width: 769px) {
     font-size: 1rem;
   }
-  color: var(--color-lime);
+  color: var(--color-on-brick);
   text-decoration: none;
   border: none;
   cursor: pointer;

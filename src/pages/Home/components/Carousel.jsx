@@ -9,7 +9,7 @@ const COLORS = [
   { bg: 'var(--color-lime)', text: 'var(--color-forest)', number: 'var(--color-forest)' },
   { bg: 'var(--color-mint)', text: 'var(--color-forest)', number: 'var(--color-forest)' },
   { bg: 'var(--color-sky)', text: 'var(--color-lime)', number: 'var(--color-lime)' },
-  { bg: 'var(--color-brick)', text: 'var(--color-lime)', number: 'var(--color-lime)' },
+  { bg: 'var(--color-brick)', text: 'var(--color-on-brick)', number: 'var(--color-on-brick)' },
 ]
 
 function getColor(index) {
