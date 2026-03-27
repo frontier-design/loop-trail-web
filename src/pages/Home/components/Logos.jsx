@@ -210,7 +210,8 @@ const LogoMobileGrid = styled.div`
     width: 100%;
     box-sizing: border-box;
     gap: clamp(0.75rem, 3vw, 1rem);
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: ${p =>
+      p.$columnCount === 1 ? '1fr' : 'repeat(2, minmax(0, 1fr))'};
     align-items: stretch;
   }
 `
@@ -243,7 +244,7 @@ function getMediaUrl(media) {
   return String(url).startsWith('http') ? url : getStrapiUrl(url)
 }
 
-function getLogoImageProps(media) {
+function getLogoImageProps(media, sizes) {
   const attrs = media?.data?.attributes ?? media?.attributes ?? media
   const src = getMediaUrl(media)
   if (!src || !attrs) return null
@@ -269,12 +270,14 @@ function getLogoImageProps(media) {
     .map(([width, url]) => `${url} ${width}w`)
     .join(', ')
 
+  const defaultSizes = '(max-width: 768px) 50vw, (max-width: 1200px) 22vw, 16vw'
+
   return {
     src,
     ...(srcSet
       ? {
           srcSet,
-          sizes: '(max-width: 768px) 50vw, (max-width: 1200px) 22vw, 16vw',
+          sizes: sizes ?? defaultSizes,
         }
       : {}),
   }
@@ -328,8 +331,8 @@ function chunkRows(items, cols) {
   return rows
 }
 
-function LogoItem({ item, sectionType, sIdx }) {
-  const imgProps = getLogoImageProps(item.LogoImage ?? item.logoImage)
+function LogoItem({ item, sectionType, sIdx, imageSizes }) {
+  const imgProps = getLogoImageProps(item.LogoImage ?? item.logoImage, imageSizes)
   const itemTitle = item.LogoTitle ?? item.logoTitle
   const itemText = item.LogoText ?? item.logoText
   const logoLink = getLogoLink(item)
@@ -361,6 +364,11 @@ function Logos({ data }) {
           ? (section.LogoItem ?? section.logoItem)
           : []
         const sectionType = getSectionType(items)
+        const mobileColumnCount = items.length % 2 === 1 ? 1 : 2
+        const mobileImageSizes =
+          mobileColumnCount === 1
+            ? '(max-width: 768px) 92vw, (max-width: 1200px) 22vw, 16vw'
+            : '(max-width: 768px) 50vw, (max-width: 1200px) 22vw, 16vw'
 
         if (!title && items.length === 0) return null
 
@@ -385,9 +393,15 @@ function Logos({ data }) {
                     ))}
                   </LogoGridDesktop>
                   <LogoGridMobile>
-                    <LogoMobileGrid>
+                    <LogoMobileGrid $columnCount={mobileColumnCount}>
                       {items.map((item, iIdx) => (
-                        <LogoItem key={iIdx} item={item} sectionType={sectionType} sIdx={sIdx} />
+                        <LogoItem
+                          key={iIdx}
+                          item={item}
+                          sectionType={sectionType}
+                          sIdx={sIdx}
+                          imageSizes={mobileImageSizes}
+                        />
                       ))}
                     </LogoMobileGrid>
                   </LogoGridMobile>
