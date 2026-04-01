@@ -4,16 +4,12 @@ import { Link } from 'react-router-dom'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { GRID } from '../../../grid/config.js'
-import video1 from '../../../assets/videos/video-1.mp4'
-import video3 from '../../../assets/videos/video-3.mp4'
-import storyVid3 from '../../../assets/videos/story-vid-3.mp4'
-
 gsap.registerPlugin(ScrollTrigger)
 
 const STEPS = [
-  { text: <>Imagine Toronto with a groundbreaking, 80km trail network. <span>Brought to life by community hubs, great amenities, public art and ecological stewardship.</span></>, video: video1 },
-  { text: 'Making the city more explorable, accessible and supporting the local economy.', video: video3 },
-  { text: 'The trail is mostly there. The opportunity is to complete, enhance and better connect it.', video: storyVid3 },
+  { text: <>Imagine Toronto with a groundbreaking, 80km trail network. <span>Brought to life by community hubs, great amenities, public art and ecological stewardship.</span></>, video: `${import.meta.env.BASE_URL}video/video-1.mp4` },
+  { text: 'Making the city more explorable, accessible and supporting the local economy.', video: `${import.meta.env.BASE_URL}video/video-3.mp4` },
+  { text: 'The trail is mostly there. The opportunity is to complete, enhance and better connect it.', video: `${import.meta.env.BASE_URL}video/story-vid-3.mp4` },
   { cta: true }
 ]
 
@@ -264,10 +260,15 @@ function StoryScroll() {
 
     videos.forEach(v => { v.play().catch(() => {}) })
 
-    const ro = new ResizeObserver(() => ScrollTrigger.refresh())
+    let refreshTimer
+    const ro = new ResizeObserver(() => {
+      clearTimeout(refreshTimer)
+      refreshTimer = setTimeout(() => ScrollTrigger.refresh(), 200)
+    })
     ro.observe(document.body)
 
     return () => {
+      clearTimeout(refreshTimer)
       ro.disconnect()
       tl.scrollTrigger?.kill()
     }

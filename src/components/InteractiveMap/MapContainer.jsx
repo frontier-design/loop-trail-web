@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
 import maplibregl from 'maplibre-gl'
-import 'maplibre-gl/dist/maplibre-gl.css'
 
 const defaultVectorStyle = 'https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json'
 
@@ -46,6 +45,17 @@ function MapContainer({
   const interactionEnabled = mobileTapToInteract
     ? (isMobile ? isInteractionEnabled : true)
     : true
+
+  useEffect(() => {
+    const id = 'maplibre-gl-css'
+    if (!document.getElementById(id)) {
+      const link = document.createElement('link')
+      link.id = id
+      link.rel = 'stylesheet'
+      link.href = 'https://unpkg.com/maplibre-gl/dist/maplibre-gl.css'
+      document.head.appendChild(link)
+    }
+  }, [])
 
   useEffect(() => {
     if (map.current || isInitializingRef.current) return

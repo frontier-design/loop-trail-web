@@ -233,12 +233,12 @@ function Landing() {
     modalTriggerRef.current = document.activeElement
     setIsVideoModalOpen(true)
     setIsCursorVisible(false)
-    document.body.style.overflow = 'hidden'
+    requestAnimationFrame(() => { document.body.style.overflow = 'hidden' })
   }
 
   const handleCloseVideoModal = () => {
     setIsVideoModalOpen(false)
-    document.body.style.overflow = ''
+    requestAnimationFrame(() => { document.body.style.overflow = '' })
     modalTriggerRef.current?.focus?.()
     modalTriggerRef.current = null
   }

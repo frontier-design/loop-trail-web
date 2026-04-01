@@ -268,11 +268,9 @@ function Navbar() {
   const closeMenu = () => setMenuOpen(false)
 
   useEffect(() => {
-    if (menuOpen) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = ''
-    }
+    requestAnimationFrame(() => {
+      document.body.style.overflow = menuOpen ? 'hidden' : ''
+    })
     return () => { document.body.style.overflow = '' }
   }, [menuOpen])
 

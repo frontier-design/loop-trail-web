@@ -5,7 +5,18 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   build: {
-    chunkSizeWarningLimit: 2000, // maplibre, leaflet, gsap produce large chunks
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules/react-dom')) return 'vendor-react'
+          if (id.includes('node_modules/react/')) return 'vendor-react'
+          if (id.includes('node_modules/react-router')) return 'vendor-react'
+          if (id.includes('node_modules/gsap')) return 'vendor-gsap'
+          if (id.includes('node_modules/maplibre-gl')) return 'vendor-maplibre'
+          if (id.includes('node_modules/styled-components')) return 'vendor-styled'
+        },
+      },
+    },
   },
   server: {
     port: 5173,
