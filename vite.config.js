@@ -5,6 +5,12 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   build: {
+    // Don't eagerly <link rel="modulepreload"> the heavy map library on first load.
+    // It's only needed by the lazy-loaded map (below the fold), so let it load on demand.
+    modulePreload: {
+      resolveDependencies: (_filename, deps) =>
+        deps.filter((dep) => !dep.includes('vendor-maplibre')),
+    },
     rollupOptions: {
       output: {
         manualChunks(id) {
