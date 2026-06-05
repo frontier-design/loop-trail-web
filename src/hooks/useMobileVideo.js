@@ -35,10 +35,16 @@ export function useMobileVideo() {
   return isMobile;
 }
 
+// Bump this whenever a video file is re-encoded/replaced in place. It changes
+// the URL so browsers (and the nginx 30-day cache) fetch the new file instead
+// of requesting stale byte ranges from an old cached version, which otherwise
+// causes "416 Requested Range Not Satisfiable" errors and broken playback.
+export const VIDEO_VERSION = "3";
+
 /** Build a public video URL, swapping in the `-mobile` variant when appropriate. */
 export function videoSrc(name, isMobile) {
   const suffix = isMobile ? "-mobile" : "";
-  return `${import.meta.env.BASE_URL}video/${name}${suffix}.mp4`;
+  return `${import.meta.env.BASE_URL}video/${name}${suffix}.mp4?v=${VIDEO_VERSION}`;
 }
 
 export default useMobileVideo;

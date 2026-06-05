@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { Grid, GridCell } from '../../../grid/index.js'
-import { getStrapiUrl } from '../../../api/strapi.js'
 import { renderStrapiRichText } from '../../../api/strapiRichText.jsx'
+import { getStrapiImageProps } from '../../../utils/strapiMedia.js'
 import { GRID } from '../../../grid/config.js'
 
 const Section = styled.section`
@@ -62,12 +62,9 @@ const ImageWrapper = styled.div`
   }
 `
 
-function getMediaUrl(media) {
-  const attrs = media?.attributes ?? media?.data?.attributes ?? media
-  const url = attrs?.url ?? media?.url
-  if (!url) return null
-  return String(url).startsWith('http') ? url : getStrapiUrl(url)
-}
+// The image cell spans 3 of 6 columns on desktop (~half the 1700px max grid)
+// and full width on mobile, so request candidates accordingly.
+const IMAGE_SIZES = '(max-width: 950px) 92vw, 45vw'
 
 function normalizeMediaList(mediaField) {
   if (!mediaField) return []
@@ -89,9 +86,9 @@ function normalizeMediaList(mediaField) {
 function HomeIntro({ introText, stackingImage }) {
   const images = normalizeMediaList(stackingImage)
   const firstImage = images[0] ?? null
-  const imageSrc = firstImage ? getMediaUrl(firstImage) : null
+  const imageProps = firstImage ? getStrapiImageProps(firstImage, { sizes: IMAGE_SIZES }) : null
   const imageAlt = firstImage?.alternativeText ?? firstImage?.attributes?.alternativeText ?? ''
-  const hasContent = introText || imageSrc
+  const hasContent = introText || imageProps
 
   if (!hasContent) return null
 
@@ -103,10 +100,10 @@ function HomeIntro({ introText, stackingImage }) {
             <TextWrapper>{renderStrapiRichText(introText)}</TextWrapper>
           </TextCell>
         )}
-        {imageSrc && (
+        {imageProps && (
           <GridCell $start={4} $span={3} $spanMobile={4} $startMobile={1}>
             <ImageWrapper>
-              <img src={imageSrc} alt={imageAlt} loading="lazy" decoding="async" />
+              <img {...imageProps} alt={imageAlt} loading="lazy" decoding="async" />
             </ImageWrapper>
           </GridCell>
         )}
