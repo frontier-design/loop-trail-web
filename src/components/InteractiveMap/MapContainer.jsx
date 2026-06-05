@@ -32,6 +32,7 @@ function MapContainer({
   const [mapInstance, setMapInstance] = useState(null)
   const [isMobile, setIsMobile] = useState(false)
   const [isInteractionEnabled, setIsInteractionEnabled] = useState(false)
+  const [shouldInit, setShouldInit] = useState(false)
 
   const mapStyle = mapStyleProp || defaultVectorStyle
 
@@ -46,7 +47,28 @@ function MapContainer({
     ? (isMobile ? isInteractionEnabled : true)
     : true
 
+  // Defer map initialization until the container nears the viewport. The map
+  // is below the fold on the home page, and initializing maplibre on mount
+  // fetches the style + tiles and does heavy main-thread work that competes
+  // with above-the-fold content (hurting LCP/TBT).
   useEffect(() => {
+    const el = mapContainer.current
+    if (!el) return
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          io.disconnect()
+          setShouldInit(true)
+        }
+      },
+      { rootMargin: '200% 0px 200% 0px' }
+    )
+    io.observe(el)
+    return () => io.disconnect()
+  }, [])
+
+  useEffect(() => {
+    if (!shouldInit) return
     const id = 'maplibre-gl-css'
     if (!document.getElementById(id)) {
       const link = document.createElement('link')
@@ -55,9 +77,10 @@ function MapContainer({
       link.href = 'https://unpkg.com/maplibre-gl/dist/maplibre-gl.css'
       document.head.appendChild(link)
     }
-  }, [])
+  }, [shouldInit])
 
   useEffect(() => {
+    if (!shouldInit) return
     if (map.current || isInitializingRef.current) return
     if (!mapContainer.current) return
 
@@ -185,7 +208,7 @@ function MapContainer({
         setMapInstance(null)
       }
     }
-  }, [onMapLoad, mapStyle, minZoom, maxBounds, fitBoundsOnMobile])
+  }, [shouldInit, onMapLoad, mapStyle, minZoom, maxBounds, fitBoundsOnMobile])
 
   useEffect(() => {
     if (!mapInstance) return

@@ -406,6 +406,43 @@ function Landing() {
     return () => document.removeEventListener('mouseup', handleMouseUp)
   }, [])
 
+  // LCP optimization: the preloaded poster paints immediately and serves as the
+  // LCP element, while the heavy background video is fetched only after the
+  // page has loaded so it doesn't compete for bandwidth during first paint.
+  useEffect(() => {
+    const video = backgroundVideoRef.current
+    if (!video) return
+
+    const start = () => {
+      video.preload = 'auto'
+      video.load()
+      video.play().catch(() => {})
+    }
+
+    let idleId
+    const schedule = () => {
+      if ('requestIdleCallback' in window) {
+        idleId = window.requestIdleCallback(start, { timeout: 2000 })
+      } else {
+        idleId = window.setTimeout(start, 600)
+      }
+    }
+
+    if (document.readyState === 'complete') {
+      schedule()
+    } else {
+      window.addEventListener('load', schedule, { once: true })
+    }
+
+    return () => {
+      window.removeEventListener('load', schedule)
+      if (idleId != null) {
+        if ('cancelIdleCallback' in window) window.cancelIdleCallback(idleId)
+        else clearTimeout(idleId)
+      }
+    }
+  }, [])
+
   return (
     <>
       <LandingSection
@@ -419,11 +456,10 @@ function Landing() {
       >
         <VideoBackground
           ref={backgroundVideoRef}
-          autoPlay
           muted
           loop
           playsInline
-          preload="auto"
+          preload="none"
           poster={`${import.meta.env.BASE_URL}video/landing-poster.jpg`}
           src={videoSrc('loop-landing-vid-v2', isMobile)}
           onPlay={() => setIsBackgroundVideoPlaying(true)}

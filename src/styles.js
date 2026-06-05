@@ -13,7 +13,8 @@ const GlobalStyle = createGlobalStyle`
 
   @font-face {
     font-family: 'ABCDiatype';
-    src: url('/fonts/ABCDiatype-Light-Trial.woff') format('woff');
+    src: url('/fonts/ABCDiatype-Light-Trial.woff2') format('woff2'),
+         url('/fonts/ABCDiatype-Light-Trial.woff') format('woff');
     font-weight: 300;
     font-style: normal;
     font-display: swap;
@@ -21,7 +22,8 @@ const GlobalStyle = createGlobalStyle`
 
   @font-face {
     font-family: 'ABCDiatype';
-    src: url('/fonts/ABCDiatype-Regular-Trial.woff') format('woff');
+    src: url('/fonts/ABCDiatype-Regular-Trial.woff2') format('woff2'),
+         url('/fonts/ABCDiatype-Regular-Trial.woff') format('woff');
     font-weight: 400;
     font-style: normal;
     font-display: swap;
@@ -29,7 +31,8 @@ const GlobalStyle = createGlobalStyle`
 
   @font-face {
     font-family: 'ABCDiatype';
-    src: url('/fonts/ABCDiatype-Heavy-Trial.woff') format('woff');
+    src: url('/fonts/ABCDiatype-Heavy-Trial.woff2') format('woff2'),
+         url('/fonts/ABCDiatype-Heavy-Trial.woff') format('woff');
     font-weight: 700;
     font-style: normal;
     font-display: swap;
@@ -37,7 +40,8 @@ const GlobalStyle = createGlobalStyle`
 
   @font-face {
     font-family: 'ABCDiatype';
-    src: url('/fonts/ABCDiatype-Ultra-Trial.woff') format('woff');
+    src: url('/fonts/ABCDiatype-Ultra-Trial.woff2') format('woff2'),
+         url('/fonts/ABCDiatype-Ultra-Trial.woff') format('woff');
     font-weight: 800;
     font-style: normal;
     font-display: swap;

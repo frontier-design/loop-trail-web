@@ -37,16 +37,36 @@ const MainWrapper = styled.div`
   min-height: 100vh;
 `
 
-function App() {
-  const [isLoadingComplete, setIsLoadingComplete] = useState(false)
+const LOADING_SCREEN_SHOWN_KEY = 'loopTrailIntroShown'
 
+function hasSeenIntro() {
+  try {
+    return sessionStorage.getItem(LOADING_SCREEN_SHOWN_KEY) === '1'
+  } catch {
+    return false
+  }
+}
+
+function App() {
+  // Only play the intro once per session; subsequent navigations/reloads in the
+  // same session skip it so the page (and LCP) is not gated behind the overlay.
+  const [isLoadingComplete, setIsLoadingComplete] = useState(hasSeenIntro)
+
+  const handleLoadingComplete = () => {
+    try {
+      sessionStorage.setItem(LOADING_SCREEN_SHOWN_KEY, '1')
+    } catch {
+      // ignore (private mode / storage disabled)
+    }
+    setIsLoadingComplete(true)
+  }
 
   return (
     <>
       <GlobalStyle />
       {import.meta.env.DEV && <GridOverlay />}
       {!isLoadingComplete && (
-        <LoadingScreen onComplete={() => setIsLoadingComplete(true)} />
+        <LoadingScreen onComplete={handleLoadingComplete} />
       )}
       <BrowserRouter>
         <ScrollToTop />

@@ -260,9 +260,13 @@ function StoryScroll() {
       }
     }
 
-    // Prioritize the first (visible) video so it appears quickly, then start
-    // buffering the rest once it can play. This avoids the three videos
-    // competing for bandwidth on mount and the first one loading late.
+    // Defer ALL video loading until the section nears the viewport. This block
+    // is far below the fold, so loading its videos on mount steals bandwidth
+    // from the hero video (the LCP element) and tanks mobile load time. Once
+    // near, prioritize the first video, then buffer the rest after it can play.
+    const firstVideo = videos[0]
+    let restFallbackTimer
+
     const startRest = () => {
       videos.slice(1).forEach(v => {
         v.preload = 'auto'
@@ -277,20 +281,48 @@ function StoryScroll() {
       startRest()
     }
 
-    const firstVideo = videos[0]
-    let restFallbackTimer
-    if (firstVideo) {
+    let loadStarted = false
+    const loadVideos = () => {
+      if (loadStarted) return
+      loadStarted = true
+      if (!firstVideo) { startRestOnce(); return }
+      firstVideo.preload = 'auto'
       firstVideo.play().catch(() => {})
       if (firstVideo.readyState >= 3) {
         startRestOnce()
       } else {
         firstVideo.addEventListener('canplay', startRestOnce, { once: true })
-        // Fallback in case 'canplay' never fires (e.g. slow/stalled network)
         restFallbackTimer = setTimeout(startRestOnce, 4000)
       }
-    } else {
-      startRestOnce()
     }
+
+    // Never start loading before the page has finished its initial load, so the
+    // hero video / first paint always gets bandwidth priority.
+    let pendingLoad = false
+    const requestLoad = () => {
+      if (loadStarted) return
+      if (document.readyState === 'complete') {
+        loadVideos()
+      } else if (!pendingLoad) {
+        pendingLoad = true
+        window.addEventListener('load', loadVideos, { once: true })
+      }
+    }
+
+    // Start loading when within ~half a viewport so videos are buffered shortly
+    // before the user reaches the sticky section. A larger margin would fire on
+    // initial load (this section sits just below the hero) and steal bandwidth
+    // from the hero video, which is the LCP element.
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          io.disconnect()
+          requestLoad()
+        }
+      },
+      { rootMargin: '50% 0px 50% 0px' }
+    )
+    io.observe(wrapper)
 
     let refreshTimer
     const ro = new ResizeObserver(() => {
@@ -303,6 +335,8 @@ function StoryScroll() {
       clearTimeout(refreshTimer)
       clearTimeout(restFallbackTimer)
       firstVideo?.removeEventListener('canplay', startRestOnce)
+      window.removeEventListener('load', loadVideos)
+      io.disconnect()
       ro.disconnect()
       tl.scrollTrigger?.kill()
     }
@@ -317,11 +351,10 @@ function StoryScroll() {
             key={i}
             ref={el => { videoRefs.current[i] = el }}
             src={videoSrc(step.video, isMobile)}
-            autoPlay
             loop
             muted
             playsInline
-            preload={i === 0 ? 'auto' : 'none'}
+            preload="none"
           />
         ))}
       </VideoContainer>
