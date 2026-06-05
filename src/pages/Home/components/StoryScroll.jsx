@@ -4,12 +4,13 @@ import { Link } from 'react-router-dom'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { GRID } from '../../../grid/config.js'
+import { useMobileVideo, videoSrc } from '../../../hooks/useMobileVideo.js'
 gsap.registerPlugin(ScrollTrigger)
 
 const STEPS = [
-  { text: <>Imagine Toronto with a groundbreaking, 80km trail network. <span>Brought to life by community hubs, great amenities, public art and ecological stewardship.</span></>, video: `${import.meta.env.BASE_URL}video/video-1.mp4` },
-  { text: 'Making the city more explorable, accessible and supporting the local economy.', video: `${import.meta.env.BASE_URL}video/video-3.mp4` },
-  { text: 'The trail is mostly there. The opportunity is to complete, enhance and better connect it.', video: `${import.meta.env.BASE_URL}video/story-vid-3.mp4` },
+  { text: <>Imagine Toronto with a groundbreaking, 80km trail network. <span>Brought to life by community hubs, great amenities, public art and ecological stewardship.</span></>, video: 'video-1' },
+  { text: 'Making the city more explorable, accessible and supporting the local economy.', video: 'video-3' },
+  { text: 'The trail is mostly there. The opportunity is to complete, enhance and better connect it.', video: 'story-vid-3' },
   { cta: true }
 ]
 
@@ -186,6 +187,7 @@ function StoryScroll() {
   const videoRefs = useRef([])
   const textRefs = useRef([])
   const ctaRef = useRef(null)
+  const isMobile = useMobileVideo()
   const videoSteps = STEPS.filter(s => !s.cta)
 
   useEffect(() => {
@@ -258,7 +260,37 @@ function StoryScroll() {
       }
     }
 
-    videos.forEach(v => { v.play().catch(() => {}) })
+    // Prioritize the first (visible) video so it appears quickly, then start
+    // buffering the rest once it can play. This avoids the three videos
+    // competing for bandwidth on mount and the first one loading late.
+    const startRest = () => {
+      videos.slice(1).forEach(v => {
+        v.preload = 'auto'
+        v.play().catch(() => {})
+      })
+    }
+
+    let restStarted = false
+    const startRestOnce = () => {
+      if (restStarted) return
+      restStarted = true
+      startRest()
+    }
+
+    const firstVideo = videos[0]
+    let restFallbackTimer
+    if (firstVideo) {
+      firstVideo.play().catch(() => {})
+      if (firstVideo.readyState >= 3) {
+        startRestOnce()
+      } else {
+        firstVideo.addEventListener('canplay', startRestOnce, { once: true })
+        // Fallback in case 'canplay' never fires (e.g. slow/stalled network)
+        restFallbackTimer = setTimeout(startRestOnce, 4000)
+      }
+    } else {
+      startRestOnce()
+    }
 
     let refreshTimer
     const ro = new ResizeObserver(() => {
@@ -269,6 +301,8 @@ function StoryScroll() {
 
     return () => {
       clearTimeout(refreshTimer)
+      clearTimeout(restFallbackTimer)
+      firstVideo?.removeEventListener('canplay', startRestOnce)
       ro.disconnect()
       tl.scrollTrigger?.kill()
     }
@@ -282,12 +316,12 @@ function StoryScroll() {
           <VideoLayer
             key={i}
             ref={el => { videoRefs.current[i] = el }}
-            src={step.video}
+            src={videoSrc(step.video, isMobile)}
             autoPlay
             loop
             muted
             playsInline
-            preload={i === 0 ? 'auto' : 'metadata'}
+            preload={i === 0 ? 'auto' : 'none'}
           />
         ))}
       </VideoContainer>

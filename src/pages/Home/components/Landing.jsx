@@ -3,6 +3,7 @@ import { useRef, useState, useEffect } from 'react'
 import gsap from 'gsap'
 import { Grid, GridCell, GRID } from '../../../grid/index.js'
 import CustomCursor from './CustomCursor.jsx'
+import { useMobileVideo, videoSrc } from '../../../hooks/useMobileVideo.js'
 
 /* Navbar height for inner padding so content and buttons don't intersect with fixed navbar */
 const NAVBAR_HEIGHT = '5rem'
@@ -220,6 +221,7 @@ function Landing() {
   const [isCursorVisible, setIsCursorVisible] = useState(false)
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false)
   const [isBackgroundVideoPlaying, setIsBackgroundVideoPlaying] = useState(true)
+  const isMobile = useMobileVideo()
 
   const cursorRef = useRef(null)
   const videoModalRef = useRef(null)
@@ -421,9 +423,9 @@ function Landing() {
           muted
           loop
           playsInline
-          preload="metadata"
+          preload="auto"
           poster={`${import.meta.env.BASE_URL}video/landing-poster.jpg`}
-          src={`${import.meta.env.BASE_URL}video/loop-landing-vid-v2.mp4`}
+          src={videoSrc('loop-landing-vid-v2', isMobile)}
           onPlay={() => setIsBackgroundVideoPlaying(true)}
           onPause={() => setIsBackgroundVideoPlaying(false)}
         />
