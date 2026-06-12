@@ -1,6 +1,7 @@
 import { lazy, Suspense, useEffect, useState } from 'react'
 import Landing from './components/Landing.jsx'
 import RevealOnScroll from '../../components/RevealOnScroll.jsx'
+import DeferMount from '../../components/DeferMount.jsx'
 import { fetchCached } from '../../api/prefetchCache.js'
 import SEOHead from '../../components/SEOHead.jsx'
 
@@ -79,9 +80,11 @@ function Home() {
             <IndigenousComponent data={indigenousData} />
           </RevealOnScroll>
         )}
-        <RevealOnScroll>
-          <MapSection />
-        </RevealOnScroll>
+        <DeferMount minHeight="100vh">
+          <RevealOnScroll>
+            <MapSection />
+          </RevealOnScroll>
+        </DeferMount>
         <RevealOnScroll>
           <AtAGlance />
         </RevealOnScroll>

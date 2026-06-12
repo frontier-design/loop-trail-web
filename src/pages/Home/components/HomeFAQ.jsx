@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { Grid, GridCell, GRID } from '../../../grid/index.js'
 import PageIntro from '../../../components/PageIntro.jsx'
-import homeFaqImage from '../../../assets/images/home-faq.jpg'
+import homeFaqImage from '../../../assets/images/home-faq.webp'
 
 const HOME_FAQ_DATA = {
   headline: 'YOUR QUESTIONS, ANSWERED.',

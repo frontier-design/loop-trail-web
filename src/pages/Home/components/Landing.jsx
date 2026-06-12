@@ -460,7 +460,7 @@ function Landing() {
           loop
           playsInline
           preload="none"
-          poster={`${import.meta.env.BASE_URL}video/landing-poster.jpg`}
+          poster={`${import.meta.env.BASE_URL}video/landing-poster.jpg?v=3`}
           src={videoSrc('loop-landing-vid-v2', isMobile)}
           onPlay={() => setIsBackgroundVideoPlaying(true)}
           onPause={() => setIsBackgroundVideoPlaying(false)}
